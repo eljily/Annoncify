@@ -2,11 +2,18 @@ package com.sibrahim.annoncify.mapper;
 
 import com.sibrahim.annoncify.dto.ProductDto;
 import com.sibrahim.annoncify.entity.Product;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Service
 public class ProductMapper {
+
+    @Autowired
+    @Lazy
+    private UserMapper userMapper;
 
     public ProductDto toProductDto(Product product){
         return ProductDto.builder()
@@ -16,7 +23,6 @@ public class ProductMapper {
                 .description(product.getDescription())
                 .createDate(product.getCreateDate())
                 .updateDate(product.getUpdateDate())
-                .user(product.getUser())
                 .build();
     }
 
@@ -28,7 +34,6 @@ public class ProductMapper {
                 .description(productDto.getDescription())
                 .createDate(productDto.getCreateDate())
                 .updateDate(productDto.getUpdateDate())
-                .user(productDto.getUser())
                 .build();
     }
 

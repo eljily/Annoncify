@@ -1,17 +1,15 @@
 package com.sibrahim.annoncify.dto;
 
-import com.sibrahim.annoncify.entity.User;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 @AllArgsConstructor @NoArgsConstructor @Builder @Getter @Setter @ToString
-public class ProductDto {
+public class UserDto {
 
-    private Long id;
     private String name;
-    private Integer price;
-    private String description;
+    private String phoneNumber;
+    private List<ProductDto> productDtoList;
     private LocalDate createDate;
     private LocalDate updateDate;
-
 }
