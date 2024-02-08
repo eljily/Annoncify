@@ -3,6 +3,8 @@ package com.sibrahim.annoncify.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "products")
 @AllArgsConstructor @NoArgsConstructor @Builder @Getter @Setter @ToString
@@ -13,6 +15,8 @@ public class Product {
     private String name;
     private String description;
     private Integer price;
+    private LocalDate createDate;
+    private LocalDate updateDate;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
