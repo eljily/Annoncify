@@ -8,6 +8,7 @@ import com.sibrahim.annoncify.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -45,6 +46,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto saveProduct(ProductDto productDto) {
         Product product = productMapper.toProduct(productDto);
-        return productMapper.toProductDto(productRepository.save(product));
+        if (product.getId()==null){
+            return productMapper.toProductDto(productRepository.save(product));
+        }
+        else {
+            product.setUpdateDate(LocalDate.now());
+            return productMapper.toProductDto(productRepository.save(product));
+        }
     }
 }

@@ -4,7 +4,7 @@ import com.sibrahim.annoncify.entity.User;
 import lombok.*;
 
 import java.time.LocalDate;
-@AllArgsConstructor @NoArgsConstructor @Builder @Getter @Setter @ToString
+@AllArgsConstructor @NoArgsConstructor @Builder @Getter @Setter @ToString @EqualsAndHashCode
 public class ProductDto {
 
     private Long id;
