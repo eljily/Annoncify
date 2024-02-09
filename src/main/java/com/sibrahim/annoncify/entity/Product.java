@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "products")
@@ -16,8 +17,10 @@ public class Product {
     private String name;
     private String description;
     private Integer price;
-    private LocalDate createDate;
-    private LocalDate updateDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateDate;
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference
