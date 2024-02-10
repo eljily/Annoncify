@@ -47,12 +47,35 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto saveProduct(ProductDto productDto) {
         Product product = productMapper.toProduct(productDto);
-        if (product.getId()==null){
-            return productMapper.toProductDto(productRepository.save(product));
-        }
-        else {
+
+        if (product.getId() == null) {
+            // This is a new product, save it
+            product.setCreateDate(new Date());
             product.setUpdateDate(new Date());
             return productMapper.toProductDto(productRepository.save(product));
+        } else {
+            // This is an update, merge the existing product with the new data
+            Product dbProduct = productRepository.findById(product.getId()).orElse(null);
+
+            if (dbProduct != null) {
+                // Update only the fields that are not null in the incoming productDto
+                if (productDto.getName() != null) {
+                    dbProduct.setName(productDto.getName());
+                }
+                if (productDto.getPrice() != null) {
+                    dbProduct.setPrice(productDto.getPrice());
+                }
+               if (productDto.getDescription() !=null){
+                   dbProduct.setDescription(productDto.getDescription());
+               }
+                dbProduct.setUpdateDate(new Date());
+                // Save the updated product
+                return productMapper.toProductDto(productRepository.save(dbProduct));
+            } else {
+                // Handle the case where the product with the given ID is not found
+                return null;
+            }
         }
     }
+
 }

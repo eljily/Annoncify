@@ -63,15 +63,27 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id,@RequestBody ProductDto productDto){
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
         try {
-            if(Objects.equals(id, productDto.getId())){
-                return ResponseEntity.ok(productService.saveProduct(productDto));
+            // Ensure that the id in the path matches the id in the request body
+            if (!id.equals(productDto.getId())) {
+                return ResponseEntity.badRequest().body(null);
             }
-            return null;
-        }catch (Exception e){
+
+            ProductDto updatedProduct = productService.saveProduct(productDto);
+
+            if (updatedProduct != null) {
+                return ResponseEntity.ok(updatedProduct);
+            } else {
+                // Handle the case where the product with the given ID is not found
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            // Log the exception for debugging purposes
             System.out.println(e.getMessage());
-            return null;
+            // Return an appropriate HTTP status code and error message
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
 }
