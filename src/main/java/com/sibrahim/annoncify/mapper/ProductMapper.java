@@ -38,10 +38,13 @@ public class ProductMapper {
     }
 
     public List<ProductDto> toProductDtos(List<Product> products){
-        return products
-                .stream()
-                .map(this::toProductDto)
-                .collect(Collectors.toList());
+        if(products!=null){
+            return products
+                    .stream()
+                    .map(this::toProductDto)
+                    .collect(Collectors.toList());
+        }
+        return List.of();
     }
 
     public List<Product> toProducts(List<ProductDto> productDtos){
