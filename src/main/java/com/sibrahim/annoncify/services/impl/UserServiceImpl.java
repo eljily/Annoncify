@@ -9,7 +9,10 @@ import com.sibrahim.annoncify.mapper.UserMapper;
 import com.sibrahim.annoncify.repository.UserRepository;
 import com.sibrahim.annoncify.security.JwtService;
 import com.sibrahim.annoncify.services.UserService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +27,14 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder, JwtService jwtService) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.authenticationManager = authenticationManager;
     }
 
     @Override
@@ -54,13 +59,16 @@ public class UserServiceImpl implements UserService {
     public LoginResponseDto login(LoginDto loginDto) {
         LoginResponseDto loginResponseDto = new LoginResponseDto();
         String jwt = "bad request";
-        Optional<User> user = userRepository.findUserByPhoneNumber(loginDto.getPhoneNumber());
-        if(user.isPresent() && Objects.equals(user.get().getPassword(), passwordEncoder.encode(loginDto.getPassword()))){
-            jwt = jwtService.generateToken(user.get());
+        // Authenticate the user using Spring Security's authentication manager
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDto.getPhoneNumber(), loginDto.getPassword()));
+
+        // If authentication is successful, generate and set the JWT token
+        if (authentication.isAuthenticated()) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            jwt = jwtService.generateToken(userDetails);
             loginResponseDto.setJwt(jwt);
-            return loginResponseDto;
         }
-        loginResponseDto.setJwt(jwt);
         return loginResponseDto;
     }
 }

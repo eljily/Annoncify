@@ -26,7 +26,7 @@ public class UserController {
         return ResponseEntity.ok(userService.saveUser(registerDto));
     }
 
-    @PostMapping("/signin")
+    @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto loginDto){
         return ResponseEntity.ok(userService.login(loginDto));
     }
