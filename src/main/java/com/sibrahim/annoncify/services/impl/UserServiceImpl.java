@@ -5,6 +5,7 @@ import com.sibrahim.annoncify.dto.LoginResponseDto;
 import com.sibrahim.annoncify.dto.RegisterDto;
 import com.sibrahim.annoncify.dto.UserDto;
 import com.sibrahim.annoncify.entity.User;
+import com.sibrahim.annoncify.entity.enums.RoleEnum;
 import com.sibrahim.annoncify.mapper.UserMapper;
 import com.sibrahim.annoncify.repository.UserRepository;
 import com.sibrahim.annoncify.security.JwtService;
@@ -41,6 +42,7 @@ public class UserServiceImpl implements UserService {
     public UserDto saveUser(RegisterDto registerDto) {
         User user = userMapper.toUser(registerDto);
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+        user.setRole(RoleEnum.USER);
         user.setCreateDate(new Date());
         return userMapper.toUserDto(userRepository.save(user));
     }
