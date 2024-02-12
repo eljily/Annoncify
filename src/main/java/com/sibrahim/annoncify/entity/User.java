@@ -28,6 +28,7 @@ public class User implements UserDetails {
     private String password;
     private Date createDate;
     private Date updateDate;
+    @Enumerated(EnumType.STRING)
     private RoleEnum role;
     @OneToMany(mappedBy = "user")
     @JsonManagedReference

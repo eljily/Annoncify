@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfiguration {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
