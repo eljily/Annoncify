@@ -1,11 +1,10 @@
 package com.sibrahim.annoncify.services.impl;
 
-import com.sibrahim.annoncify.dto.LoginDto;
-import com.sibrahim.annoncify.dto.LoginResponseDto;
-import com.sibrahim.annoncify.dto.RegisterDto;
-import com.sibrahim.annoncify.dto.UserDto;
+import com.sibrahim.annoncify.dto.*;
+import com.sibrahim.annoncify.entity.Product;
 import com.sibrahim.annoncify.entity.User;
 import com.sibrahim.annoncify.entity.enums.RoleEnum;
+import com.sibrahim.annoncify.mapper.ProductMapper;
 import com.sibrahim.annoncify.mapper.UserMapper;
 import com.sibrahim.annoncify.repository.UserRepository;
 import com.sibrahim.annoncify.security.JwtService;
@@ -19,20 +18,26 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final ProductMapper productMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
+    public UserServiceImpl(UserRepository userRepository,
+                           UserMapper userMapper,
+                           ProductMapper productMapper,
+                           PasswordEncoder passwordEncoder,
+                           JwtService jwtService,
+                           AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.productMapper = productMapper;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
@@ -56,6 +61,11 @@ public class UserServiceImpl implements UserService {
     public Optional<UserDto> getUserByPhoneNumber(String phoneNumber) {
         return Optional.empty();
     }
+
+//    @Override
+//    public ProductDto addProduct(ProductDto productDto) {
+//        Product product = productMapper.toProduct(productDto);
+//    }
 
     @Override
     public LoginResponseDto login(LoginDto loginDto) {

@@ -10,7 +10,7 @@ public class UserDto {
 
     private String name;
     private String phoneNumber;
-    private List<ProductDto> productDtoList;
+    private List<ProductDto> products;
     private Date createDate;
     private Date updateDate;
 }

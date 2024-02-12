@@ -2,10 +2,14 @@ package com.sibrahim.annoncify.services.impl;
 
 import com.sibrahim.annoncify.dto.ProductDto;
 import com.sibrahim.annoncify.entity.Product;
+import com.sibrahim.annoncify.entity.User;
 import com.sibrahim.annoncify.mapper.ProductMapper;
 import com.sibrahim.annoncify.repository.ProductRepository;
 import com.sibrahim.annoncify.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -52,6 +56,12 @@ public class ProductServiceImpl implements ProductService {
             // This is a new product, save it
             product.setCreateDate(new Date());
             product.setUpdateDate(new Date());
+            Authentication authentication =
+                    SecurityContextHolder.getContext().getAuthentication();
+
+            // Extract user details from Authentication
+            User user = (User) authentication.getPrincipal();
+            product.setUser(user);
             return productMapper.toProductDto(productRepository.save(product));
         } else {
             // This is an update, merge the existing product with the new data

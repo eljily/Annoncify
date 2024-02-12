@@ -18,18 +18,29 @@ import java.util.List;
 @Table(name = "users")
 @AllArgsConstructor @NoArgsConstructor @Builder @Getter @Setter @ToString
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     private String name;
+
     private String email;
+
     private String phoneNumber;
+
     private String password;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
+
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
+
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     private List<Product> products;
