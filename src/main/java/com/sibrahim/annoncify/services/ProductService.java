@@ -10,6 +10,7 @@ public interface ProductService {
 
     List<ProductDto> getAllProducts();
     Optional<ProductDto> getProductById(Long id);
+    Optional<Product> getById(Long id);
     void deleteProduct(Long id);
     ProductDto saveProduct(ProductDto product);
 
