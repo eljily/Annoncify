@@ -38,8 +38,8 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(ar->ar.requestMatchers(HttpMethod.POST,"/api/signup").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/api/login").permitAll()
+                .authorizeHttpRequests(ar->ar.requestMatchers(HttpMethod.POST,"/api/auth/signup").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/api/auth/login").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sm->sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

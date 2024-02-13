@@ -16,16 +16,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<UserDto> signup(@RequestBody RegisterDto registerDto){
-        return ResponseEntity.ok(userService.saveUser(registerDto));
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto loginDto){
-        return ResponseEntity.ok(userService.login(loginDto));
-    }
-
     @PostMapping("/addProduct")
     public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto productDto){
         try {
