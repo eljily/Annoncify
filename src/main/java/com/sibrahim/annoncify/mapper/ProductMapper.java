@@ -13,6 +13,10 @@ public class ProductMapper {
 
     @Autowired
     @Lazy
+    private ImageMapper imageMapper;
+
+    @Autowired
+    @Lazy
     private UserMapper userMapper;
 
     public ProductDto toProductDto(Product product){
@@ -23,6 +27,7 @@ public class ProductMapper {
                 .description(product.getDescription())
                 .createDate(product.getCreateDate())
                 .updateDate(product.getUpdateDate())
+                .images(imageMapper.toImageDtos(product.getImages()))
                 .build();
     }
 
@@ -32,6 +37,7 @@ public class ProductMapper {
                 .name(productDto.getName())
                 .price(productDto.getPrice())
                 .description(productDto.getDescription())
+                .images(imageMapper.toImages(productDto.getImages()))
                 .createDate(productDto.getCreateDate())
                 .updateDate(productDto.getUpdateDate())
                 .build();
