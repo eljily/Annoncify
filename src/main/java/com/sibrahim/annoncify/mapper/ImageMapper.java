@@ -2,10 +2,11 @@ package com.sibrahim.annoncify.mapper;
 
 import com.sibrahim.annoncify.dto.ImageDto;
 import com.sibrahim.annoncify.entity.Image;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Service
 public class ImageMapper {
 
     Image toImage(ImageDto imageDto){

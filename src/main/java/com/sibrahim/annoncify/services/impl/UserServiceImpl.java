@@ -91,21 +91,4 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElseThrow();
         return userMapper.toUserDto(user);
     }
-
-    @Override
-    public LoginResponseDto login(LoginDto loginDto) {
-        LoginResponseDto loginResponseDto = new LoginResponseDto();
-        String jwt = "bad request";
-        // Authenticate the user using Spring Security's authentication manager
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginDto.getPhoneNumber(), loginDto.getPassword()));
-
-        // If authentication is successful, generate and set the JWT token
-        if (authentication.isAuthenticated()) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            jwt = jwtService.generateToken(userDetails);
-            loginResponseDto.setJwt(jwt);
-        }
-        return loginResponseDto;
-    }
 }

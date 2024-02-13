@@ -1,4 +1,4 @@
-package com.sibrahim.annoncify.security.config;
+package com.sibrahim.annoncify.config;
 
 import com.sibrahim.annoncify.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
@@ -38,10 +38,10 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(ar->ar.requestMatchers(HttpMethod.POST,"/api/auth/signup").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/api/auth/login").permitAll()
+                .authorizeHttpRequests(ar -> ar.requestMatchers(HttpMethod.POST, "/api/auth/signup").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .anyRequest().authenticated())
-                .sessionManagement(sm->sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authenticationProvider(authenticationProvider())
                 .httpBasic(Customizer.withDefaults())
