@@ -1,11 +1,13 @@
 package com.sibrahim.annoncify.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -25,4 +27,7 @@ public class Product {
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;
+    @OneToMany(mappedBy = "product")
+    @JsonManagedReference
+    private List<Image> images;
 }
