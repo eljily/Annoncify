@@ -16,6 +16,11 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getUser(@PathVariable Long id){
+        return ResponseEntity.ok(userService.getUserById(id));
+    }
+
     @PostMapping("/addProduct")
     public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto productDto){
         try {

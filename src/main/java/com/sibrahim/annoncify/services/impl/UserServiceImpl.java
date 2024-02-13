@@ -87,6 +87,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto getUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow();
+        return userMapper.toUserDto(user);
+    }
+
+    @Override
     public LoginResponseDto login(LoginDto loginDto) {
         LoginResponseDto loginResponseDto = new LoginResponseDto();
         String jwt = "bad request";
