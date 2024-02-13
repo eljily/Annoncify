@@ -1,0 +1,59 @@
+2024-02-13T22:59:11.762+0000 INFO Starting AnnoncifyApplication using Java 19.0.2 with PID 6852 (C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes started by sidibrahim in C:\Users\sidibrahim\Desktop\SpringProjects\annoncify)
+2024-02-13T22:59:11.774+0000 INFO No active profile set, falling back to 1 default profile: "default"
+2024-02-13T22:59:11.840+0000 INFO Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-02-13T22:59:11.840+0000 INFO For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-02-13T22:59:13.134+0000 INFO Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-13T22:59:13.242+0000 INFO Finished Spring Data repository scanning in 95 ms. Found 3 JPA repository interfaces.
+2024-02-13T22:59:14.604+0000 INFO Tomcat initialized with port 8081 (http)
+2024-02-13T22:59:14.635+0000 INFO Initializing ProtocolHandler ["http-nio-8081"]
+2024-02-13T22:59:14.640+0000 INFO Starting service [Tomcat]
+2024-02-13T22:59:14.641+0000 INFO Starting Servlet engine: [Apache Tomcat/10.1.18]
+2024-02-13T22:59:14.760+0000 INFO Initializing Spring embedded WebApplicationContext
+2024-02-13T22:59:14.764+0000 INFO Root WebApplicationContext: initialization completed in 2919 ms
+2024-02-13T22:59:15.202+0000 INFO HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-13T22:59:15.402+0000 INFO HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-02-13T22:59:15.515+0000 INFO HHH000026: Second-level cache disabled
+2024-02-13T22:59:16.129+0000 INFO No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-13T22:59:16.221+0000 INFO HikariPool-1 - Starting...
+2024-02-13T22:59:16.639+0000 INFO HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1bb240fc
+2024-02-13T22:59:16.642+0000 INFO HikariPool-1 - Start completed.
+2024-02-13T22:59:19.071+0000 INFO HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-13T22:59:19.244+0000 INFO Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-13T22:59:19.758+0000 INFO Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-02-13T22:59:20.986+0000 WARN spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-02-13T22:59:21.548+0000 INFO Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2f27319f, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2c6ad614, org.springframework.security.web.context.SecurityContextHolderFilter@3b958570, org.springframework.security.web.header.HeaderWriterFilter@6f55c2b8, org.springframework.web.filter.CorsFilter@27fbb605, org.springframework.security.web.authentication.logout.LogoutFilter@2da0d2e4, com.sibrahim.annoncify.security.JwtAuthenticationFilter$$SpringCGLIB$$0@40a9914, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@202567e3, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4015d2c0, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@233a2486, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@60e0241c, org.springframework.security.web.session.SessionManagementFilter@1d0706cf, org.springframework.security.web.access.ExceptionTranslationFilter@45cc2a73, org.springframework.security.web.access.intercept.AuthorizationFilter@3e149e5a]
+2024-02-13T22:59:22.025+0000 INFO LiveReload server is running on port 35729
+2024-02-13T22:59:22.055+0000 INFO Starting ProtocolHandler ["http-nio-8081"]
+2024-02-13T22:59:22.131+0000 INFO Tomcat started on port 8081 (http) with context path ''
+2024-02-13T22:59:22.151+0000 INFO Started AnnoncifyApplication in 10.965 seconds (process running for 12.688)
+2024-02-13T22:59:28.961+0000 INFO Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-13T22:59:28.966+0000 INFO HikariPool-1 - Shutdown initiated...
+2024-02-13T22:59:28.972+0000 INFO HikariPool-1 - Shutdown completed.
+2024-02-13T22:59:32.741+0000 INFO Starting AnnoncifyApplication using Java 19.0.2 with PID 4860 (C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes started by sidibrahim in C:\Users\sidibrahim\Desktop\SpringProjects\annoncify)
+2024-02-13T22:59:32.754+0000 INFO No active profile set, falling back to 1 default profile: "default"
+2024-02-13T22:59:32.833+0000 INFO Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-02-13T22:59:32.834+0000 INFO For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-02-13T22:59:33.958+0000 INFO Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-13T22:59:34.054+0000 INFO Finished Spring Data repository scanning in 85 ms. Found 3 JPA repository interfaces.
+2024-02-13T22:59:35.258+0000 INFO Tomcat initialized with port 8081 (http)
+2024-02-13T22:59:35.284+0000 INFO Initializing ProtocolHandler ["http-nio-8081"]
+2024-02-13T22:59:35.288+0000 INFO Starting service [Tomcat]
+2024-02-13T22:59:35.289+0000 INFO Starting Servlet engine: [Apache Tomcat/10.1.18]
+2024-02-13T22:59:35.446+0000 INFO Initializing Spring embedded WebApplicationContext
+2024-02-13T22:59:35.451+0000 INFO Root WebApplicationContext: initialization completed in 2611 ms
+2024-02-13T22:59:35.839+0000 INFO HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-13T22:59:35.979+0000 INFO HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-02-13T22:59:36.074+0000 INFO HHH000026: Second-level cache disabled
+2024-02-13T22:59:36.579+0000 INFO No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-13T22:59:36.648+0000 INFO HikariPool-1 - Starting...
+2024-02-13T22:59:37.018+0000 INFO HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4e6e4b63
+2024-02-13T22:59:37.022+0000 INFO HikariPool-1 - Start completed.
+2024-02-13T22:59:39.118+0000 INFO HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-13T22:59:39.280+0000 INFO Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-13T22:59:39.702+0000 INFO Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-02-13T22:59:40.641+0000 WARN spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-02-13T22:59:41.142+0000 INFO Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@70c79ac8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@16c0595a, org.springframework.security.web.context.SecurityContextHolderFilter@74ae694b, org.springframework.security.web.header.HeaderWriterFilter@1d92cf6e, org.springframework.web.filter.CorsFilter@3e633fd0, org.springframework.security.web.authentication.logout.LogoutFilter@50b410e8, com.sibrahim.annoncify.security.JwtAuthenticationFilter$$SpringCGLIB$$0@4b6efbaa, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@18b607bd, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6aa7925f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@70f0186, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6e7771e4, org.springframework.security.web.session.SessionManagementFilter@5eacbefd, org.springframework.security.web.access.ExceptionTranslationFilter@68be6081, org.springframework.security.web.access.intercept.AuthorizationFilter@1e63e031]
+2024-02-13T22:59:41.561+0000 INFO LiveReload server is running on port 35729
+2024-02-13T22:59:41.582+0000 INFO Starting ProtocolHandler ["http-nio-8081"]
+2024-02-13T22:59:41.614+0000 INFO Tomcat started on port 8081 (http) with context path ''
+2024-02-13T22:59:41.631+0000 INFO Started AnnoncifyApplication in 9.457 seconds (process running for 11.49)
