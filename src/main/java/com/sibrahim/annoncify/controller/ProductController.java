@@ -3,6 +3,8 @@ package com.sibrahim.annoncify.controller;
 import com.sibrahim.annoncify.dto.ProductDto;
 import com.sibrahim.annoncify.entity.Product;
 import com.sibrahim.annoncify.services.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import java.util.Objects;
 @RequestMapping("/api/products")
 public class ProductController {
 
+    private final Logger log = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
 
     public ProductController(ProductService productService) {
@@ -27,7 +30,7 @@ public class ProductController {
         try {
             return ResponseEntity.ok(productService.saveProduct(productDto));
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            log.error("ERROR WHILE SAVING NEW PRODUCT "+e.getMessage());
             return null;
         }
     }
@@ -38,7 +41,7 @@ public class ProductController {
         try {
             return ResponseEntity.ok(productService.getAllProducts());
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            log.error("ERROR WHILE GETTING ALL PRODUCTS,message:"+e.getMessage());
             return null;
         }
     }
@@ -46,9 +49,9 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable Long id){
         try{
-            return ResponseEntity.ok(productService.getProductById(id).get());
+            return ResponseEntity.ok(productService.getProductById(id).orElseThrow());
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            log.error("ERROR OCCURED WHILE FETCHING PRODUCT BY ID,message:"+e.getMessage());
             return null;
         }
     }
@@ -59,7 +62,7 @@ public class ProductController {
             productService.deleteProduct(id);
             return ResponseEntity.ok(HttpStatus.valueOf(200));
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            log.error("ERROR OCCURED WHILE TRYING TO DELETE PRODUCT,message:"+e.getMessage());
             return null;
         }
     }
@@ -82,7 +85,7 @@ public class ProductController {
             }
         } catch (Exception e) {
             // Log the exception for debugging purposes
-            System.out.println(e.getMessage());
+            log.error("ERROR OCCURED WHILE TRYING TO UPDATE PRODUCT,message:"+e.getMessage());
             // Return an appropriate HTTP status code and error message
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
