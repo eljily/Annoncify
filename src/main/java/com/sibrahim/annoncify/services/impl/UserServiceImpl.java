@@ -28,25 +28,17 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final ProductMapper productMapper;
     private final PasswordEncoder passwordEncoder;
     private final ProductService productService;
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
 
     public UserServiceImpl(UserRepository userRepository,
                            UserMapper userMapper,
-                           ProductMapper productMapper,
                            PasswordEncoder passwordEncoder,
-                           ProductService productService, JwtService jwtService,
-                           AuthenticationManager authenticationManager) {
+                           ProductService productService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
-        this.productMapper = productMapper;
         this.passwordEncoder = passwordEncoder;
         this.productService = productService;
-        this.jwtService = jwtService;
-        this.authenticationManager = authenticationManager;
     }
 
     @Override

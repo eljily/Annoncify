@@ -4,33 +4,28 @@ import com.sibrahim.annoncify.dto.LoginDto;
 import com.sibrahim.annoncify.dto.LoginResponseDto;
 import com.sibrahim.annoncify.dto.RegisterDto;
 import com.sibrahim.annoncify.dto.UserDto;
-import com.sibrahim.annoncify.entity.User;
-import com.sibrahim.annoncify.entity.enums.RoleEnum;
-import com.sibrahim.annoncify.mapper.UserMapper;
 import com.sibrahim.annoncify.security.JwtService;
 import com.sibrahim.annoncify.services.AuthService;
 import com.sibrahim.annoncify.services.UserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
-
-@RequiredArgsConstructor
 
 @Service
 public class AuthServiceImpl implements AuthService {
 
     private final UserService userService;
-    private final UserMapper userMapper;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
-    private final PasswordEncoder passwordEncoder;
+
+    public AuthServiceImpl(UserService userService, AuthenticationManager authenticationManager, JwtService jwtService) {
+        this.userService = userService;
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
+    }
+
     @Override
     public LoginResponseDto login(LoginDto loginDto) {
         LoginResponseDto loginResponseDto = new LoginResponseDto();

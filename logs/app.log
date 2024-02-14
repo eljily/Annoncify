@@ -1025,3 +1025,347 @@ Relying upon circular references is discouraged and they are prohibited by defau
 2024-02-14T12:28:13.785+0000 INFO Initializing Spring DispatcherServlet 'dispatcherServlet'
 2024-02-14T12:28:13.786+0000 INFO Initializing Servlet 'dispatcherServlet'
 2024-02-14T12:28:13.789+0000 INFO Completed initialization in 2 ms
+2024-02-14T14:19:45.652+0000 WARN HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h24m26s175ms155µs300ns).
+2024-02-14T15:02:32.262+0000 INFO Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-14T15:02:32.300+0000 INFO HikariPool-1 - Shutdown initiated...
+2024-02-14T15:02:32.310+0000 INFO HikariPool-1 - Shutdown completed.
+2024-02-14T15:02:39.213+0000 INFO Starting AnnoncifyApplication using Java 19.0.2 with PID 15224 (C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes started by sidibrahim in C:\Users\sidibrahim\Desktop\SpringProjects\annoncify)
+2024-02-14T15:02:39.222+0000 INFO No active profile set, falling back to 1 default profile: "default"
+2024-02-14T15:02:39.286+0000 INFO Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-02-14T15:02:39.286+0000 INFO For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-02-14T15:02:40.236+0000 INFO Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-14T15:02:40.314+0000 INFO Finished Spring Data repository scanning in 69 ms. Found 3 JPA repository interfaces.
+2024-02-14T15:02:41.195+0000 INFO Tomcat initialized with port 8081 (http)
+2024-02-14T15:02:41.219+0000 INFO Initializing ProtocolHandler ["http-nio-8081"]
+2024-02-14T15:02:41.222+0000 INFO Starting service [Tomcat]
+2024-02-14T15:02:41.223+0000 INFO Starting Servlet engine: [Apache Tomcat/10.1.18]
+2024-02-14T15:02:41.305+0000 INFO Initializing Spring embedded WebApplicationContext
+2024-02-14T15:02:41.308+0000 INFO Root WebApplicationContext: initialization completed in 2018 ms
+2024-02-14T15:02:41.611+0000 INFO HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-14T15:02:41.746+0000 INFO HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-02-14T15:02:41.825+0000 INFO HHH000026: Second-level cache disabled
+2024-02-14T15:02:42.326+0000 INFO No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-14T15:02:42.395+0000 INFO HikariPool-1 - Starting...
+2024-02-14T15:02:42.771+0000 INFO HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@109b6696
+2024-02-14T15:02:42.772+0000 INFO HikariPool-1 - Start completed.
+2024-02-14T15:02:44.861+0000 INFO HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-14T15:02:45.035+0000 INFO Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-14T15:02:45.502+0000 INFO Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-02-14T15:02:46.714+0000 WARN spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-02-14T15:02:47.258+0000 INFO Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@278df30d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@28fb6dd4, org.springframework.security.web.context.SecurityContextHolderFilter@24b4c716, org.springframework.security.web.header.HeaderWriterFilter@65b93427, org.springframework.web.filter.CorsFilter@56c680a1, org.springframework.security.web.authentication.logout.LogoutFilter@5e38e2e8, com.sibrahim.annoncify.security.JwtAuthenticationFilter$$SpringCGLIB$$0@7b4c2326, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@135da3c1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4ce23847, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@34dc22bb, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6ca61cda, org.springframework.security.web.session.SessionManagementFilter@21fe21d5, org.springframework.security.web.access.ExceptionTranslationFilter@7afebeac, org.springframework.security.web.access.intercept.AuthorizationFilter@6752ba7b]
+2024-02-14T15:02:47.752+0000 INFO LiveReload server is running on port 35729
+2024-02-14T15:02:47.779+0000 INFO Starting ProtocolHandler ["http-nio-8081"]
+2024-02-14T15:02:47.824+0000 INFO Tomcat started on port 8081 (http) with context path ''
+2024-02-14T15:02:47.844+0000 INFO Started AnnoncifyApplication in 9.057 seconds (process running for 10.421)
+2024-02-14T15:02:53.628+0000 INFO Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-14T15:02:53.631+0000 INFO HikariPool-1 - Shutdown initiated...
+2024-02-14T15:02:53.637+0000 INFO HikariPool-1 - Shutdown completed.
+2024-02-14T15:02:57.077+0000 INFO Starting AnnoncifyApplication using Java 19.0.2 with PID 5264 (C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes started by sidibrahim in C:\Users\sidibrahim\Desktop\SpringProjects\annoncify)
+2024-02-14T15:02:57.090+0000 INFO No active profile set, falling back to 1 default profile: "default"
+2024-02-14T15:02:57.175+0000 INFO Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-02-14T15:02:57.176+0000 INFO For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-02-14T15:02:58.702+0000 INFO Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-14T15:02:58.833+0000 INFO Finished Spring Data repository scanning in 116 ms. Found 3 JPA repository interfaces.
+2024-02-14T15:03:00.188+0000 INFO Tomcat initialized with port 8081 (http)
+2024-02-14T15:03:00.214+0000 INFO Initializing ProtocolHandler ["http-nio-8081"]
+2024-02-14T15:03:00.220+0000 INFO Starting service [Tomcat]
+2024-02-14T15:03:00.221+0000 INFO Starting Servlet engine: [Apache Tomcat/10.1.18]
+2024-02-14T15:03:00.327+0000 INFO Initializing Spring embedded WebApplicationContext
+2024-02-14T15:03:00.330+0000 INFO Root WebApplicationContext: initialization completed in 3151 ms
+2024-02-14T15:03:00.679+0000 INFO HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-14T15:03:00.812+0000 INFO HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-02-14T15:03:00.893+0000 INFO HHH000026: Second-level cache disabled
+2024-02-14T15:03:01.382+0000 INFO No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-14T15:03:01.465+0000 INFO HikariPool-1 - Starting...
+2024-02-14T15:03:01.829+0000 INFO HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@49976ba7
+2024-02-14T15:03:01.833+0000 INFO HikariPool-1 - Start completed.
+2024-02-14T15:03:03.779+0000 INFO HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-14T15:03:03.939+0000 INFO Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-14T15:03:04.433+0000 INFO Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-02-14T15:03:05.511+0000 WARN spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-02-14T15:03:06.034+0000 INFO Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3184cff0, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5a72f5b6, org.springframework.security.web.context.SecurityContextHolderFilter@3da9b878, org.springframework.security.web.header.HeaderWriterFilter@38503226, org.springframework.web.filter.CorsFilter@31b63b55, org.springframework.security.web.authentication.logout.LogoutFilter@28959532, com.sibrahim.annoncify.security.JwtAuthenticationFilter$$SpringCGLIB$$0@435bad80, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@13d4257, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@440a0a5b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3a5b9643, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6e3c064e, org.springframework.security.web.session.SessionManagementFilter@7feab392, org.springframework.security.web.access.ExceptionTranslationFilter@273f7df2, org.springframework.security.web.access.intercept.AuthorizationFilter@5d824ef5]
+2024-02-14T15:03:06.491+0000 INFO LiveReload server is running on port 35729
+2024-02-14T15:03:06.513+0000 INFO Starting ProtocolHandler ["http-nio-8081"]
+2024-02-14T15:03:06.545+0000 INFO Tomcat started on port 8081 (http) with context path ''
+2024-02-14T15:03:06.564+0000 INFO Started AnnoncifyApplication in 10.099 seconds (process running for 11.961)
+2024-02-14T15:03:18.628+0000 INFO Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-14T15:03:18.632+0000 INFO HikariPool-1 - Shutdown initiated...
+2024-02-14T15:03:18.637+0000 INFO HikariPool-1 - Shutdown completed.
+2024-02-14T15:03:24.128+0000 INFO Starting AnnoncifyApplication using Java 19.0.2 with PID 2608 (C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes started by sidibrahim in C:\Users\sidibrahim\Desktop\SpringProjects\annoncify)
+2024-02-14T15:03:24.141+0000 INFO No active profile set, falling back to 1 default profile: "default"
+2024-02-14T15:03:24.229+0000 INFO Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-02-14T15:03:24.229+0000 INFO For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-02-14T15:03:25.675+0000 INFO Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-14T15:03:25.820+0000 INFO Finished Spring Data repository scanning in 125 ms. Found 3 JPA repository interfaces.
+2024-02-14T15:03:27.207+0000 INFO Tomcat initialized with port 8081 (http)
+2024-02-14T15:03:27.233+0000 INFO Initializing ProtocolHandler ["http-nio-8081"]
+2024-02-14T15:03:27.238+0000 INFO Starting service [Tomcat]
+2024-02-14T15:03:27.239+0000 INFO Starting Servlet engine: [Apache Tomcat/10.1.18]
+2024-02-14T15:03:27.349+0000 INFO Initializing Spring embedded WebApplicationContext
+2024-02-14T15:03:27.352+0000 INFO Root WebApplicationContext: initialization completed in 3118 ms
+2024-02-14T15:03:27.733+0000 INFO HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-14T15:03:27.861+0000 INFO HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-02-14T15:03:27.940+0000 INFO HHH000026: Second-level cache disabled
+2024-02-14T15:03:28.437+0000 INFO No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-14T15:03:28.501+0000 INFO HikariPool-1 - Starting...
+2024-02-14T15:03:28.862+0000 INFO HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@109b6696
+2024-02-14T15:03:28.866+0000 INFO HikariPool-1 - Start completed.
+2024-02-14T15:03:30.834+0000 INFO HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-14T15:03:30.992+0000 INFO Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-14T15:03:31.443+0000 INFO Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-02-14T15:03:32.367+0000 WARN Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authController' defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\controller\AuthController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'authServiceImpl' defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\AuthServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'userServiceImpl' defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\UserServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 4: Error creating bean with name 'productServiceImpl': Unsatisfied dependency expressed through field 'userService': Error creating bean with name 'userServiceImpl': Requested bean is currently in creation: Is there an unresolvable circular reference?
+2024-02-14T15:03:32.368+0000 INFO Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-14T15:03:32.373+0000 INFO HikariPool-1 - Shutdown initiated...
+2024-02-14T15:03:32.379+0000 INFO HikariPool-1 - Shutdown completed.
+2024-02-14T15:03:32.387+0000 INFO Stopping service [Tomcat]
+2024-02-14T15:03:32.418+0000 INFO 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-02-14T15:03:32.475+0000 ERROR 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+   authController defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\controller\AuthController.class]
+      ↓
+   authServiceImpl defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\AuthServiceImpl.class]
+┌─────┐
+|  userServiceImpl defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\UserServiceImpl.class]
+↑     ↓
+|  productServiceImpl (field private com.sibrahim.annoncify.services.UserService com.sibrahim.annoncify.services.impl.ProductServiceImpl.userService)
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+
+2024-02-14T15:03:51.287+0000 INFO Starting AnnoncifyApplication using Java 19.0.2 with PID 13548 (C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes started by sidibrahim in C:\Users\sidibrahim\Desktop\SpringProjects\annoncify)
+2024-02-14T15:03:51.302+0000 INFO No active profile set, falling back to 1 default profile: "default"
+2024-02-14T15:03:51.393+0000 INFO Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-02-14T15:03:51.394+0000 INFO For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-02-14T15:03:52.801+0000 INFO Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-14T15:03:52.923+0000 INFO Finished Spring Data repository scanning in 106 ms. Found 3 JPA repository interfaces.
+2024-02-14T15:03:54.207+0000 INFO Tomcat initialized with port 8081 (http)
+2024-02-14T15:03:54.231+0000 INFO Initializing ProtocolHandler ["http-nio-8081"]
+2024-02-14T15:03:54.235+0000 INFO Starting service [Tomcat]
+2024-02-14T15:03:54.237+0000 INFO Starting Servlet engine: [Apache Tomcat/10.1.18]
+2024-02-14T15:03:54.340+0000 INFO Initializing Spring embedded WebApplicationContext
+2024-02-14T15:03:54.345+0000 INFO Root WebApplicationContext: initialization completed in 2947 ms
+2024-02-14T15:03:54.703+0000 INFO HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-14T15:03:54.824+0000 INFO HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-02-14T15:03:54.902+0000 INFO HHH000026: Second-level cache disabled
+2024-02-14T15:03:55.389+0000 INFO No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-14T15:03:55.456+0000 INFO HikariPool-1 - Starting...
+2024-02-14T15:03:55.785+0000 INFO HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@46185221
+2024-02-14T15:03:55.788+0000 INFO HikariPool-1 - Start completed.
+2024-02-14T15:03:57.602+0000 INFO HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-14T15:03:57.759+0000 INFO Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-14T15:03:58.183+0000 INFO Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-02-14T15:03:59.036+0000 WARN Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authController' defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\controller\AuthController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'authServiceImpl' defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\AuthServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'userServiceImpl' defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\UserServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 4: Error creating bean with name 'productServiceImpl' defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\ProductServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'userServiceImpl': Requested bean is currently in creation: Is there an unresolvable circular reference?
+2024-02-14T15:03:59.038+0000 INFO Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-14T15:03:59.044+0000 INFO HikariPool-1 - Shutdown initiated...
+2024-02-14T15:03:59.050+0000 INFO HikariPool-1 - Shutdown completed.
+2024-02-14T15:03:59.059+0000 INFO Stopping service [Tomcat]
+2024-02-14T15:03:59.087+0000 INFO 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-02-14T15:03:59.130+0000 ERROR 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+   authController defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\controller\AuthController.class]
+      ↓
+   authServiceImpl defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\AuthServiceImpl.class]
+┌─────┐
+|  userServiceImpl defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\UserServiceImpl.class]
+↑     ↓
+|  productServiceImpl defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\ProductServiceImpl.class]
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+
+2024-02-14T15:04:35.430+0000 INFO Starting AnnoncifyApplication using Java 19.0.2 with PID 13888 (C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes started by sidibrahim in C:\Users\sidibrahim\Desktop\SpringProjects\annoncify)
+2024-02-14T15:04:35.438+0000 INFO No active profile set, falling back to 1 default profile: "default"
+2024-02-14T15:04:35.502+0000 INFO Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-02-14T15:04:35.502+0000 INFO For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-02-14T15:04:36.388+0000 INFO Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-14T15:04:36.475+0000 INFO Finished Spring Data repository scanning in 75 ms. Found 3 JPA repository interfaces.
+2024-02-14T15:04:37.546+0000 INFO Tomcat initialized with port 8081 (http)
+2024-02-14T15:04:37.568+0000 INFO Initializing ProtocolHandler ["http-nio-8081"]
+2024-02-14T15:04:37.572+0000 INFO Starting service [Tomcat]
+2024-02-14T15:04:37.572+0000 INFO Starting Servlet engine: [Apache Tomcat/10.1.18]
+2024-02-14T15:04:37.665+0000 INFO Initializing Spring embedded WebApplicationContext
+2024-02-14T15:04:37.668+0000 INFO Root WebApplicationContext: initialization completed in 2163 ms
+2024-02-14T15:04:38.028+0000 INFO HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-14T15:04:38.151+0000 INFO HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-02-14T15:04:38.226+0000 INFO HHH000026: Second-level cache disabled
+2024-02-14T15:04:38.706+0000 INFO No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-14T15:04:38.764+0000 INFO HikariPool-1 - Starting...
+2024-02-14T15:04:39.131+0000 INFO HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@109b6696
+2024-02-14T15:04:39.134+0000 INFO HikariPool-1 - Start completed.
+2024-02-14T15:04:40.967+0000 INFO HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-14T15:04:41.134+0000 INFO Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-14T15:04:41.602+0000 INFO Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-02-14T15:04:42.545+0000 WARN Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authController' defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\controller\AuthController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'authServiceImpl' defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\AuthServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'userServiceImpl' defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\UserServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 4: Error creating bean with name 'productServiceImpl' defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\ProductServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'userServiceImpl': Requested bean is currently in creation: Is there an unresolvable circular reference?
+2024-02-14T15:04:42.546+0000 INFO Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-14T15:04:42.552+0000 INFO HikariPool-1 - Shutdown initiated...
+2024-02-14T15:04:42.560+0000 INFO HikariPool-1 - Shutdown completed.
+2024-02-14T15:04:42.566+0000 INFO Stopping service [Tomcat]
+2024-02-14T15:04:42.594+0000 INFO 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-02-14T15:04:42.644+0000 ERROR 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+   authController defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\controller\AuthController.class]
+      ↓
+   authServiceImpl defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\AuthServiceImpl.class]
+┌─────┐
+|  userServiceImpl defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\UserServiceImpl.class]
+↑     ↓
+|  productServiceImpl defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\ProductServiceImpl.class]
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+
+2024-02-14T15:04:51.412+0000 INFO Starting AnnoncifyApplication using Java 19.0.2 with PID 17148 (C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes started by sidibrahim in C:\Users\sidibrahim\Desktop\SpringProjects\annoncify)
+2024-02-14T15:04:51.427+0000 INFO No active profile set, falling back to 1 default profile: "default"
+2024-02-14T15:04:51.533+0000 INFO Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-02-14T15:04:51.533+0000 INFO For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-02-14T15:04:53.017+0000 INFO Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-14T15:04:53.154+0000 INFO Finished Spring Data repository scanning in 120 ms. Found 3 JPA repository interfaces.
+2024-02-14T15:04:54.411+0000 INFO Tomcat initialized with port 8081 (http)
+2024-02-14T15:04:54.438+0000 INFO Initializing ProtocolHandler ["http-nio-8081"]
+2024-02-14T15:04:54.442+0000 INFO Starting service [Tomcat]
+2024-02-14T15:04:54.443+0000 INFO Starting Servlet engine: [Apache Tomcat/10.1.18]
+2024-02-14T15:04:54.552+0000 INFO Initializing Spring embedded WebApplicationContext
+2024-02-14T15:04:54.556+0000 INFO Root WebApplicationContext: initialization completed in 3019 ms
+2024-02-14T15:04:54.911+0000 INFO HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-14T15:04:55.030+0000 INFO HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-02-14T15:04:55.111+0000 INFO HHH000026: Second-level cache disabled
+2024-02-14T15:04:55.557+0000 INFO No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-14T15:04:55.615+0000 INFO HikariPool-1 - Starting...
+2024-02-14T15:04:55.940+0000 INFO HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@109b6696
+2024-02-14T15:04:55.942+0000 INFO HikariPool-1 - Start completed.
+2024-02-14T15:04:57.858+0000 INFO HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-14T15:04:57.999+0000 INFO Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-14T15:04:58.414+0000 INFO Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-02-14T15:04:59.303+0000 WARN Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authController' defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\controller\AuthController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'authServiceImpl' defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\AuthServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'userServiceImpl' defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\UserServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 4: Error creating bean with name 'productServiceImpl' defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\ProductServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'userServiceImpl': Requested bean is currently in creation: Is there an unresolvable circular reference?
+2024-02-14T15:04:59.304+0000 INFO Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-14T15:04:59.311+0000 INFO HikariPool-1 - Shutdown initiated...
+2024-02-14T15:04:59.316+0000 INFO HikariPool-1 - Shutdown completed.
+2024-02-14T15:04:59.328+0000 INFO Stopping service [Tomcat]
+2024-02-14T15:04:59.357+0000 INFO 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-02-14T15:04:59.400+0000 ERROR 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+   authController defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\controller\AuthController.class]
+      ↓
+   authServiceImpl defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\AuthServiceImpl.class]
+┌─────┐
+|  userServiceImpl defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\UserServiceImpl.class]
+↑     ↓
+|  productServiceImpl defined in file [C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes\com\sibrahim\annoncify\services\impl\ProductServiceImpl.class]
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+
+2024-02-14T15:05:20.998+0000 INFO Starting AnnoncifyApplication using Java 19.0.2 with PID 7496 (C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes started by sidibrahim in C:\Users\sidibrahim\Desktop\SpringProjects\annoncify)
+2024-02-14T15:05:21.014+0000 INFO No active profile set, falling back to 1 default profile: "default"
+2024-02-14T15:05:21.093+0000 INFO Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-02-14T15:05:21.094+0000 INFO For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-02-14T15:05:22.550+0000 INFO Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-14T15:05:22.668+0000 INFO Finished Spring Data repository scanning in 105 ms. Found 3 JPA repository interfaces.
+2024-02-14T15:05:23.873+0000 INFO Tomcat initialized with port 8081 (http)
+2024-02-14T15:05:23.895+0000 INFO Initializing ProtocolHandler ["http-nio-8081"]
+2024-02-14T15:05:23.899+0000 INFO Starting service [Tomcat]
+2024-02-14T15:05:23.900+0000 INFO Starting Servlet engine: [Apache Tomcat/10.1.18]
+2024-02-14T15:05:23.995+0000 INFO Initializing Spring embedded WebApplicationContext
+2024-02-14T15:05:23.999+0000 INFO Root WebApplicationContext: initialization completed in 2900 ms
+2024-02-14T15:05:24.349+0000 INFO HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-14T15:05:24.495+0000 INFO HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-02-14T15:05:24.576+0000 INFO HHH000026: Second-level cache disabled
+2024-02-14T15:05:25.076+0000 INFO No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-14T15:05:25.154+0000 INFO HikariPool-1 - Starting...
+2024-02-14T15:05:25.508+0000 INFO HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@109b6696
+2024-02-14T15:05:25.511+0000 INFO HikariPool-1 - Start completed.
+2024-02-14T15:05:27.443+0000 INFO HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-14T15:05:27.602+0000 INFO Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-14T15:05:28.050+0000 INFO Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-02-14T15:05:29.109+0000 WARN spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-02-14T15:05:29.643+0000 INFO Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@bcb7de0, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@12a3ab5b, org.springframework.security.web.context.SecurityContextHolderFilter@5eab3670, org.springframework.security.web.header.HeaderWriterFilter@259e6a2f, org.springframework.web.filter.CorsFilter@135da3c1, org.springframework.security.web.authentication.logout.LogoutFilter@3ba907f9, com.sibrahim.annoncify.security.JwtAuthenticationFilter$$SpringCGLIB$$0@4406a6ad, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@3416bd2b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5c1c9a5b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@232b7db5, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@77f9b46f, org.springframework.security.web.session.SessionManagementFilter@3b989656, org.springframework.security.web.access.ExceptionTranslationFilter@4ed596f8, org.springframework.security.web.access.intercept.AuthorizationFilter@165e91e0]
+2024-02-14T15:05:30.097+0000 INFO LiveReload server is running on port 35729
+2024-02-14T15:05:30.119+0000 INFO Starting ProtocolHandler ["http-nio-8081"]
+2024-02-14T15:05:30.148+0000 INFO Tomcat started on port 8081 (http) with context path ''
+2024-02-14T15:05:30.165+0000 INFO Started AnnoncifyApplication in 9.657 seconds (process running for 10.881)
+2024-02-14T15:06:54.202+0000 INFO Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-14T15:06:54.208+0000 INFO HikariPool-1 - Shutdown initiated...
+2024-02-14T15:06:54.215+0000 INFO HikariPool-1 - Shutdown completed.
+2024-02-14T15:06:58.814+0000 INFO Starting AnnoncifyApplication using Java 19.0.2 with PID 10008 (C:\Users\sidibrahim\Desktop\SpringProjects\annoncify\target\classes started by sidibrahim in C:\Users\sidibrahim\Desktop\SpringProjects\annoncify)
+2024-02-14T15:06:58.823+0000 INFO No active profile set, falling back to 1 default profile: "default"
+2024-02-14T15:06:58.883+0000 INFO Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-02-14T15:06:58.884+0000 INFO For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-02-14T15:06:59.785+0000 INFO Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-14T15:06:59.903+0000 INFO Finished Spring Data repository scanning in 106 ms. Found 3 JPA repository interfaces.
+2024-02-14T15:07:01.085+0000 INFO Tomcat initialized with port 8081 (http)
+2024-02-14T15:07:01.108+0000 INFO Initializing ProtocolHandler ["http-nio-8081"]
+2024-02-14T15:07:01.112+0000 INFO Starting service [Tomcat]
+2024-02-14T15:07:01.113+0000 INFO Starting Servlet engine: [Apache Tomcat/10.1.18]
+2024-02-14T15:07:01.228+0000 INFO Initializing Spring embedded WebApplicationContext
+2024-02-14T15:07:01.232+0000 INFO Root WebApplicationContext: initialization completed in 2344 ms
+2024-02-14T15:07:01.610+0000 INFO HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-14T15:07:01.742+0000 INFO HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-02-14T15:07:01.827+0000 INFO HHH000026: Second-level cache disabled
+2024-02-14T15:07:02.362+0000 INFO No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-14T15:07:02.447+0000 INFO HikariPool-1 - Starting...
+2024-02-14T15:07:02.821+0000 INFO HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@109b6696
+2024-02-14T15:07:02.824+0000 INFO HikariPool-1 - Start completed.
+2024-02-14T15:07:04.839+0000 INFO HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-14T15:07:05.021+0000 INFO Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-14T15:07:05.462+0000 INFO Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-02-14T15:07:06.536+0000 WARN spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-02-14T15:07:07.074+0000 INFO Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7e7aee0b, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@29c606e4, org.springframework.security.web.context.SecurityContextHolderFilter@46329ca0, org.springframework.security.web.header.HeaderWriterFilter@5c3bef67, org.springframework.web.filter.CorsFilter@3416bd2b, org.springframework.security.web.authentication.logout.LogoutFilter@3e6618c6, com.sibrahim.annoncify.security.JwtAuthenticationFilter$$SpringCGLIB$$0@4406a6ad, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@13d1c394, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@245b3881, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@cae7cd9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@22e8c500, org.springframework.security.web.session.SessionManagementFilter@1ebc7d65, org.springframework.security.web.access.ExceptionTranslationFilter@60be16fc, org.springframework.security.web.access.intercept.AuthorizationFilter@77979dc9]
+2024-02-14T15:07:07.571+0000 INFO LiveReload server is running on port 35729
+2024-02-14T15:07:07.592+0000 INFO Starting ProtocolHandler ["http-nio-8081"]
+2024-02-14T15:07:07.623+0000 INFO Tomcat started on port 8081 (http) with context path ''
+2024-02-14T15:07:07.643+0000 INFO Started AnnoncifyApplication in 9.183 seconds (process running for 10.406)
+2024-02-14T15:08:12.705+0000 INFO Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-14T15:08:12.714+0000 INFO HikariPool-1 - Shutdown initiated...
+2024-02-14T15:08:12.723+0000 INFO HikariPool-1 - Shutdown completed.
