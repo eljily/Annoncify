@@ -9,10 +9,15 @@ import java.util.Optional;
 public interface ProductService {
 
     List<ProductDto> getAllProducts();
+
     List<ProductDto> getProductsByUserId(Long id);
+
     Optional<ProductDto> getProductById(Long id);
+
     Optional<Product> getById(Long id);
+
     void deleteProduct(Long id);
+
     ProductDto saveProduct(ProductDto product);
 
 }

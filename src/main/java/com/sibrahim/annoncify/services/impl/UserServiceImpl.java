@@ -52,7 +52,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getAllUsers() {
+
         return userMapper.toUserDtos(userRepository.findAll());
+        
     }
 
     @Override
