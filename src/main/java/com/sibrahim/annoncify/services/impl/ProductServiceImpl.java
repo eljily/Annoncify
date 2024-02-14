@@ -1,12 +1,15 @@
 package com.sibrahim.annoncify.services.impl;
 
 import com.sibrahim.annoncify.dto.ProductDto;
+import com.sibrahim.annoncify.dto.UserDto;
 import com.sibrahim.annoncify.entity.Product;
 import com.sibrahim.annoncify.entity.User;
 import com.sibrahim.annoncify.mapper.ProductMapper;
 import com.sibrahim.annoncify.repository.ProductRepository;
 import com.sibrahim.annoncify.services.ProductService;
+import com.sibrahim.annoncify.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +26,9 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     @Autowired
     private ProductMapper productMapper;
+    @Lazy
+    @Autowired
+    private UserService userService;
 
 
     @Override
@@ -34,6 +40,13 @@ public class ProductServiceImpl implements ProductService {
             return List.of();
         }
 
+    }
+
+    @Override
+    public List<ProductDto> getProductsByUserId(Long id) {
+        User user = userService.getById(id).orElseThrow();
+        List<Product> products = productRepository.findProductsByUserId(user.getId());
+        return productMapper.toProductDtos(products);
     }
 
     @Override

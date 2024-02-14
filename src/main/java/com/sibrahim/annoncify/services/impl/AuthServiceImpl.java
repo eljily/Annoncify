@@ -11,6 +11,7 @@ import com.sibrahim.annoncify.security.JwtService;
 import com.sibrahim.annoncify.services.AuthService;
 import com.sibrahim.annoncify.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @RequiredArgsConstructor
+
 @Service
 public class AuthServiceImpl implements AuthService {
 

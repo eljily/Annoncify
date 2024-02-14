@@ -14,4 +14,6 @@ public interface UserService {
     ProductDto addProduct(ProductDto productDto);
     void deleteProduct(Long id);
     UserDto getUserById(Long id);
+    Optional<User> getById(Long id);
+    List<ProductDto> getProducts();
 }

@@ -10,6 +10,7 @@ import com.sibrahim.annoncify.repository.UserRepository;
 import com.sibrahim.annoncify.security.JwtService;
 import com.sibrahim.annoncify.services.ProductService;
 import com.sibrahim.annoncify.services.UserService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -90,5 +91,19 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow();
         return userMapper.toUserDto(user);
+    }
+
+    @Override
+    public Optional<User> getById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
+    public List<ProductDto> getProducts() {
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+        // Extract user details from Authentication
+        User user = (User) authentication.getPrincipal();
+        return productService.getProductsByUserId(user.getId());
     }
 }
