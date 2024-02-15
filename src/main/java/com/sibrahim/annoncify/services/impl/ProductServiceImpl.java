@@ -1,33 +1,48 @@
 package com.sibrahim.annoncify.services.impl;
 
 import com.sibrahim.annoncify.dto.ProductDto;
+import com.sibrahim.annoncify.entity.Image;
 import com.sibrahim.annoncify.entity.Product;
 import com.sibrahim.annoncify.entity.User;
 import com.sibrahim.annoncify.mapper.ProductMapper;
+import com.sibrahim.annoncify.repository.ImageRespository;
 import com.sibrahim.annoncify.repository.ProductRepository;
+import com.sibrahim.annoncify.services.FirebaseStorageService;
 import com.sibrahim.annoncify.services.ProductService;
 import com.sibrahim.annoncify.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class ProductServiceImpl implements ProductService {
 
+    private final Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
+
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+    private final ImageRespository imageRespository;
+    private final FirebaseStorageService firebaseStorageService;
     @Lazy
     @Autowired
     private UserService userService;
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ImageRespository imageRespository, FirebaseStorageService firebaseStorageService) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
+        this.imageRespository = imageRespository;
+        this.firebaseStorageService = firebaseStorageService;
     }
 
 
@@ -104,6 +119,43 @@ public class ProductServiceImpl implements ProductService {
                 return null;
             }
         }
+    }
+
+    public Product addProductWithImages(Product product, List<MultipartFile> imageFiles) {
+        try {
+            // Save the product to the database
+            Product savedProduct = productRepository.save(product);
+
+            // Upload images to Firebase Storage and save their URLs to the database
+            List<String> imageUrls = imageFiles.stream()
+                    .map(this::uploadImageToFirebase)
+                    .toList();
+
+            for (String imageUrl : imageUrls) {
+                Image image = new Image();
+                image.setImageUrl(imageUrl);
+                image.setProduct(savedProduct);
+
+                imageRespository.save(image);
+            }
+
+            return savedProduct;
+        }catch (Exception e){
+            log.error("ERROR WHILE TRYING TO SAVE PRODUCT WITH IMAGES,message:"+e.getMessage());
+            return null;
+        }
+
+    }
+
+    public String uploadImageToFirebase(MultipartFile imageFile){
+        try {
+            // Upload the image to Firebase Storage and return the URL
+            return firebaseStorageService.uploadImage(imageFile);
+        }catch (Exception e){
+            log.error("ERROR WHILE TRYING TO UPLOAD IMAGE TO FIREBASE,message:",e);
+            return null;
+        }
+
     }
 
 }

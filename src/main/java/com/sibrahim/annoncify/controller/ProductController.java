@@ -1,5 +1,6 @@
 package com.sibrahim.annoncify.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sibrahim.annoncify.dto.ProductDto;
 import com.sibrahim.annoncify.entity.Product;
 import com.sibrahim.annoncify.services.ProductService;
@@ -7,9 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
@@ -42,6 +45,26 @@ public class ProductController {
         }catch (Exception e){
             log.error("ERROR WHILE GETTING ALL PRODUCTS,message:"+e.getMessage());
             return null;
+        }
+    }
+
+    @PostMapping(value = "/addWithImages", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Product> addProductWithImages(@RequestPart("product") String productJson,
+                                                        @RequestPart("imageFiles") List<MultipartFile> imageFiles) {
+        try {
+            // Convert the JSON string to a Product object
+            Product product = new ObjectMapper().readValue(productJson, Product.class);
+
+            // Call your service method with the Product and imageFiles
+            Product savedProduct = productService.addProductWithImages(product, imageFiles);
+
+            if (savedProduct != null) {
+                return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
