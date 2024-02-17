@@ -1,34 +1,30 @@
 package com.sibrahim.annoncify.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Getter
-@Setter
-@ToString
-@Entity
-public class Image {
+@Data
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String imageUrl;
-
-    private double imageSize;
+    private String name;
 
     private LocalDateTime createDate;
 
     private LocalDateTime updateDate;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    @JsonBackReference
-    private Product product;
+    @OneToMany
+    List<Product> productList;
 }

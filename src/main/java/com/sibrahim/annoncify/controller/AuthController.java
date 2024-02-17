@@ -26,11 +26,11 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<UserDto> signup(@RequestBody RegisterDto registerDto){
+    public ResponseEntity<UserDto> signup(@RequestBody RegisterDto registerDto) {
         try {
             return ResponseEntity.ok(authService.registerUser(registerDto));
-        }catch (Exception e){
-            log.error("ERROR WHILE TRYING TO SIGNUP,message:"+e.getMessage());
+        } catch (Exception e) {
+            log.error("ERROR WHILE TRYING TO SIGNUP,message:" + e.getMessage());
             return null;
         }
 

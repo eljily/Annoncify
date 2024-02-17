@@ -11,7 +11,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "products")
-@AllArgsConstructor @NoArgsConstructor @Builder @Getter @Setter @ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Getter
+@Setter
+@ToString
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +32,10 @@ public class Product {
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;
-    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Image> images;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    Category category;
 }
