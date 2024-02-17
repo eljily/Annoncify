@@ -11,14 +11,12 @@ public class ImageMapper {
 
     Image toImage(ImageDto imageDto){
         return Image.builder()
-                .id(imageDto.getId())
                 .imageUrl(imageDto.getImageUrl())
                 .build();
     }
 
     ImageDto toImageDto(Image image){
         return ImageDto.builder()
-                .id(image.getId())
                 .imageUrl(image.getImageUrl())
                 .build();
     }

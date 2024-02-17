@@ -3,19 +3,17 @@ package com.sibrahim.annoncify.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sibrahim.annoncify.dto.ProductDto;
 import com.sibrahim.annoncify.entity.Product;
+import com.sibrahim.annoncify.mapper.ProductMapper;
 import com.sibrahim.annoncify.services.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/products")
@@ -23,9 +21,11 @@ public class ProductController {
 
     private final Logger log = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
+    private final ProductMapper productMapper;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, ProductMapper productMapper) {
         this.productService = productService;
+        this.productMapper = productMapper;
     }
 
     @PostMapping
@@ -49,7 +49,7 @@ public class ProductController {
     }
 
     @PostMapping(value = "/addWithImages", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Product> addProductWithImages(@RequestParam("product") String productJson,
+    public ResponseEntity<ProductDto> addProductWithImages(@RequestParam("product") String productJson,
                                                         @RequestParam("imageFiles") List<MultipartFile> imageFiles) {
         try {
             // Convert the JSON string to a Product object
@@ -59,7 +59,7 @@ public class ProductController {
             Product savedProduct = productService.addProductWithImages(product, imageFiles);
 
             if (savedProduct != null) {
-                return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
+                return new ResponseEntity<>(productMapper.toProductDto(savedProduct), HttpStatus.CREATED);
             } else {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }

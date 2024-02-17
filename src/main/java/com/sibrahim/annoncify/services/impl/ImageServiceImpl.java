@@ -25,12 +25,16 @@ public class ImageServiceImpl implements ImageService {
     @Value("${firebase.storage.bucketName}")
     public String bucketName;
 
+    InputStream inputStream = ImageServiceImpl.class.getClassLoader().getResourceAsStream("key.json");
+    Credentials credentials = GoogleCredentials.fromStream(inputStream);
+
+    public ImageServiceImpl() throws IOException {
+    }
+
     @Override
     public String uploadFile(File file, String fileName) throws IOException {
-        BlobId blobId = BlobId.of(bucketName, fileName); // Replace with your bucker name
+        BlobId blobId = BlobId.of(bucketName, fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-        InputStream inputStream = ImageServiceImpl.class.getClassLoader().getResourceAsStream("key.json"); // change the file name with your one
-        Credentials credentials = GoogleCredentials.fromStream(inputStream);
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
 
@@ -65,6 +69,36 @@ public class ImageServiceImpl implements ImageService {
         } catch (Exception e) {
             e.printStackTrace();
             return "Image couldn't upload, Something went wrong";
+        }
+    }
+
+    @Override
+    public String deleteFileByUrl(String fileUrl) {
+        try {
+            // Extract the file name from the URL
+            String fileName = extractFileNameFromUrl(fileUrl);
+
+            BlobId blobId = BlobId.of(bucketName, fileName);
+            Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+            storage.delete(blobId);
+
+            return "File deleted successfully: " + fileName;
+        } catch (Exception e) {
+            return "Error deleting file: " + fileUrl;
+        }
+    }
+
+    private String extractFileNameFromUrl(String fileUrl) {
+        // Extract the file name from the URL
+        int lastSlashIndex = fileUrl.lastIndexOf("/");
+        int questionMarkIndex = fileUrl.indexOf("?alt=media");
+
+        // If ?alt=media is found in the URL, extract the file name up to that point
+        if (questionMarkIndex != -1) {
+            return fileUrl.substring(lastSlashIndex + 1, questionMarkIndex);
+        } else {
+            // If ?alt=media is not found, extract the file name up to the end
+            return fileUrl.substring(lastSlashIndex + 1);
         }
     }
 }

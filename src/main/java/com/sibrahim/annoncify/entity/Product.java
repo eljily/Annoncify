@@ -27,7 +27,7 @@ public class Product {
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Image> images;
 }
