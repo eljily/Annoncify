@@ -6,6 +6,8 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
+import com.sibrahim.annoncify.entity.Image;
+import com.sibrahim.annoncify.repository.ImageRespository;
 import com.sibrahim.annoncify.services.ImageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.Optional;
 import java.util.UUID;
 @Service
 public class ImageServiceImpl implements ImageService {
@@ -25,10 +28,13 @@ public class ImageServiceImpl implements ImageService {
     @Value("${firebase.storage.bucketName}")
     public String bucketName;
 
+    private final ImageRespository imageRespository;
+
     InputStream inputStream = ImageServiceImpl.class.getClassLoader().getResourceAsStream("key.json");
     Credentials credentials = GoogleCredentials.fromStream(inputStream);
 
-    public ImageServiceImpl() throws IOException {
+    public ImageServiceImpl(ImageRespository imageRespository) throws IOException {
+        this.imageRespository = imageRespository;
     }
 
     @Override
@@ -75,14 +81,18 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public String deleteFileByUrl(String fileUrl) {
         try {
-            // Extract the file name from the URL
-            String fileName = extractFileNameFromUrl(fileUrl);
+            Optional<Image> image = imageRespository.findByUrl(fileUrl);
+            if (image.isPresent()){
+                // Extract the file name from the URL
+                String fileName = extractFileNameFromUrl(fileUrl);
 
-            BlobId blobId = BlobId.of(bucketName, fileName);
-            Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-            storage.delete(blobId);
-
-            return "File deleted successfully: " + fileName;
+                BlobId blobId = BlobId.of(bucketName, fileName);
+                Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+                storage.delete(blobId);
+                imageRespository.delete(image.get());
+                return "File deleted successfully: " + fileName;
+            }
+            return "This Url Not Valid!";
         } catch (Exception e) {
             return "Error deleting file: " + fileUrl;
         }
