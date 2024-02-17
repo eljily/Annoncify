@@ -49,8 +49,8 @@ public class ProductController {
     }
 
     @PostMapping(value = "/addWithImages", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Product> addProductWithImages(@RequestPart("product") String productJson,
-                                                        @RequestPart("imageFiles") List<MultipartFile> imageFiles) {
+    public ResponseEntity<Product> addProductWithImages(@RequestParam("product") String productJson,
+                                                        @RequestParam("imageFiles") List<MultipartFile> imageFiles) {
         try {
             // Convert the JSON string to a Product object
             Product product = new ObjectMapper().readValue(productJson, Product.class);

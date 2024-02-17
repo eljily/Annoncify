@@ -7,7 +7,6 @@ import com.sibrahim.annoncify.entity.User;
 import com.sibrahim.annoncify.mapper.ProductMapper;
 import com.sibrahim.annoncify.repository.ImageRespository;
 import com.sibrahim.annoncify.repository.ProductRepository;
-import com.sibrahim.annoncify.services.FirebaseStorageService;
 import com.sibrahim.annoncify.services.ProductService;
 import com.sibrahim.annoncify.services.UserService;
 import org.slf4j.Logger;
@@ -19,11 +18,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -33,16 +30,16 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
     private final ImageRespository imageRespository;
-    private final FirebaseStorageService firebaseStorageService;
+    private final ImageServiceImpl imageService;
     @Lazy
     @Autowired
     private UserService userService;
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ImageRespository imageRespository, FirebaseStorageService firebaseStorageService) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ImageRespository imageRespository, ImageServiceImpl imageService) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
         this.imageRespository = imageRespository;
-        this.firebaseStorageService = firebaseStorageService;
+        this.imageService = imageService;
     }
 
 
@@ -150,9 +147,10 @@ public class ProductServiceImpl implements ProductService {
     public String uploadImageToFirebase(MultipartFile imageFile){
         try {
             // Upload the image to Firebase Storage and return the URL
-            return firebaseStorageService.uploadImage(imageFile);
+            log.info("UPLOADING........");
+            return imageService.upload(imageFile);
         }catch (Exception e){
-            log.error("ERROR WHILE TRYING TO UPLOAD IMAGE TO FIREBASE,message:",e);
+            log.error("WHILE TRYING TO UPLOAD IMAGE TO FIREBASE,message:"+e.getMessage());
             return null;
         }
 
