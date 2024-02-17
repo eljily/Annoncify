@@ -25,6 +25,6 @@ public class Category {
 
     private LocalDateTime updateDate;
 
-    @OneToMany
+    @OneToMany(mappedBy = "category")
     List<Product> productList;
 }

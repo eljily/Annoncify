@@ -4,6 +4,7 @@ import com.sibrahim.annoncify.dto.ProductDto;
 import com.sibrahim.annoncify.entity.Image;
 import com.sibrahim.annoncify.entity.Product;
 import com.sibrahim.annoncify.entity.User;
+import com.sibrahim.annoncify.entity.enums.ProductStatus;
 import com.sibrahim.annoncify.mapper.ProductMapper;
 import com.sibrahim.annoncify.repository.ImageRespository;
 import com.sibrahim.annoncify.repository.ProductRepository;
@@ -84,14 +85,15 @@ public class ProductServiceImpl implements ProductService {
 
         if (product.getId() == null) {
             // This is a new product, save it
+            product.setProductStatus(ProductStatus.PENDING);
             product.setCreateDate(new Date());
             product.setUpdateDate(new Date());
             Authentication authentication =
                     SecurityContextHolder.getContext().getAuthentication();
 
             // Extract user details from Authentication
-            User user = (User) authentication.getPrincipal();
-            product.setUser(user);
+                User user = (User) authentication.getPrincipal();
+                product.setUser(user);
             return productMapper.toProductDto(productRepository.save(product));
         } else {
             // This is an update, merge the existing product with the new data
