@@ -54,9 +54,12 @@ public class ProductMapper {
     }
 
     public List<Product> toProducts(List<ProductDto> productDtos){
-        return productDtos
-                .stream()
-                .map(this::toProduct)
-                .collect(Collectors.toList());
+        if (productDtos!=null){
+            return productDtos
+                    .stream()
+                    .map(this::toProduct)
+                    .collect(Collectors.toList());
+        }
+        return List.of();
     }
 }

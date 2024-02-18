@@ -1,10 +1,13 @@
 package com.sibrahim.annoncify.controller;
 
+import com.sibrahim.annoncify.dto.CategoryDto;
 import com.sibrahim.annoncify.entity.Category;
 import com.sibrahim.annoncify.services.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -18,14 +21,19 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Category> save(@RequestBody Category category){
+    public ResponseEntity<CategoryDto> save(@RequestBody CategoryDto category){
         return ResponseEntity.ok(categoryService.saveCategory(category));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CategoryDto>> getAll(){
+        return ResponseEntity.ok(categoryService.getAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> find(@PathVariable Long id){
         try {
-            return ResponseEntity.ok(categoryService.getCategory(id).get());
+            return ResponseEntity.ok(categoryService.getCategory(id));
         }catch (Exception e){
             log.error("While Trying to fetch category Message:"+e.getMessage());
             return ResponseEntity.internalServerError().build();

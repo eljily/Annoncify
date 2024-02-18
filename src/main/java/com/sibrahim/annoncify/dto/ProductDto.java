@@ -20,6 +20,6 @@ public class ProductDto {
     private Date createDate;
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
-    List<ImageDto> images;
+    private List<ImageDto> images;
 
 }

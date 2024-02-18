@@ -30,6 +30,7 @@ public class Product {
 
     private Integer price;
 
+    @Enumerated(EnumType.STRING)
     private ProductStatus productStatus;
 
     @Temporal(TemporalType.TIMESTAMP)

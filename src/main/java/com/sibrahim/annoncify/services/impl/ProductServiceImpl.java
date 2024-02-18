@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -123,6 +124,7 @@ public class ProductServiceImpl implements ProductService {
     public Product addProductWithImages(Product product, List<MultipartFile> imageFiles) {
         try {
             // Save the product to the database
+            product.setCreateDate(new Date());
             Product savedProduct = productRepository.save(product);
 
             // Upload images to Firebase Storage and save their URLs to the database
@@ -134,7 +136,8 @@ public class ProductServiceImpl implements ProductService {
                 Image image = new Image();
                 image.setImageUrl(imageUrl);
                 image.setProduct(savedProduct);
-
+                image.setCreateDate(LocalDateTime.now());
+                image.setUpdateDate(LocalDateTime.now());
                 imageRespository.save(image);
             }
 
@@ -149,7 +152,7 @@ public class ProductServiceImpl implements ProductService {
     public String uploadImageToFirebase(MultipartFile imageFile){
         try {
             // Upload the image to Firebase Storage and return the URL
-            log.info("UPLOADING........");
+            log.info("UPLOADING IMAGE TO FIREBASE........");
             return imageService.upload(imageFile);
         }catch (Exception e){
             log.error("WHILE TRYING TO UPLOAD IMAGE TO FIREBASE,message:"+e.getMessage());

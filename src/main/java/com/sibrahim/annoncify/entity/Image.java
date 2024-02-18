@@ -21,8 +21,6 @@ public class Image {
 
     private String imageUrl;
 
-    private double imageSize;
-
     private LocalDateTime createDate;
 
     private LocalDateTime updateDate;
