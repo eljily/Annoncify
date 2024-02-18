@@ -9,7 +9,13 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
-@AllArgsConstructor @NoArgsConstructor @Builder @Getter @Setter @ToString @EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 public class ProductDto {
 
     private Long id;
@@ -21,5 +27,6 @@ public class ProductDto {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
     private List<ImageDto> images;
+    private CategoryResponseDto category;
 
 }

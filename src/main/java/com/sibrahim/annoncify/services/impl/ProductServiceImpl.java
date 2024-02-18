@@ -1,13 +1,19 @@
 package com.sibrahim.annoncify.services.impl;
 
+import com.sibrahim.annoncify.dto.CategoryDto;
+import com.sibrahim.annoncify.dto.ImageDto;
 import com.sibrahim.annoncify.dto.ProductDto;
+import com.sibrahim.annoncify.dto.ProductRequestDto;
 import com.sibrahim.annoncify.entity.Image;
 import com.sibrahim.annoncify.entity.Product;
 import com.sibrahim.annoncify.entity.User;
 import com.sibrahim.annoncify.entity.enums.ProductStatus;
+import com.sibrahim.annoncify.mapper.CategoryMapper;
+import com.sibrahim.annoncify.mapper.ImageMapper;
 import com.sibrahim.annoncify.mapper.ProductMapper;
 import com.sibrahim.annoncify.repository.ImageRespository;
 import com.sibrahim.annoncify.repository.ProductRepository;
+import com.sibrahim.annoncify.services.CategoryService;
 import com.sibrahim.annoncify.services.ProductService;
 import com.sibrahim.annoncify.services.UserService;
 import org.slf4j.Logger;
@@ -20,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -33,15 +40,21 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
     private final ImageRespository imageRespository;
     private final ImageServiceImpl imageService;
+    private final CategoryService categoryService;
+    private final ImageMapper imageMapper;
+    private final CategoryMapper categoryMapper;
     @Lazy
     @Autowired
     private UserService userService;
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ImageRespository imageRespository, ImageServiceImpl imageService) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ImageRespository imageRespository, ImageServiceImpl imageService, CategoryService categoryService, ImageMapper imageMapper, CategoryMapper categoryMapper) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
         this.imageRespository = imageRespository;
         this.imageService = imageService;
+        this.categoryService = categoryService;
+        this.imageMapper = imageMapper;
+        this.categoryMapper = categoryMapper;
     }
 
 
@@ -159,6 +172,55 @@ public class ProductServiceImpl implements ProductService {
             return null;
         }
 
+    }
+
+    @Override
+    public ProductDto addProduct(ProductRequestDto productRequestDto) {
+        ProductDto productDto = new ProductDto();
+        if (productRequestDto.getCategoryId()!=null){
+            CategoryDto categoryDto = categoryService
+                    .getCategory(productRequestDto.getCategoryId());
+            productDto.setCategory(categoryMapper.toCategoryResponseDto(categoryDto));
+        }
+        productDto.setName(productRequestDto.getName());
+        productDto.setPrice(productRequestDto.getPrice());
+        productDto.setDescription(productRequestDto.getDescription());
+
+        Product product = productMapper.toProduct(productDto);
+
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        // Extract user details from Authentication
+        User user = (User) authentication.getPrincipal();
+
+        product.setUser(user);
+        product.setProductStatus(ProductStatus.PENDING);
+        product.setCreateDate(new Date());
+        product.setUpdateDate(new Date());
+        Product savedProduct = productRepository.save(product);
+
+        productDto.setId(savedProduct.getId());
+
+        List<String> imageUrls = productRequestDto.getImages().stream()
+                .map(this::uploadImageToFirebase)
+                .toList();
+
+        List<ImageDto> imageDtos = new ArrayList<>();
+
+        for (String imageUrl : imageUrls) {
+            Image image = new Image();
+            image.setImageUrl(imageUrl);
+            image.setProduct(savedProduct);
+            image.setCreateDate(LocalDateTime.now());
+            image.setUpdateDate(LocalDateTime.now());
+            imageDtos.add(imageMapper.toImageDto(image));
+            imageRespository.save(image);
+        }
+        productDto.setImages(imageDtos);
+        productDto.setCreateDate(savedProduct.getCreateDate());
+        productDto.setUpdateDate(savedProduct.getUpdateDate());
+        return productDto;
     }
 
 }

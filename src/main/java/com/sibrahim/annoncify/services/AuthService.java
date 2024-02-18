@@ -1,13 +1,13 @@
 package com.sibrahim.annoncify.services;
 
-import com.sibrahim.annoncify.dto.LoginDto;
-import com.sibrahim.annoncify.dto.LoginResponseDto;
+import com.sibrahim.annoncify.dto.AuthRequestDto;
+import com.sibrahim.annoncify.dto.AuthResponseDto;
 import com.sibrahim.annoncify.dto.RegisterDto;
 import com.sibrahim.annoncify.dto.UserDto;
 
 public interface AuthService {
 
-    LoginResponseDto login(LoginDto loginDto);
+    AuthResponseDto login(AuthRequestDto authRequestDto);
 
     public UserDto registerUser(RegisterDto registerDto);
     

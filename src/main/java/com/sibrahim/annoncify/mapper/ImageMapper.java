@@ -9,19 +9,19 @@ import java.util.stream.Collectors;
 @Service
 public class ImageMapper {
 
-    Image toImage(ImageDto imageDto){
+    public Image toImage(ImageDto imageDto){
         return Image.builder()
                 .imageUrl(imageDto.getImageUrl())
                 .build();
     }
 
-    ImageDto toImageDto(Image image){
+    public ImageDto toImageDto(Image image){
         return ImageDto.builder()
                 .imageUrl(image.getImageUrl())
                 .build();
     }
 
-    List<ImageDto> toImageDtos(List<Image> images){
+    public List<ImageDto> toImageDtos(List<Image> images){
         if(images!=null){
             return images
                     .stream()
@@ -31,7 +31,7 @@ public class ImageMapper {
         return List.of();
     }
 
-    List<Image> toImages(List<ImageDto> images){
+    public List<Image> toImages(List<ImageDto> images){
         if(images!=null){
             return images
                     .stream()

@@ -2,6 +2,7 @@ package com.sibrahim.annoncify.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sibrahim.annoncify.dto.ProductDto;
+import com.sibrahim.annoncify.dto.ProductRequestDto;
 import com.sibrahim.annoncify.entity.Product;
 import com.sibrahim.annoncify.mapper.ProductMapper;
 import com.sibrahim.annoncify.services.ProductService;
@@ -45,6 +46,21 @@ public class ProductController {
         }catch (Exception e){
             log.error("ERROR WHILE GETTING ALL PRODUCTS,message:"+e.getMessage());
             return null;
+        }
+    }
+
+    @PostMapping(value = "/addProduct", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ProductDto> addProduct(@ModelAttribute ProductRequestDto product) {
+        try {
+            ProductDto savedProduct = productService.addProduct(product);
+
+            if (savedProduct != null) {
+                return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

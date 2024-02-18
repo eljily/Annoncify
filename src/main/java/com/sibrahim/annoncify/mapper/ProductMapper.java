@@ -1,7 +1,11 @@
 package com.sibrahim.annoncify.mapper;
 
+import com.sibrahim.annoncify.dto.CategoryDto;
 import com.sibrahim.annoncify.dto.ProductDto;
+import com.sibrahim.annoncify.dto.ProductRequestDto;
+import com.sibrahim.annoncify.entity.Category;
 import com.sibrahim.annoncify.entity.Product;
+import com.sibrahim.annoncify.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -19,6 +23,10 @@ public class ProductMapper {
     @Lazy
     private UserMapper userMapper;
 
+    @Autowired
+    @Lazy
+    private CategoryMapper categoryMapper;
+
     public ProductDto toProductDto(Product product){
         return ProductDto.builder()
                 .id(product.getId())
@@ -28,6 +36,7 @@ public class ProductMapper {
                 .createDate(product.getCreateDate())
                 .updateDate(product.getUpdateDate())
                 .images(imageMapper.toImageDtos(product.getImages()))
+                .category(categoryMapper.toCategoryResponseDto(product.getCategory()))
                 .build();
     }
 
@@ -40,6 +49,7 @@ public class ProductMapper {
                 .images(imageMapper.toImages(productDto.getImages()))
                 .createDate(productDto.getCreateDate())
                 .updateDate(productDto.getUpdateDate())
+                .category(categoryMapper.toCategory(productDto.getCategory()))
                 .build();
     }
 
@@ -62,4 +72,6 @@ public class ProductMapper {
         }
         return List.of();
     }
+
+
 }

@@ -1,6 +1,7 @@
 package com.sibrahim.annoncify.services;
 
 import com.sibrahim.annoncify.dto.ProductDto;
+import com.sibrahim.annoncify.dto.ProductRequestDto;
 import com.sibrahim.annoncify.entity.Product;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,4 +25,6 @@ public interface ProductService {
     Product addProductWithImages(Product product, List<MultipartFile> imageFiles);
 
     String uploadImageToFirebase(MultipartFile imageFile);
+
+    ProductDto addProduct(ProductRequestDto productRequestDto);
 }

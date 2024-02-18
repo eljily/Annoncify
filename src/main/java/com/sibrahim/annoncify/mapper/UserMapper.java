@@ -1,10 +1,7 @@
 package com.sibrahim.annoncify.mapper;
 
-import com.sibrahim.annoncify.dto.LoginDto;
-import com.sibrahim.annoncify.dto.ProductDto;
 import com.sibrahim.annoncify.dto.RegisterDto;
 import com.sibrahim.annoncify.dto.UserDto;
-import com.sibrahim.annoncify.entity.Product;
 import com.sibrahim.annoncify.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

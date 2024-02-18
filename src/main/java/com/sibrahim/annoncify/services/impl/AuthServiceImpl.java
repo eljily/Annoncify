@@ -1,7 +1,7 @@
 package com.sibrahim.annoncify.services.impl;
 
-import com.sibrahim.annoncify.dto.LoginDto;
-import com.sibrahim.annoncify.dto.LoginResponseDto;
+import com.sibrahim.annoncify.dto.AuthRequestDto;
+import com.sibrahim.annoncify.dto.AuthResponseDto;
 import com.sibrahim.annoncify.dto.RegisterDto;
 import com.sibrahim.annoncify.dto.UserDto;
 import com.sibrahim.annoncify.security.JwtService;
@@ -27,20 +27,20 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public LoginResponseDto login(LoginDto loginDto) {
-        LoginResponseDto loginResponseDto = new LoginResponseDto();
+    public AuthResponseDto login(AuthRequestDto authRequestDto) {
+        AuthResponseDto authResponseDto = new AuthResponseDto();
         String jwt = "bad request";
         // Authenticate the user using Spring Security's authentication manager
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginDto.getPhoneNumber(), loginDto.getPassword()));
+                new UsernamePasswordAuthenticationToken(authRequestDto.getPhoneNumber(), authRequestDto.getPassword()));
 
         // If authentication is successful, generate and set the JWT token
         if (authentication.isAuthenticated()) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             jwt = jwtService.generateToken(userDetails);
-            loginResponseDto.setJwt(jwt);
+            authResponseDto.setJwt(jwt);
         }
-        return loginResponseDto;
+        return authResponseDto;
     }
 
 

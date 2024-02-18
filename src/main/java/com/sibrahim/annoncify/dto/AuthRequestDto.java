@@ -5,10 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-public class LoginResponseDto {
-    private String jwt;
+@AllArgsConstructor @NoArgsConstructor @Getter @Setter
+public class AuthRequestDto {
+    private String phoneNumber;
+    private String password;
 }

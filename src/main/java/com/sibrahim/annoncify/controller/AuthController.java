@@ -1,11 +1,10 @@
 package com.sibrahim.annoncify.controller;
 
-import com.sibrahim.annoncify.dto.LoginDto;
-import com.sibrahim.annoncify.dto.LoginResponseDto;
+import com.sibrahim.annoncify.dto.AuthRequestDto;
+import com.sibrahim.annoncify.dto.AuthResponseDto;
 import com.sibrahim.annoncify.dto.RegisterDto;
 import com.sibrahim.annoncify.dto.UserDto;
 import com.sibrahim.annoncify.services.AuthService;
-import com.sibrahim.annoncify.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -37,9 +36,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto loginDto){
+    public ResponseEntity<AuthResponseDto> login(@RequestBody AuthRequestDto authRequestDto){
         try {
-            return ResponseEntity.ok(authService.login(loginDto));
+            return ResponseEntity.ok(authService.login(authRequestDto));
         }catch (Exception e){
             log.error("ERROR WHILE TRYING TO LOGIN,message:"+e.getMessage());
             return null;
