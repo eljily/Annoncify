@@ -11,6 +11,9 @@ import com.sibrahim.annoncify.security.JwtService;
 import com.sibrahim.annoncify.services.ProductService;
 import com.sibrahim.annoncify.services.UserService;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -42,19 +45,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto saveUser(RegisterDto registerDto) {
+    public ResponseMessage saveUser(RegisterDto registerDto) {
         User user = userMapper.toUser(registerDto);
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         user.setRole(RoleEnum.USER);
         user.setCreateDate(new Date());
-        return userMapper.toUserDto(userRepository.save(user));
+        return ResponseMessage.builder().message("User Added Successfully")
+                .data(userMapper.toUserDto(userRepository.save(user))).status(201).build();
     }
 
     @Override
-    public List<UserDto> getAllUsers() {
-
-        return userMapper.toUserDtos(userRepository.findAll());
-        
+    public Page<UserDto> getAllUsers(int page,int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        return userRepository.findAll(pageable).map(userMapper::toUserDto);
     }
 
     @Override

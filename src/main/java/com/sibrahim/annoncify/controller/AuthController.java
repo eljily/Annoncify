@@ -1,9 +1,6 @@
 package com.sibrahim.annoncify.controller;
 
-import com.sibrahim.annoncify.dto.AuthRequestDto;
-import com.sibrahim.annoncify.dto.AuthResponseDto;
-import com.sibrahim.annoncify.dto.RegisterDto;
-import com.sibrahim.annoncify.dto.UserDto;
+import com.sibrahim.annoncify.dto.*;
 import com.sibrahim.annoncify.services.AuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,12 +22,12 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<UserDto> signup(@RequestBody RegisterDto registerDto) {
+    public ResponseEntity<ResponseMessage> signup(@RequestBody RegisterDto registerDto) {
         try {
             return ResponseEntity.ok(authService.registerUser(registerDto));
         } catch (Exception e) {
             log.error("ERROR WHILE TRYING TO SIGNUP,message:" + e.getMessage());
-            return null;
+            return ResponseEntity.ok(ResponseMessage.builder().status(500).build());
         }
 
     }

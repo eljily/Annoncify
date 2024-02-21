@@ -1,9 +1,6 @@
 package com.sibrahim.annoncify.services.impl;
 
-import com.sibrahim.annoncify.dto.AuthRequestDto;
-import com.sibrahim.annoncify.dto.AuthResponseDto;
-import com.sibrahim.annoncify.dto.RegisterDto;
-import com.sibrahim.annoncify.dto.UserDto;
+import com.sibrahim.annoncify.dto.*;
 import com.sibrahim.annoncify.security.JwtService;
 import com.sibrahim.annoncify.services.AuthService;
 import com.sibrahim.annoncify.services.UserService;
@@ -45,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
 
 
     @Override
-    public UserDto registerUser(RegisterDto registerDto) {
+    public ResponseMessage registerUser(RegisterDto registerDto) {
        return userService.saveUser(registerDto);
     }
 }

@@ -4,6 +4,7 @@ import com.sibrahim.annoncify.dto.*;
 import com.sibrahim.annoncify.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,19 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseMessage> getUsers(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                    @RequestParam(name = "size", defaultValue = "2") int size) {
+        Page<UserDto> usersPage = userService.getAllUsers(page, size);
+        PaginationData paginationData = new PaginationData(usersPage);
+        return ResponseEntity.ok(ResponseMessage.builder()
+                .message("users list fetched successfully ")
+                .status(HttpStatus.OK.value())
+                .data(usersPage.getContent())
+                .meta(paginationData)
+                .build());
     }
 
     @GetMapping("/{id}")

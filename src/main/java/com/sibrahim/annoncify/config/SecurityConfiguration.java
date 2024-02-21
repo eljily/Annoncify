@@ -41,6 +41,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(ar -> ar.requestMatchers(HttpMethod.POST, "/api/auth/signup").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers("/api/categories/**").permitAll()
+                        .requestMatchers("api/users").permitAll()
+                        .requestMatchers("/api/users/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/products/addWithImages").permitAll()
                         .requestMatchers( "/api/products/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/app/**").permitAll()
