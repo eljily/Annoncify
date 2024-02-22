@@ -20,6 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -59,12 +61,14 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<ProductDto> getAllProducts() {
+    public Page<ProductDto> getAllProducts(int page,int size) {
         try {
-            return productMapper.toProductDtos(productRepository.findAll());
+            return productRepository
+                    .findAll(PageRequest.of(page,size))
+                    .map(productMapper::toProductDto);
         }catch (Exception e){
-            System.out.println(e.getMessage());
-            return List.of();
+            log.error("OCCURRED WHILE TRYING TO FETCH PAGE OF PRODUCT",e);
+            return null;
         }
 
     }

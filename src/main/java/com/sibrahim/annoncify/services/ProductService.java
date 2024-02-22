@@ -3,6 +3,7 @@ package com.sibrahim.annoncify.services;
 import com.sibrahim.annoncify.dto.ProductDto;
 import com.sibrahim.annoncify.dto.ProductRequestDto;
 import com.sibrahim.annoncify.entity.Product;
+import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Optional;
 
 public interface ProductService {
 
-    List<ProductDto> getAllProducts();
+    Page<ProductDto> getAllProducts(int page,int size);
 
     List<ProductDto> getProductsByUserId(Long id);
 

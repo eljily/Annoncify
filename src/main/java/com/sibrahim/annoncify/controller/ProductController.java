@@ -1,13 +1,16 @@
 package com.sibrahim.annoncify.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sibrahim.annoncify.dto.PaginationData;
 import com.sibrahim.annoncify.dto.ProductDto;
 import com.sibrahim.annoncify.dto.ProductRequestDto;
+import com.sibrahim.annoncify.dto.ResponseMessage;
 import com.sibrahim.annoncify.entity.Product;
 import com.sibrahim.annoncify.mapper.ProductMapper;
 import com.sibrahim.annoncify.services.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -40,11 +43,19 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDto>> getAllProduct(){
+    public ResponseEntity<ResponseMessage> getAllProduct(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                         @RequestParam(name = "size", defaultValue = "3") int size) {
         try {
-            return ResponseEntity.ok(productService.getAllProducts());
-        }catch (Exception e){
-            log.error("ERROR WHILE GETTING ALL PRODUCTS,message:"+e.getMessage());
+            Page<ProductDto> products = productService.getAllProducts(page, size);
+            PaginationData paginationData = new PaginationData(products);
+            return ResponseEntity.ok(ResponseMessage.builder()
+                    .status(HttpStatus.OK.value())
+                    .message("Product Page Retrieved Successfully")
+                    .data(products.getContent())
+                    .meta(paginationData)
+                    .build());
+        } catch (Exception e) {
+            log.error("ERROR WHILE GETTING ALL PRODUCTS,message:" + e.getMessage());
             return null;
         }
     }
