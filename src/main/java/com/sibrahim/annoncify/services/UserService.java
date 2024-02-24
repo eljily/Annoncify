@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface UserService {
 
-    ResponseMessage saveUser(RegisterDto registerDto);
+    User saveUser(RegisterDto registerDto);
 
     Page<UserDto> getAllUsers(int page,int size);
 

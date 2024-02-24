@@ -50,6 +50,11 @@ public class User implements UserDetails {
     @JsonManagedReference
     private List<Product> products;
 
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    private Otp otp;
+
+    private boolean isEnabled;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority(role.toString()));
@@ -82,6 +87,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
     }
 }

@@ -45,13 +45,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseMessage saveUser(RegisterDto registerDto) {
+    public User saveUser(RegisterDto registerDto) {
         User user = userMapper.toUser(registerDto);
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         user.setRole(RoleEnum.USER);
         user.setCreateDate(new Date());
-        return ResponseMessage.builder().message("User Added Successfully")
-                .data(userMapper.toUserDto(userRepository.save(user))).status(201).build();
+        return userRepository.save(user);
     }
 
     @Override
