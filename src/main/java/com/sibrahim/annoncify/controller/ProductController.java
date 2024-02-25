@@ -33,11 +33,11 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto productDto){
+    public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto productDto) {
         try {
             return ResponseEntity.ok(productService.saveProduct(productDto));
-        }catch (Exception e){
-            log.error("ERROR WHILE SAVING NEW PRODUCT "+e.getMessage());
+        } catch (Exception e) {
+            log.error("ERROR WHILE SAVING NEW PRODUCT " + e.getMessage());
             return null;
         }
     }
@@ -75,14 +75,13 @@ public class ProductController {
         }
     }
 
+    //This Endpoint is deprecated.
     @PostMapping(value = "/addWithImages", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProductDto> addProductWithImages(@RequestParam("product") String productJson,
-                                                        @RequestParam("imageFiles") List<MultipartFile> imageFiles) {
+                                                           @RequestParam("imageFiles") List<MultipartFile> imageFiles) {
         try {
-            // Convert the JSON string to a Product object
             Product product = new ObjectMapper().readValue(productJson, Product.class);
 
-            // Call your service method with the Product and imageFiles
             Product savedProduct = productService.addProductWithImages(product, imageFiles);
 
             if (savedProduct != null) {
@@ -96,22 +95,22 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id){
-        try{
+    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
+        try {
             return ResponseEntity.ok(productService.getProductById(id).orElseThrow());
-        }catch (Exception e){
-            log.error("ERROR OCCURED WHILE FETCHING PRODUCT BY ID,message:"+e.getMessage());
+        } catch (Exception e) {
+            log.error("ERROR OCCURED WHILE FETCHING PRODUCT BY ID,message:" + e.getMessage());
             return null;
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable Long id){
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
         try {
             productService.deleteProduct(id);
             return ResponseEntity.ok(HttpStatus.valueOf(200));
-        }catch (Exception e){
-            log.error("ERROR OCCURED WHILE TRYING TO DELETE PRODUCT,message:"+e.getMessage());
+        } catch (Exception e) {
+            log.error("ERROR OCCURRED WHILE TRYING TO DELETE PRODUCT,message:" + e.getMessage());
             return null;
         }
     }
@@ -119,7 +118,6 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
         try {
-            // Ensure that the id in the path matches the id in the request body
             if (!id.equals(productDto.getId())) {
                 return ResponseEntity.badRequest().body(null);
             }
@@ -129,13 +127,10 @@ public class ProductController {
             if (updatedProduct != null) {
                 return ResponseEntity.ok(updatedProduct);
             } else {
-                // Handle the case where the product with the given ID is not found
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            // Log the exception for debugging purposes
-            log.error("ERROR OCCURED WHILE TRYING TO UPDATE PRODUCT,message:"+e.getMessage());
-            // Return an appropriate HTTP status code and error message
+            log.error("ERROR OCCURRED WHILE TRYING TO UPDATE PRODUCT,message:" + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
