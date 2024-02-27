@@ -40,16 +40,4 @@ public class AnnoncifyApplication {
 			productRepository.save(product);
 		};
 	}
-
-	@Bean
-	CommandLineRunner commandLineRunner(UserRepository userRepository){
-		return args -> {
-		User user= userRepository.findUserByPhoneNumber("+22236537673").orElse(null);
-		if(user==null){
-			System.out.println("nullllllllllllll");
-		}
-		else
-			System.out.println(user.getPhoneNumber());
-		};
-	}
 }
