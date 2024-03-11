@@ -61,17 +61,20 @@ public class ProductController {
     }
 
     @PostMapping(value = "/addProduct", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ProductDto> addProduct(@ModelAttribute ProductRequestDto product) {
+    public ResponseEntity<ResponseMessage> addProduct(@ModelAttribute ProductRequestDto product) {
         try {
             ProductDto savedProduct = productService.addProduct(product);
 
             if (savedProduct != null) {
-                return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
+                return ResponseEntity.ok(ResponseMessage.builder().message("product added")
+                                .status(HttpStatus.OK.value())
+                                .data(savedProduct)
+                        .build());
             } else {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.ofNullable(ResponseMessage.builder().message(e.getMessage()).status(500).build());
         }
     }
 

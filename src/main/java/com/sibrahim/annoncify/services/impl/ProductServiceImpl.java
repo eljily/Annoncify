@@ -196,9 +196,14 @@ public class ProductServiceImpl implements ProductService {
                 SecurityContextHolder.getContext().getAuthentication();
 
         // Extract user details from Authentication
-        User user = (User) authentication.getPrincipal();
+        Object principal = authentication.getPrincipal();
 
-        product.setUser(user);
+        if (principal instanceof User user) {
+            product.setUser(user);
+        } else {
+            // Set user to null if the principal is not of type User
+            product.setUser(null);
+        }
         product.setProductStatus(ProductStatus.PENDING);
         product.setCreateDate(new Date());
         product.setUpdateDate(new Date());
