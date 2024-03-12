@@ -44,7 +44,7 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<ResponseMessage> getAllProduct(@RequestParam(name = "page", defaultValue = "0") int page,
-                                                         @RequestParam(name = "size", defaultValue = "3") int size) {
+                                                         @RequestParam(name = "size", defaultValue = "49") int size) {
         try {
             Page<ProductDto> products = productService.getAllProducts(page, size);
             PaginationData paginationData = new PaginationData(products);
