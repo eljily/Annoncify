@@ -13,6 +13,8 @@ public interface ProductService {
 
     Page<ProductDto> getAllProducts(int page,int size);
 
+    Page<ProductDto> getAllProducts(int page,int size,int categoryId);
+
     List<ProductDto> getProductsByUserId(Long id);
 
     Optional<ProductDto> getProductById(Long id);
