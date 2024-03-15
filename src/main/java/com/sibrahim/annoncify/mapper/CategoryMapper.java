@@ -56,7 +56,7 @@ public class CategoryMapper {
         Category category = new Category();
         category.setId(categoryDto.getId());
         category.setName(categoryDto.getName());
-        category.setProductList(mapBasicProducts(categoryDto.getProducts()));
+        //category.setProductList(mapBasicProducts(categoryDto.getProducts()));
         return category;
     }
 
@@ -64,7 +64,7 @@ public class CategoryMapper {
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setId(category.getId());
         categoryDto.setName(category.getName());
-        categoryDto.setProducts(mapBasicProductsDto(category.getProductList()));
+       // categoryDto.setProducts(mapBasicProductsDto(category.getProductList()));
         return categoryDto;
     }
 
