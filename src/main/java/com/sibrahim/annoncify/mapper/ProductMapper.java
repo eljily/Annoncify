@@ -36,7 +36,7 @@ public class ProductMapper {
                 .createDate(product.getCreateDate())
                 .updateDate(product.getUpdateDate())
                 .images(imageMapper.toImageDtos(product.getImages()))
-                .category(categoryMapper.toCategoryResponseDto(product.getCategory()))
+//                .category(categoryMapper.toCategoryResponseDto(product.getCategory()))
                 .build();
     }
 
@@ -49,7 +49,7 @@ public class ProductMapper {
                 .images(imageMapper.toImages(productDto.getImages()))
                 .createDate(productDto.getCreateDate())
                 .updateDate(productDto.getUpdateDate())
-                .category(categoryMapper.toCategory(productDto.getCategory()))
+//                .category(categoryMapper.toCategory(productDto.getCategory()))
                 .build();
     }
 

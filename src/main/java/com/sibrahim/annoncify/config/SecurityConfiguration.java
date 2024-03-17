@@ -46,6 +46,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/users/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/products/addWithImages").permitAll()
                         .requestMatchers( "/api/products/**").permitAll()
+                        .requestMatchers( "/api/products/productsByCategoryId/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/app/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()

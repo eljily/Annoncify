@@ -27,6 +27,6 @@ public class ProductDto {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
     private List<ImageDto> images;
-    private CategoryResponseDto category;
+//    private CategoryResponseDto category;
 
 }

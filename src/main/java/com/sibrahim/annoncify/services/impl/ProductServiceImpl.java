@@ -195,7 +195,7 @@ public class ProductServiceImpl implements ProductService {
         if (productRequestDto.getCategoryId()!=null){
             CategoryDto categoryDto = categoryService
                     .getCategory(productRequestDto.getCategoryId());
-            productDto.setCategory(categoryMapper.toCategoryResponseDto(categoryDto));
+//            productDto.setCategory(categoryMapper.toCategoryResponseDto(categoryDto));
         }
         productDto.setName(productRequestDto.getName());
         productDto.setPrice(productRequestDto.getPrice());
