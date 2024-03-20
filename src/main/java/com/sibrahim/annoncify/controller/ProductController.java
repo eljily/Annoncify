@@ -74,7 +74,7 @@ public class ProductController {
                     .meta(paginationData)
                     .build());
         } catch (Exception e) {
-            log.error("ERROR WHILE GETTING PRODUCTS By CategoriID,message:" + e.getMessage());
+            log.error("ERROR WHILE GETTING PRODUCTS By CategoryID,message:" + e.getMessage());
             return null;
         }
     }
