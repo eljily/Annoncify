@@ -60,10 +60,10 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/productsByCategoryId/{categorieId}")
+    @GetMapping("/productsByCategoryId/{categoryId}")
     public ResponseEntity<ResponseMessage> getAllProducts(@RequestParam(name = "page", defaultValue = "0") int page,
                                                          @RequestParam(name = "size", defaultValue = "10") int size,
-                                                         @PathVariable(name="categorieId") int categoryId) {
+                                                         @PathVariable(name="categoryId") int categoryId) {
         try {
             Page<ProductDto> products = productService.getAllProducts(page, size,categoryId);
             PaginationData paginationData = new PaginationData(products);
