@@ -44,7 +44,7 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<ResponseMessage> getAllProduct(@RequestParam(name = "page", defaultValue = "0") int page,
-                                                         @RequestParam(name = "size", defaultValue = "49") int size) {
+                                                         @RequestParam(name = "size", defaultValue = "14") int size) {
         try {
             Page<ProductDto> products = productService.getAllProducts(page, size);
             PaginationData paginationData = new PaginationData(products);
@@ -62,7 +62,7 @@ public class ProductController {
 
     @GetMapping("/productsByCategoryId/{categoryId}")
     public ResponseEntity<ResponseMessage> getAllProducts(@RequestParam(name = "page", defaultValue = "0") int page,
-                                                         @RequestParam(name = "size", defaultValue = "10") int size,
+                                                         @RequestParam(name = "size", defaultValue = "14") int size,
                                                          @PathVariable(name="categoryId") int categoryId) {
         try {
             Page<ProductDto> products = productService.getAllProducts(page, size,categoryId);
