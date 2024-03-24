@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -177,16 +178,17 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-    public String uploadImageToFirebase(MultipartFile imageFile){
+    public String uploadImageToFirebase(MultipartFile imageFile) {
         try {
             // Upload the image to Firebase Storage and return the URL
-            log.info("UPLOADING IMAGE TO FIREBASE........");
-            return imageService.upload(imageFile);
-        }catch (Exception e){
-            log.error("WHILE TRYING TO UPLOAD IMAGE TO FIREBASE,message:"+e.getMessage());
+            log.info("UPLOADING IMAGE TO FIREBASE: {}", imageFile.getOriginalFilename());
+            String imageUrl = imageService.upload(imageFile);
+            log.info("UPLOAD SUCCESSFUL: {} - URL: {}", imageFile.getOriginalFilename(), imageUrl);
+            return imageUrl;
+        } catch (Exception e) {
+            log.error("FAILED TO UPLOAD IMAGE TO FIREBASE: {} - Error: {}", imageFile.getOriginalFilename(), e.getMessage());
             return null;
         }
-
     }
 
     @Override
@@ -222,7 +224,7 @@ public class ProductServiceImpl implements ProductService {
 
         productDto.setId(savedProduct.getId());
 
-        List<String> imageUrls = productRequestDto.getImages().stream()
+        List<String> imageUrls = productRequestDto.getImages().parallelStream() // Use parallelStream() for concurrent processing
                 .map(this::uploadImageToFirebase)
                 .toList();
 
