@@ -224,7 +224,7 @@ public class ProductServiceImpl implements ProductService {
 
         productDto.setId(savedProduct.getId());
 
-        List<String> imageUrls = productRequestDto.getImages().parallelStream() // Use parallelStream() for concurrent processing
+        List<String> imageUrls = productRequestDto.getImages().parallelStream() // Used parallelStream() for concurrent processing
                 .map(this::uploadImageToFirebase)
                 .toList();
 
