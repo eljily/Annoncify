@@ -19,5 +19,6 @@ public class ProductRequestDto {
     private Integer price;
     private List<MultipartFile> images= new ArrayList<>();
     private Long categoryId;
+    private String category;
 
 }

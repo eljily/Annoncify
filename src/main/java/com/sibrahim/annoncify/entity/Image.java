@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 @Setter
-@ToString
 @Entity
 public class Image {
 
@@ -29,4 +28,13 @@ public class Image {
     @JoinColumn(name = "product_id")
     @JsonBackReference
     private Product product;
+
+    public String toString() {
+        return "Image(id=" + this.getId()
+                + ", imageUrl=" + this.getImageUrl()
+                + ", createDate=" + this.getCreateDate()
+                + ", updateDate=" + this.getUpdateDate()
+//                + ", product=" + this.getProduct()
+                + ")";
+    }
 }

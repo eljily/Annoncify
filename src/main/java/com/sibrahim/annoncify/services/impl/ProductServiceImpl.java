@@ -4,6 +4,7 @@ import com.sibrahim.annoncify.dto.CategoryDto;
 import com.sibrahim.annoncify.dto.ImageDto;
 import com.sibrahim.annoncify.dto.ProductDto;
 import com.sibrahim.annoncify.dto.ProductRequestDto;
+import com.sibrahim.annoncify.entity.Category;
 import com.sibrahim.annoncify.entity.Image;
 import com.sibrahim.annoncify.entity.Product;
 import com.sibrahim.annoncify.entity.User;
@@ -11,6 +12,7 @@ import com.sibrahim.annoncify.entity.enums.ProductStatus;
 import com.sibrahim.annoncify.mapper.CategoryMapper;
 import com.sibrahim.annoncify.mapper.ImageMapper;
 import com.sibrahim.annoncify.mapper.ProductMapper;
+import com.sibrahim.annoncify.repository.CategoryRepository;
 import com.sibrahim.annoncify.repository.ImageRespository;
 import com.sibrahim.annoncify.repository.ProductRepository;
 import com.sibrahim.annoncify.services.CategoryService;
@@ -32,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -46,11 +47,12 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryService categoryService;
     private final ImageMapper imageMapper;
     private final CategoryMapper categoryMapper;
+    private final CategoryRepository categoryRepository;
     @Lazy
     @Autowired
     private UserService userService;
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ImageRespository imageRespository, ImageServiceImpl imageService, CategoryService categoryService, ImageMapper imageMapper, CategoryMapper categoryMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ImageRespository imageRespository, ImageServiceImpl imageService, CategoryService categoryService, ImageMapper imageMapper, CategoryMapper categoryMapper, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
         this.imageRespository = imageRespository;
@@ -58,6 +60,7 @@ public class ProductServiceImpl implements ProductService {
         this.categoryService = categoryService;
         this.imageMapper = imageMapper;
         this.categoryMapper = categoryMapper;
+        this.categoryRepository = categoryRepository;
     }
 
 
@@ -115,6 +118,21 @@ public class ProductServiceImpl implements ProductService {
 
         if (product.getId() == null) {
             // This is a new product, save it
+            if(productDto.getCategory()!=null){
+                Optional<Category> category = categoryRepository.findCategoryByName(productDto.getCategory());
+                if (category.isPresent()){
+                    product.setCategory(category.get());
+                }
+                else {
+                    Category savedCategory = categoryRepository.save(Category
+                            .builder()
+                            .name(productDto.getCategory())
+                                    .createDate(LocalDateTime.now())
+                                    .updateDate(LocalDateTime.now())
+                            .build());
+                    product.setCategory(savedCategory);
+                }
+            }
             product.setProductStatus(ProductStatus.PENDING);
             product.setCreateDate(new Date());
             product.setUpdateDate(new Date());
@@ -124,6 +142,7 @@ public class ProductServiceImpl implements ProductService {
             // Extract user details from Authentication
                 User user = (User) authentication.getPrincipal();
                 product.setUser(user);
+
             return productMapper.toProductDto(productRepository.save(product));
         } else {
             // This is an update, merge the existing product with the new data
@@ -194,17 +213,33 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto addProduct(ProductRequestDto productRequestDto) {
         ProductDto productDto = new ProductDto();
-        if (productRequestDto.getCategoryId()!=null){
-            CategoryDto categoryDto = categoryService
-                    .getCategory(productRequestDto.getCategoryId());
-//            productDto.setCategory(categoryMapper.toCategoryResponseDto(categoryDto));
-        }
+//        if (productRequestDto.getCategoryId()!=null){
+//            CategoryDto categoryDto = categoryService
+//                    .getCategory(productRequestDto.getCategoryId());
+////            productDto.setCategory(categoryMapper.toCategoryResponseDto(categoryDto));
+//        }
+
         productDto.setName(productRequestDto.getName());
         productDto.setPrice(productRequestDto.getPrice());
         productDto.setDescription(productRequestDto.getDescription());
 
         Product product = productMapper.toProduct(productDto);
 
+        if(productRequestDto.getCategory()!=null){
+            Optional<Category> category = categoryRepository.findCategoryByName(productRequestDto.getCategory());
+            if (category.isPresent()){
+                product.setCategory(category.get());
+            }
+            else {
+                Category savedCategory = categoryRepository.save(Category
+                        .builder()
+                        .name(productRequestDto.getCategory())
+                        .createDate(LocalDateTime.now())
+                        .updateDate(LocalDateTime.now())
+                        .build());
+                product.setCategory(savedCategory);
+            }
+        }
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
 
