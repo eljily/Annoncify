@@ -7,12 +7,14 @@ import com.sibrahim.annoncify.entity.Otp;
 import com.sibrahim.annoncify.entity.User;
 import com.sibrahim.annoncify.entity.enums.OtpStatus;
 import com.sibrahim.annoncify.exceptions.NotFoundException;
+import com.sibrahim.annoncify.exceptions.UserAlreadyExist;
 import com.sibrahim.annoncify.mapper.UserMapper;
 import com.sibrahim.annoncify.repository.OtpRepository;
 import com.sibrahim.annoncify.repository.UserRepository;
 import com.sibrahim.annoncify.services.OtpService;
 import com.sibrahim.annoncify.services.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
@@ -22,6 +24,7 @@ import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OtpServiceImpl implements OtpService {
 
     private final OtpRepository otpRepository;
@@ -44,6 +47,11 @@ public class OtpServiceImpl implements OtpService {
      */
     @Override
     public String sendOtpMessageToUser(RegisterDto userDto) {
+        Optional<User> userOptional = userRepository
+                .findUserByPhoneNumber(userDto.getPhoneNumber());
+        if(userOptional.isPresent()){
+            throw new UserAlreadyExist("User already exist with phone number :"+userDto.getPhoneNumber());
+        }
         User user = userService.saveUser(userDto);
         Otp otp = buildOtpForUser(user);
         if (isOTPAlreadySentWithinLast30Seconds(user.getId())) {
@@ -101,8 +109,11 @@ public class OtpServiceImpl implements OtpService {
         if (twilioService.sendVerificationMessage(mobile, otp.getCode())) {
             otp.setStatus(OtpStatus.DELIVERED);
             message = "OTP has been successfully generated, and awaits your verification";
+            log.info("otp sent successfully to :"+mobile);
+            //valid format :+22236537673
         } else {
             otp.setStatus(OtpStatus.FAILED);
+            log.info("otp failed to be sent to :"+mobile);
             message = "An error occurred while sending the OTP.";
         }
         save(otp);

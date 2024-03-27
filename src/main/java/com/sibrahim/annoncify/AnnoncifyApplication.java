@@ -1,6 +1,5 @@
 package com.sibrahim.annoncify;
 
-import com.sibrahim.annoncify.entity.Image;
 import com.sibrahim.annoncify.entity.Product;
 import com.sibrahim.annoncify.entity.User;
 import com.sibrahim.annoncify.entity.enums.RoleEnum;
@@ -22,11 +21,11 @@ public class AnnoncifyApplication implements CommandLineRunner {
 
 //	private final ImageRespository imageRespository;
 //	private final ProductRepository productRepository;
+	private final UserRepository userRepository;
 
-//	public AnnoncifyApplication(ImageRespository imageRespository, ProductRepository productRepository) {
-//		this.imageRespository = imageRespository;
-//		this.productRepository = productRepository;
-//	}
+	public AnnoncifyApplication(ImageRespository imageRespository, ProductRepository productRepository, UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(AnnoncifyApplication.class, args);
@@ -62,18 +61,10 @@ public class AnnoncifyApplication implements CommandLineRunner {
 	}
 
 	@Override
-	//@Transactional
+	@Transactional
 	public void run(String... args) throws Exception {
-//		List<Image> images = imageRespository.findAll();
-//		for (Image image : images) {
-//			if ("Image couldn't upload, Something went wrong".equals(image.getImageUrl())) {
-////				Long id = image.getId();
-////				Long productId= image.getProduct().getId();
-////				imageRespository.deleteById(id);
-////				productRepository.deleteById(productId);
-//				System.out.println(image);
-//			}
-//			System.out.println("no image not normal founded");
-//		}
+//		List<User> users = userRepository.findAll();
+//		users.forEach(user ->
+//				userRepository.deleteById(user.getId()));
 	}
 }
