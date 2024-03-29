@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 @SpringBootApplication
-public class AnnoncifyApplication implements CommandLineRunner {
+public class AnnoncifyApplication {
 
 //	private final ImageRespository imageRespository;
 //	private final ProductRepository productRepository;
@@ -61,19 +61,5 @@ public class AnnoncifyApplication implements CommandLineRunner {
 		};
 	}
 
-	@Override
-	//@Transactional
-	public void run(String... args) throws Exception {
-//		List<Image> images = imageRespository.findAll();
-//		for (Image image : images) {
-//			if ("Image couldn't upload, Something went wrong".equals(image.getImageUrl())) {
-////				Long id = image.getId();
-////				Long productId= image.getProduct().getId();
-////				imageRespository.deleteById(id);
-////				productRepository.deleteById(productId);
-//				System.out.println(image);
-//			}
-//			System.out.println("no image not normal founded");
-//		}
-	}
+
 }
