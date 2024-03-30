@@ -46,9 +46,10 @@ public class AuthServiceImpl implements AuthService {
 
         // If authentication is successful, generate and set the JWT token
         if (authentication.isAuthenticated()) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            User userDetails = (User) authentication.getPrincipal();
             jwt = jwtService.generateToken(userDetails);
             authResponseDto.setJwt(jwt);
+            authResponseDto.setUserId(userDetails.getId());
         }
         return authResponseDto;
     }

@@ -19,7 +19,7 @@ import java.util.List;
 @SpringBootApplication
 public class AnnoncifyApplication implements CommandLineRunner {
 
-//	private final ImageRespository imageRespository;
+	//	private final ImageRespository imageRespository;
 //	private final ProductRepository productRepository;
 	private final UserRepository userRepository;
 
