@@ -71,4 +71,11 @@ public class AuthServiceImpl implements AuthService {
         }
         return "Invalid Credentials";
     }
+
+    public String resendOtp(String phoneNumber){
+        User user = userRepository.findUserByPhoneNumber(phoneNumber)
+                .orElseThrow(()->new NotFoundException("User not found !"));
+        return otpService.resendOtpMessageToUser(user);
+    }
 }
+

@@ -9,4 +9,6 @@ public interface AuthService {
     ResponseMessage registerUser(RegisterDto registerDto);
 
     String verify(OtpLoginDto otpLogin);
+
+    String resendOtp(String phoneNumber);
 }

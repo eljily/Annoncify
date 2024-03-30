@@ -7,12 +7,14 @@ import com.sibrahim.annoncify.entity.Otp;
 import com.sibrahim.annoncify.entity.User;
 import com.sibrahim.annoncify.entity.enums.OtpStatus;
 import com.sibrahim.annoncify.exceptions.NotFoundException;
+import com.sibrahim.annoncify.exceptions.UserAlreadyExist;
 import com.sibrahim.annoncify.mapper.UserMapper;
 import com.sibrahim.annoncify.repository.OtpRepository;
 import com.sibrahim.annoncify.repository.UserRepository;
 import com.sibrahim.annoncify.services.OtpService;
 import com.sibrahim.annoncify.services.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
@@ -22,6 +24,7 @@ import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OtpServiceImpl implements OtpService {
 
     private final OtpRepository otpRepository;
@@ -35,7 +38,6 @@ public class OtpServiceImpl implements OtpService {
         return otpRepository.save(otp);
     }
 
-
     /**
      * Sends an OTP (One Time Password) message to the user via SMS.
      *
@@ -44,13 +46,46 @@ public class OtpServiceImpl implements OtpService {
      */
     @Override
     public String sendOtpMessageToUser(RegisterDto userDto) {
+        Optional<User> userOptional = userRepository
+                .findUserByPhoneNumber(userDto.getPhoneNumber());
+        if (userOptional.isPresent()) {
+            throw new UserAlreadyExist("User already exists with phone number: " + userDto.getPhoneNumber());
+        }
+
         User user = userService.saveUser(userDto);
         Otp otp = buildOtpForUser(user);
+
         if (isOTPAlreadySentWithinLast30Seconds(user.getId())) {
-            return "Otp can be send in after 30 seconds";
+            return "Otp can be sent after 30 seconds";
         }
+
         updateOtpIdIfPresent(user.getId(), otp);
         return sendMessageAndSaveStatus(user.getPhoneNumber(), otp);
+    }
+
+    /**
+     * Resends an OTP (One Time Password) message to the user via SMS.
+     *
+     * @param user the user object representing the user
+     * @return a message indicating the status of the OTP sending process
+     */
+    @Override
+    public String resendOtpMessageToUser(User user) {
+        if (isOTPExpired(user)) {
+            // Generate a new OTP if the previous one is expired
+            Otp otp = buildOtpForUser(user);
+            updateOtpIdIfPresent(user.getId(), otp);
+            return sendMessageAndSaveStatus(user.getPhoneNumber(), otp);
+        } else {
+            // Resend the existing OTP if it's still valid
+            Optional<Otp> otpOptional = otpRepository.findByUserId(user.getId());
+            if (otpOptional.isPresent()) {
+                Otp otp = otpOptional.get();
+                return sendMessageAndSaveStatus(user.getPhoneNumber(), otp);
+            } else {
+                return "No OTP found for the user";
+            }
+        }
     }
 
     /**
@@ -63,13 +98,15 @@ public class OtpServiceImpl implements OtpService {
     @Override
     public boolean verifyOtp(User user, String code) {
         Optional<Otp> otpOptional = otpRepository.findByUserId(user.getId());
-        if (otpOptional.isEmpty() || otpOptional.get().getExpiryDatetime().isBefore(LocalDateTime.now())) {
-            throw new NotFoundException("Otp is expired");
+        if (otpOptional.isEmpty() || isOTPExpired(user)) {
+            throw new NotFoundException("OTP is expired or invalid");
         }
+
         Otp otp = otpOptional.get();
         if (!otp.getCode().equals(code)) {
-            throw new NotFoundException("Invalid otp");
+            throw new NotFoundException("Invalid OTP");
         }
+
         otp.setStatus(OtpStatus.VERIFIED);
         otp.setUpdatedDatetime(LocalDateTime.now());
         user.setEnabled(true);
@@ -101,8 +138,10 @@ public class OtpServiceImpl implements OtpService {
         if (twilioService.sendVerificationMessage(mobile, otp.getCode())) {
             otp.setStatus(OtpStatus.DELIVERED);
             message = "OTP has been successfully generated, and awaits your verification";
+            log.info("OTP sent successfully to: " + mobile);
         } else {
             otp.setStatus(OtpStatus.FAILED);
+            log.info("OTP failed to be sent to: " + mobile);
             message = "An error occurred while sending the OTP.";
         }
         save(otp);
@@ -120,6 +159,17 @@ public class OtpServiceImpl implements OtpService {
         return otpOptional.isPresent() && otpOptional.get().getUpdatedDatetime().isAfter(LocalDateTime.now().minusSeconds(30));
     }
 
+    /**
+     * Checks if the OTP for the user is expired.
+     *
+     * @param user the user object representing the user
+     * @return {@code true} if the OTP is expired, {@code false} otherwise
+     */
+    private boolean isOTPExpired(User user) {
+        Optional<Otp> otpOptional = otpRepository.findByUserId(user.getId());
+        return otpOptional.isEmpty() || otpOptional.get().getExpiryDatetime().isBefore(LocalDateTime.now());
+    }
+
     private void updateOtpIdIfPresent(Long userId, Otp otp) {
         Optional<Otp> otpOptional = otpRepository.findByUserId(userId);
         otpOptional.ifPresent(value -> otp.setId(value.getId()));
@@ -135,4 +185,3 @@ public class OtpServiceImpl implements OtpService {
                 .format(new Random().nextInt(9999));
     }
 }
-

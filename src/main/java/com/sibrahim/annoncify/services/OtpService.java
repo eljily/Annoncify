@@ -10,4 +10,6 @@ public interface OtpService {
     String sendOtpMessageToUser(RegisterDto user);
 
     boolean verifyOtp(User user, String code);
+
+    String resendOtpMessageToUser(User user);
 }

@@ -4,6 +4,7 @@ import com.sibrahim.annoncify.dto.*;
 import com.sibrahim.annoncify.entity.Product;
 import com.sibrahim.annoncify.entity.User;
 import com.sibrahim.annoncify.entity.enums.RoleEnum;
+import com.sibrahim.annoncify.exceptions.NotFoundException;
 import com.sibrahim.annoncify.mapper.ProductMapper;
 import com.sibrahim.annoncify.mapper.UserMapper;
 import com.sibrahim.annoncify.repository.UserRepository;
@@ -104,4 +105,5 @@ public class UserServiceImpl implements UserService {
         User user = (User) authentication.getPrincipal();
         return productService.getProductsByUserId(user.getId());
     }
+
 }
