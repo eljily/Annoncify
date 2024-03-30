@@ -48,8 +48,10 @@ public class UserServiceImpl implements UserService {
     public User saveUser(RegisterDto registerDto) {
         User user = userMapper.toUser(registerDto);
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+        user.setEmail(registerDto.getEmail());
         user.setRole(RoleEnum.USER);
         user.setCreateDate(new Date());
+        user.setEnabled(true);
         return userRepository.save(user);
     }
 
