@@ -4,8 +4,6 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-application-sidi.properties
-
 ### STS ###
 .apt_generated
 .classpath
@@ -24,6 +22,7 @@ application-sidi.properties
 
 ##log
 application-sidibrahim.properties
+application-sidi.properties
 /logs
 
 ### NetBeans ###
