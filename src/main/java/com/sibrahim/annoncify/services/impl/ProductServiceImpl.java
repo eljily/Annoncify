@@ -9,6 +9,7 @@ import com.sibrahim.annoncify.entity.Image;
 import com.sibrahim.annoncify.entity.Product;
 import com.sibrahim.annoncify.entity.User;
 import com.sibrahim.annoncify.entity.enums.ProductStatus;
+import com.sibrahim.annoncify.exceptions.NotFoundException;
 import com.sibrahim.annoncify.mapper.CategoryMapper;
 import com.sibrahim.annoncify.mapper.ImageMapper;
 import com.sibrahim.annoncify.mapper.ProductMapper;
@@ -90,7 +91,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> getProductsByUserId(Long id) {
-        User user = userService.getById(id).orElseThrow();
+        User user = userService.getById(id).orElseThrow(()->new NotFoundException("User not found"));
         List<Product> products = productRepository.findProductsByUserId(user.getId());
         return productMapper.toProductDtos(products);
     }
@@ -118,17 +119,16 @@ public class ProductServiceImpl implements ProductService {
 
         if (product.getId() == null) {
             // This is a new product, save it
-            if(productDto.getCategory()!=null){
+            if (productDto.getCategory() != null) {
                 Optional<Category> category = categoryRepository.findCategoryByName(productDto.getCategory());
-                if (category.isPresent()){
+                if (category.isPresent()) {
                     product.setCategory(category.get());
-                }
-                else {
+                } else {
                     Category savedCategory = categoryRepository.save(Category
                             .builder()
                             .name(productDto.getCategory())
-                                    .createDate(LocalDateTime.now())
-                                    .updateDate(LocalDateTime.now())
+                            .createDate(LocalDateTime.now())
+                            .updateDate(LocalDateTime.now())
                             .build());
                     product.setCategory(savedCategory);
                 }
@@ -136,12 +136,13 @@ public class ProductServiceImpl implements ProductService {
             product.setProductStatus(ProductStatus.PENDING);
             product.setCreateDate(new Date());
             product.setUpdateDate(new Date());
-            Authentication authentication =
-                    SecurityContextHolder.getContext().getAuthentication();
+            product.setMark(productDto.getMark());
 
             // Extract user details from Authentication
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof User) {
                 User user = (User) authentication.getPrincipal();
-                product.setUser(user);
+                product.setUser(user);}
 
             return productMapper.toProductDto(productRepository.save(product));
         } else {
@@ -156,9 +157,9 @@ public class ProductServiceImpl implements ProductService {
                 if (productDto.getPrice() != null) {
                     dbProduct.setPrice(productDto.getPrice());
                 }
-               if (productDto.getDescription() !=null){
-                   dbProduct.setDescription(productDto.getDescription());
-               }
+                if (productDto.getDescription() != null) {
+                    dbProduct.setDescription(productDto.getDescription());
+                }
                 dbProduct.setUpdateDate(new Date());
                 // Save the updated product
                 return productMapper.toProductDto(productRepository.save(dbProduct));

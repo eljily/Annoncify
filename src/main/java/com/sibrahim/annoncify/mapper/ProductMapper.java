@@ -35,6 +35,9 @@ public class ProductMapper {
                 .description(product.getDescription())
                 .createDate(product.getCreateDate())
                 .updateDate(product.getUpdateDate())
+                .mark(product.getMark())
+                .userId(product.getUser() != null ? (product.getUser().getId() != null ? product.getUser().getId() : -1) : -1)
+                .category(product.getCategory() !=null ?(product.getCategory().getName() != null?product.getCategory().getName():"no category"):"no category")
                 .images(imageMapper.toImageDtos(product.getImages()))
 //                .category(categoryMapper.toCategoryResponseDto(product.getCategory()))
                 .build();
@@ -49,6 +52,7 @@ public class ProductMapper {
                 .images(imageMapper.toImages(productDto.getImages()))
                 .createDate(productDto.getCreateDate())
                 .updateDate(productDto.getUpdateDate())
+                .mark(productDto.getMark())
 //                .category(categoryMapper.toCategory(productDto.getCategory()))
                 .build();
     }

@@ -31,7 +31,7 @@ public class AnnoncifyApplication implements CommandLineRunner {
 		SpringApplication.run(AnnoncifyApplication.class, args);
 	}
 
-	//@Bean
+	@Bean
 	CommandLineRunner commandLineRunner(PasswordEncoder passwordEncoder, UserRepository userRepository, ProductRepository productRepository) {
 		return args -> {
 			User user = User.builder().name("admin")
@@ -52,7 +52,7 @@ public class AnnoncifyApplication implements CommandLineRunner {
 		};
 	}
 
-	@Bean
+	//@Bean
 	@Transactional
 	CommandLineRunner commandLineRunner(ImageRespository imageRespository, ProductRepository productRepository) {
 		return args -> {

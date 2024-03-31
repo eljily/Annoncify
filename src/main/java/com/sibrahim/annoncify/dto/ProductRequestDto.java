@@ -20,5 +20,6 @@ public class ProductRequestDto {
     private List<MultipartFile> images= new ArrayList<>();
     private Long categoryId;
     private String category;
+    private String mark;
 
 }
