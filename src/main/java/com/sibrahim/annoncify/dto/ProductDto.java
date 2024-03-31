@@ -28,6 +28,8 @@ public class ProductDto {
     private Date updateDate;
     private List<ImageDto> images;
     private String category;
+    private String mark;
+    private Long userId;
 //    private CategoryResponseDto category;
 
 }

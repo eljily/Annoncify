@@ -39,6 +39,9 @@ public class Product {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
 
+    @Column(name = "mark")
+    private String mark;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference
