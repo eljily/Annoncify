@@ -7,7 +7,7 @@ import com.sibrahim.annoncify.entity.Otp;
 import com.sibrahim.annoncify.entity.User;
 import com.sibrahim.annoncify.entity.enums.OtpStatus;
 import com.sibrahim.annoncify.exceptions.NotFoundException;
-import com.sibrahim.annoncify.exceptions.UserAlreadyExist;
+import com.sibrahim.annoncify.exceptions.UserAlreadyExistException;
 import com.sibrahim.annoncify.mapper.UserMapper;
 import com.sibrahim.annoncify.repository.OtpRepository;
 import com.sibrahim.annoncify.repository.UserRepository;
@@ -49,7 +49,7 @@ public class OtpServiceImpl implements OtpService {
         Optional<User> userOptional = userRepository
                 .findUserByPhoneNumber(userDto.getPhoneNumber());
         if (userOptional.isPresent()) {
-            throw new UserAlreadyExist("User already exists with phone number: " + userDto.getPhoneNumber());
+            throw new UserAlreadyExistException("User already exists with phone number: " + userDto.getPhoneNumber());
         }
 
         User user = userService.saveUser(userDto);

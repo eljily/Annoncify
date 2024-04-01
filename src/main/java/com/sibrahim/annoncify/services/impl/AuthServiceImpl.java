@@ -56,9 +56,9 @@ public class AuthServiceImpl implements AuthService {
 
 
     @Override
-    public ResponseMessage registerUser(RegisterDto registerDto) {
+    public RegisterDto registerUser(RegisterDto registerDto) {
        otpService.sendOtpMessageToUser(registerDto);
-       return null;
+       return registerDto;
     }
 
     @Override

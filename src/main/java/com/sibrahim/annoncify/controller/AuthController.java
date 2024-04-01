@@ -23,7 +23,11 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<ResponseMessage> signup(@RequestBody RegisterDto registerDto) {
         try {
-            return ResponseEntity.ok(authService.registerUser(registerDto));
+            return ResponseEntity.ok(ResponseMessage.builder()
+                            .status(HttpStatus.OK.value())
+                            .message("User Registered Successfully")
+                            .data(authService.registerUser(registerDto))
+                    .build());
         } catch (Exception e) {
             log.error("ERROR WHILE TRYING TO SIGNUP,message:" + e.getMessage());
             return ResponseEntity.badRequest().body(ResponseMessage.builder().status(500).build());

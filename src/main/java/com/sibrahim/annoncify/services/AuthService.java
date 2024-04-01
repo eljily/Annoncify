@@ -6,7 +6,7 @@ public interface AuthService {
 
     AuthResponseDto login(AuthRequestDto authRequestDto);
 
-    ResponseMessage registerUser(RegisterDto registerDto);
+    RegisterDto registerUser(RegisterDto registerDto);
 
     String verify(OtpLoginDto otpLogin);
 
