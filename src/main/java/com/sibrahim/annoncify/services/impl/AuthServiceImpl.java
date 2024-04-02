@@ -40,6 +40,7 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponseDto login(AuthRequestDto authRequestDto) {
         AuthResponseDto authResponseDto = new AuthResponseDto();
         String jwt = "bad request";
+
         // Authenticate the user using Spring Security's authentication manager
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequestDto.getPhoneNumber(), authRequestDto.getPassword()));
@@ -50,17 +51,27 @@ public class AuthServiceImpl implements AuthService {
             jwt = jwtService.generateToken(userDetails);
             authResponseDto.setJwt(jwt);
             authResponseDto.setUserId(userDetails.getId());
+
+            // Récupérer le nom de l'utilisateur à partir des détails de l'utilisateur
+            String username = userDetails.getName(); // Supposons que le nom d'utilisateur soit stocké dans le champ 'name' de l'objet User
+            authResponseDto.setName(username); // Définir le nom de l'utilisateur dans l'objet AuthResponseDto
         }
         return authResponseDto;
     }
 
-
     @Override
     public ResponseMessage registerUser(RegisterDto registerDto) {
-       otpService.sendOtpMessageToUser(registerDto);
-       return null;
-    }
+        // Traitez l'inscription de l'utilisateur ici, par exemple en enregistrant les données dans une base de données
+        // Puisque cette partie dépend de votre implémentation spécifique, je vais supposer que l'enregistrement est réussi pour l'exemple
 
+        otpService.sendOtpMessageToUser(registerDto);
+
+        // Créez un objet ResponseMessage pour renvoyer une réponse à l'application frontend
+        ResponseMessage response = new ResponseMessage("Inscription réussie");
+        // Vous pouvez également ajouter d'autres données pertinentes à renvoyer à l'application frontend si nécessaire
+
+        return response;
+    }
     @Override
     public String verify(OtpLoginDto otpLogin) {
         log.info("Phone NUmber"+otpLogin.getPhoneNumber());
