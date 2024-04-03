@@ -2,6 +2,7 @@ package com.sibrahim.annoncify.services.impl;
 
 import com.sibrahim.annoncify.dto.*;
 import com.sibrahim.annoncify.entity.User;
+import com.sibrahim.annoncify.exceptions.GenericException;
 import com.sibrahim.annoncify.exceptions.NotFoundException;
 import com.sibrahim.annoncify.exceptions.UserAlreadyExistException;
 import com.sibrahim.annoncify.mapper.UserMapper;
@@ -12,9 +13,13 @@ import com.sibrahim.annoncify.services.OtpService;
 import com.sibrahim.annoncify.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -30,30 +35,33 @@ public class AuthServiceImpl implements AuthService {
     private final OtpService otpService;
     private final UserMapper userMapper;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthServiceImpl(UserService userService, AuthenticationManager authenticationManager, JwtService jwtService, OtpService otpService, UserMapper userMapper, UserRepository userRepository) {
+    public AuthServiceImpl(UserService userService, AuthenticationManager authenticationManager, JwtService jwtService, OtpService otpService, UserMapper userMapper, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
         this.otpService = otpService;
         this.userMapper = userMapper;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public AuthResponseDto login(AuthRequestDto authRequestDto) {
         AuthResponseDto authResponseDto = new AuthResponseDto();
         String jwt = "bad request";
-        // Authenticate the user using Spring Security's authentication manager
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequestDto.getPhoneNumber(), authRequestDto.getPassword()));
 
-        // If authentication is successful, generate and set the JWT token
-        if (authentication.isAuthenticated()) {
-            User userDetails = (User) authentication.getPrincipal();
+        if (authentication.isAuthenticated() && authentication.getPrincipal() != null) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            log.error("user details................");
+            log.error(userDetails.getUsername());
+            log.error(userDetails.getPassword());
             jwt = jwtService.generateToken(userDetails);
             authResponseDto.setJwt(jwt);
-            authResponseDto.setUserId(userDetails.getId());
         }
         return authResponseDto;
     }
@@ -61,29 +69,55 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public RegisterDto registerUser(RegisterDto registerDto) throws IOException {
-       //otpService.sendOtpMessageToUser(registerDto);
+        //otpService.sendOtpMessageToUser(registerDto);
         Optional<User> user = userRepository.findUserByPhoneNumber(registerDto.getPhoneNumber());
-        if (user.isPresent()){
-            throw new UserAlreadyExistException("User Already Exist :"+registerDto.getPhoneNumber());
+        if (user.isPresent()) {
+            throw new UserAlreadyExistException("User Already Exist :" + registerDto.getPhoneNumber());
         }
         return userService.saveUser(registerDto);
     }
 
     @Override
     public String verify(OtpLoginDto otpLogin) {
-        log.info("Phone NUmber"+otpLogin.getPhoneNumber());
+        log.info("Phone NUmber" + otpLogin.getPhoneNumber());
         User user = userRepository.findUserByPhoneNumber(otpLogin.getPhoneNumber())
-                .orElseThrow(()->new NotFoundException("user not found!"));
-        if (otpService.verifyOtp(user, otpLogin.getOtp())){
+                .orElseThrow(() -> new NotFoundException("user not found!"));
+        if (otpService.verifyOtp(user, otpLogin.getOtp())) {
             return "Account Verified you can now login.";
         }
         return "Invalid Credentials";
     }
 
-    public String resendOtp(String phoneNumber){
+    public String resendOtp(String phoneNumber) {
         User user = userRepository.findUserByPhoneNumber(phoneNumber)
-                .orElseThrow(()->new NotFoundException("User not found !"));
+                .orElseThrow(() -> new NotFoundException("User not found !"));
         return otpService.resendOtpMessageToUser(user);
     }
+
+    @Override
+    public String resetPassword(ResetPasswordDto resetPasswordDto, UserDetails userDetails) {
+        log.error("first log..............");
+
+        if (userDetails == null) {
+            throw new GenericException("User not authenticated");
+        }
+
+        log.error("userName :" + userDetails.getUsername());
+
+        // Retrieve the user from the database based on the username
+        User user = userRepository.findUserByPhoneNumber(userDetails.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        // Check if the old password matches
+        if (passwordEncoder.matches(resetPasswordDto.getOldPassword(), user.getPassword())) {
+            // Update the password
+            user.setPassword(passwordEncoder.encode(resetPasswordDto.getNewPassword()));
+            userRepository.save(user); // Make sure to save the updated user entity
+            return "Password updated successfully";
+        } else {
+            throw new BadCredentialsException("Old password does not match");
+        }
+    }
+
 }
 

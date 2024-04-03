@@ -19,6 +19,15 @@ public class GlobalExceptionHandler {
                 .build());
     }
 
+    @ExceptionHandler(GenericException.class)
+    @ResponseBody
+    public ResponseEntity<ResponseMessage> handleGenericException(GenericException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseMessage.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(ex.getMessage())
+                .build());
+    }
+
     @ExceptionHandler(NotFoundException.class)
     @ResponseBody
     public ResponseEntity<ResponseMessage> handleNotFoundException(NotFoundException ex) {

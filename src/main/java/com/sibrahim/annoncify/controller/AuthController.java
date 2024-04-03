@@ -7,6 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -60,5 +63,12 @@ public class AuthController {
             log.error("ERROR WHILE TRYING TO RESEND  OTP,message:" + e.getMessage());
             return null;
         }
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<ResponseMessage> changePassword(@RequestBody ResetPasswordDto resetPasswordDto, @AuthenticationPrincipal UserDetails userDetails){
+        return ResponseEntity.ok(ResponseMessage.builder()
+                        .message(authService.resetPassword(resetPasswordDto,userDetails))
+                        .build());
     }
 }
