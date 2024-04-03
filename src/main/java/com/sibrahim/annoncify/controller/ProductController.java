@@ -32,15 +32,15 @@ public class ProductController {
         this.productMapper = productMapper;
     }
 
-    @PostMapping
-    public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto productDto) {
-        try {
-            return ResponseEntity.ok(productService.saveProduct(productDto));
-        } catch (Exception e) {
-            log.error("ERROR WHILE SAVING NEW PRODUCT " + e.getMessage());
-            return null;
-        }
-    }
+//    @PostMapping
+//    public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto productDto) {
+//        try {
+////            return ResponseEntity.ok(productService.saveProduct(productDto));
+//        } catch (Exception e) {
+//            log.error("ERROR WHILE SAVING NEW PRODUCT " + e.getMessage());
+//            return null;
+//        }
+//    }
 
     @GetMapping
     public ResponseEntity<ResponseMessage> getAllProduct(@RequestParam(name = "page", defaultValue = "0") int page,
@@ -136,25 +136,25 @@ public class ProductController {
             return null;
         }
     }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
-        try {
-            if (!id.equals(productDto.getId())) {
-                return ResponseEntity.badRequest().body(null);
-            }
-
-            ProductDto updatedProduct = productService.saveProduct(productDto);
-
-            if (updatedProduct != null) {
-                return ResponseEntity.ok(updatedProduct);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } catch (Exception e) {
-            log.error("ERROR OCCURRED WHILE TRYING TO UPDATE PRODUCT,message:" + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
+//
+//    @PutMapping("/{id}")
+//    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
+//        try {
+//            if (!id.equals(productDto.getId())) {
+//                return ResponseEntity.badRequest().body(null);
+//            }
+//
+//            ProductDto updatedProduct = productService.saveProduct(productDto);
+//
+//            if (updatedProduct != null) {
+//                return ResponseEntity.ok(updatedProduct);
+//            } else {
+//                return ResponseEntity.notFound().build();
+//            }
+//        } catch (Exception e) {
+//            log.error("ERROR OCCURRED WHILE TRYING TO UPDATE PRODUCT,message:" + e.getMessage());
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+//        }
+//    }
 
 }

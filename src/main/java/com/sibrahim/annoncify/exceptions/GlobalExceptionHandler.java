@@ -45,4 +45,13 @@ public class GlobalExceptionHandler {
                 .message(ex.getMessage())
                 .build());
     }
+
+    @ExceptionHandler(SubCategoryException.class)
+    @ResponseBody
+    public ResponseEntity<ResponseMessage> handleSubCategoryException(SubCategoryException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseMessage.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(ex.getMessage())
+                .build());
+    }
 }

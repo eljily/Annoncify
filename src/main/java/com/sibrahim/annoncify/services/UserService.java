@@ -16,7 +16,7 @@ public interface UserService {
 
     Optional<UserDto> getUserByPhoneNumber(String phoneNumber);
 
-    ProductDto addProduct(ProductDto productDto);
+//    ProductDto addProduct(ProductDto productDto);
 
     void deleteProduct(Long id);
 

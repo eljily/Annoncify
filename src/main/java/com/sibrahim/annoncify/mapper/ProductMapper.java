@@ -37,7 +37,9 @@ public class ProductMapper {
                 .updateDate(product.getUpdateDate())
                 .mark(product.getMark())
                 .userId(product.getUser() != null ? (product.getUser().getId() != null ? product.getUser().getId() : -1) : -1)
-                .category(product.getCategory() !=null ?(product.getCategory().getName() != null?product.getCategory().getName():"no category"):"no category")
+//                .category(product.getCategory() !=null ?(product.getCategory().getName() != null?product.getCategory().getName():"no category"):"no category")
+                .subCategory(product.getSubCategory().getName())
+                .category(product.getSubCategory().getCategory().getName())
                 .images(imageMapper.toImageDtos(product.getImages()))
 //                .category(categoryMapper.toCategoryResponseDto(product.getCategory()))
                 .build();

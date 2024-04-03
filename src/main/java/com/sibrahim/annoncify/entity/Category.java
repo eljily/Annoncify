@@ -27,6 +27,10 @@ public class Category {
 
     private LocalDateTime updateDate;
 
-    @OneToMany(mappedBy = "category")
-    List<Product> productList;
+//    @OneToMany(mappedBy = "category")
+//    List<Product> productList;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<SubCategory> subCategories;
 }

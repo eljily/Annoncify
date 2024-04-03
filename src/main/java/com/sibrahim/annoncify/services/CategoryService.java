@@ -12,4 +12,5 @@ public interface CategoryService {
     CategoryDto getCategory(Long id);
     List<CategoryDto> getAll();
     String deleteCategory(Long id);
+    Category fetchOrCreateDefault();
 }

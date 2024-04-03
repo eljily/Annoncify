@@ -56,4 +56,19 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.deleteById(id);
         return "Category deleted !:"+id;
     }
+
+    @Override
+    public Category fetchOrCreateDefault() {
+        Category category = categoryRepository
+                .findCategoryByName("other")
+                .orElse(Category.builder()
+                        .name("other")
+                        .createDate(LocalDateTime.now())
+                        .updateDate(LocalDateTime.now())
+                        .build());
+        if (category.getId()!=null){
+            return category;
+        }
+        return categoryRepository.save(category);
+    }
 }

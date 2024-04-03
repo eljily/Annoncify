@@ -51,7 +51,12 @@ public class Product {
     @JsonManagedReference
     private List<Image> images;
 
+//    @ManyToOne
+//    @JoinColumn(name = "category_id")
+//    private Category category;
+
     @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @JoinColumn(name = "sub_category_id")
+    private SubCategory subCategory;
+
 }

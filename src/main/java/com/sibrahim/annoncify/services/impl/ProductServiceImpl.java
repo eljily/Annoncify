@@ -1,13 +1,9 @@
 package com.sibrahim.annoncify.services.impl;
 
-import com.sibrahim.annoncify.dto.CategoryDto;
 import com.sibrahim.annoncify.dto.ImageDto;
 import com.sibrahim.annoncify.dto.ProductDto;
 import com.sibrahim.annoncify.dto.ProductRequestDto;
-import com.sibrahim.annoncify.entity.Category;
-import com.sibrahim.annoncify.entity.Image;
-import com.sibrahim.annoncify.entity.Product;
-import com.sibrahim.annoncify.entity.User;
+import com.sibrahim.annoncify.entity.*;
 import com.sibrahim.annoncify.entity.enums.ProductStatus;
 import com.sibrahim.annoncify.exceptions.NotFoundException;
 import com.sibrahim.annoncify.mapper.CategoryMapper;
@@ -18,6 +14,7 @@ import com.sibrahim.annoncify.repository.ImageRespository;
 import com.sibrahim.annoncify.repository.ProductRepository;
 import com.sibrahim.annoncify.services.CategoryService;
 import com.sibrahim.annoncify.services.ProductService;
+import com.sibrahim.annoncify.services.SubCategoryService;
 import com.sibrahim.annoncify.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,11 +46,12 @@ public class ProductServiceImpl implements ProductService {
     private final ImageMapper imageMapper;
     private final CategoryMapper categoryMapper;
     private final CategoryRepository categoryRepository;
+    private final SubCategoryService subCategoryService;
     @Lazy
     @Autowired
     private UserService userService;
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ImageRespository imageRespository, ImageServiceImpl imageService, CategoryService categoryService, ImageMapper imageMapper, CategoryMapper categoryMapper, CategoryRepository categoryRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ImageRespository imageRespository, ImageServiceImpl imageService, CategoryService categoryService, ImageMapper imageMapper, CategoryMapper categoryMapper, CategoryRepository categoryRepository, SubCategoryService subCategoryService) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
         this.imageRespository = imageRespository;
@@ -62,6 +60,7 @@ public class ProductServiceImpl implements ProductService {
         this.imageMapper = imageMapper;
         this.categoryMapper = categoryMapper;
         this.categoryRepository = categoryRepository;
+        this.subCategoryService = subCategoryService;
     }
 
 
@@ -79,9 +78,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductDto> getAllProducts(int page, int size, int categoryId) {
+    public Page<ProductDto> getAllProducts(int page, int size, int subCategoryId) {
         try {
-            return productRepository.findByCategory_Id(categoryId, PageRequest.of(page, size))
+            return productRepository.findBySubCategory_Id(subCategoryId, PageRequest.of(page, size))
                     .map(productMapper::toProductDto);
         } catch (Exception e) {
             log.error("Error occurred while trying to fetch page of products by category", e);
@@ -113,62 +112,63 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(product.getId());
     }
 
-    @Override
-    public ProductDto saveProduct(ProductDto productDto) {
-        Product product = productMapper.toProduct(productDto);
-
-        if (product.getId() == null) {
-            // This is a new product, save it
-            if (productDto.getCategory() != null) {
-                Optional<Category> category = categoryRepository.findCategoryByName(productDto.getCategory());
-                if (category.isPresent()) {
-                    product.setCategory(category.get());
-                } else {
-                    Category savedCategory = categoryRepository.save(Category
-                            .builder()
-                            .name(productDto.getCategory())
-                            .createDate(LocalDateTime.now())
-                            .updateDate(LocalDateTime.now())
-                            .build());
-                    product.setCategory(savedCategory);
-                }
-            }
-            product.setProductStatus(ProductStatus.PENDING);
-            product.setCreateDate(new Date());
-            product.setUpdateDate(new Date());
-            product.setMark(productDto.getMark());
-
-            // Extract user details from Authentication
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof User) {
-                User user = (User) authentication.getPrincipal();
-                product.setUser(user);}
-
-            return productMapper.toProductDto(productRepository.save(product));
-        } else {
-            // This is an update, merge the existing product with the new data
-            Product dbProduct = productRepository.findById(product.getId()).orElse(null);
-
-            if (dbProduct != null) {
-                // Update only the fields that are not null in the incoming productDto
-                if (productDto.getName() != null) {
-                    dbProduct.setName(productDto.getName());
-                }
-                if (productDto.getPrice() != null) {
-                    dbProduct.setPrice(productDto.getPrice());
-                }
-                if (productDto.getDescription() != null) {
-                    dbProduct.setDescription(productDto.getDescription());
-                }
-                dbProduct.setUpdateDate(new Date());
-                // Save the updated product
-                return productMapper.toProductDto(productRepository.save(dbProduct));
-            } else {
-                // Handle the case where the product with the given ID is not found
-                return null;
-            }
-        }
-    }
+    //deprecated
+//    @Override
+//    public ProductDto saveProduct(ProductDto productDto) {
+//        Product product = productMapper.toProduct(productDto);
+//
+//        if (product.getId() == null) {
+//            // This is a new product, save it
+//            if (productDto.getCategory() != null) {
+//                Optional<Category> category = categoryRepository.findCategoryByName(productDto.getCategory());
+//                if (category.isPresent()) {
+//                    product.setCategory(category.get());
+//                } else {
+//                    Category savedCategory = categoryRepository.save(Category
+//                            .builder()
+//                            .name(productDto.getCategory())
+//                            .createDate(LocalDateTime.now())
+//                            .updateDate(LocalDateTime.now())
+//                            .build());
+//                    product.setCategory(savedCategory);
+//                }
+//            }
+//            product.setProductStatus(ProductStatus.PENDING);
+//            product.setCreateDate(new Date());
+//            product.setUpdateDate(new Date());
+//            product.setMark(productDto.getMark());
+//
+//            // Extract user details from Authentication
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//            if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof User) {
+//                User user = (User) authentication.getPrincipal();
+//                product.setUser(user);}
+//
+//            return productMapper.toProductDto(productRepository.save(product));
+//        } else {
+//            // This is an update, merge the existing product with the new data
+//            Product dbProduct = productRepository.findById(product.getId()).orElse(null);
+//
+//            if (dbProduct != null) {
+//                // Update only the fields that are not null in the incoming productDto
+//                if (productDto.getName() != null) {
+//                    dbProduct.setName(productDto.getName());
+//                }
+//                if (productDto.getPrice() != null) {
+//                    dbProduct.setPrice(productDto.getPrice());
+//                }
+//                if (productDto.getDescription() != null) {
+//                    dbProduct.setDescription(productDto.getDescription());
+//                }
+//                dbProduct.setUpdateDate(new Date());
+//                // Save the updated product
+//                return productMapper.toProductDto(productRepository.save(dbProduct));
+//            } else {
+//                // Handle the case where the product with the given ID is not found
+//                return null;
+//            }
+//        }
+//    }
 
     public Product addProductWithImages(Product product, List<MultipartFile> imageFiles) {
         try {
@@ -200,34 +200,22 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto addProduct(ProductRequestDto productRequestDto) {
-        ProductDto productDto = new ProductDto();
-//        if (productRequestDto.getCategoryId()!=null){
-//            CategoryDto categoryDto = categoryService
-//                    .getCategory(productRequestDto.getCategoryId());
-////            productDto.setCategory(categoryMapper.toCategoryResponseDto(categoryDto));
-//        }
+        Product product = new Product();
 
-        productDto.setName(productRequestDto.getName());
-        productDto.setPrice(productRequestDto.getPrice());
-        productDto.setDescription(productRequestDto.getDescription());
+        product.setName(productRequestDto.getName());
+        product.setPrice(productRequestDto.getPrice());
+        product.setDescription(productRequestDto.getDescription());
 
-        Product product = productMapper.toProduct(productDto);
-
-        if(productRequestDto.getCategory()!=null){
-            Optional<Category> category = categoryRepository.findCategoryByName(productRequestDto.getCategory());
-            if (category.isPresent()){
-                product.setCategory(category.get());
+            SubCategory subCategory;
+            if (productRequestDto.getSubCategory()!=null){
+                subCategory = subCategoryService
+                        .getByName(productRequestDto.getSubCategory());
             }
             else {
-                Category savedCategory = categoryRepository.save(Category
-                        .builder()
-                        .name(productRequestDto.getCategory())
-                        .createDate(LocalDateTime.now())
-                        .updateDate(LocalDateTime.now())
-                        .build());
-                product.setCategory(savedCategory);
+                subCategory = subCategoryService.fetchOrCreateDefault();
             }
-        }
+            product.setSubCategory(subCategory);
+
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
 
@@ -245,7 +233,7 @@ public class ProductServiceImpl implements ProductService {
         product.setUpdateDate(new Date());
         Product savedProduct = productRepository.save(product);
 
-        productDto.setId(savedProduct.getId());
+//        product.setId(savedProduct.getId());
 
         List<String> imageUrls = productRequestDto.getImages().parallelStream() // Used parallelStream() for concurrent processing
                 .map(this::uploadImageToFirebase)
@@ -262,10 +250,11 @@ public class ProductServiceImpl implements ProductService {
             imageDtos.add(imageMapper.toImageDto(image));
             imageRespository.save(image);
         }
-        productDto.setImages(imageDtos);
-        productDto.setCreateDate(savedProduct.getCreateDate());
-        productDto.setUpdateDate(savedProduct.getUpdateDate());
-        return productDto;
+        savedProduct.setImages(imageMapper.toImages(imageDtos));
+//        productDto.setImages(imageDtos);
+//        productDto.setCreateDate(savedProduct.getCreateDate());
+//        productDto.setUpdateDate(savedProduct.getUpdateDate());
+        return productMapper.toProductDto(savedProduct);
     }
     public String uploadImageToFirebase(MultipartFile imageFile) {
         try {

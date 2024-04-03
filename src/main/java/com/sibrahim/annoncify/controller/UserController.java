@@ -58,15 +58,15 @@ public class UserController {
 
     }
 
-    @PostMapping("/addProduct")
-    public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto productDto){
-        try {
-            return ResponseEntity.ok(userService.addProduct(productDto));
-        }catch (Exception e){
-           log.error("ERROR WHILE ADDING NEW PRODUCT BY USER,message:"+e.getMessage());
-            return null;
-        }
-    }
+//    @PostMapping("/addProduct")
+//    public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto productDto){
+//        try {
+//            return ResponseEntity.ok(userService.addProduct(productDto));
+//        }catch (Exception e){
+//           log.error("ERROR WHILE ADDING NEW PRODUCT BY USER,message:"+e.getMessage());
+//            return null;
+//        }
+//    }
 
     @DeleteMapping("/deleteProduct/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id){

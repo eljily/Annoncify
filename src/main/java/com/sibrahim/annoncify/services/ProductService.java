@@ -23,7 +23,8 @@ public interface ProductService {
 
     void deleteProduct(Long id);
 
-    ProductDto saveProduct(ProductDto product);
+    //deprecated
+//    ProductDto saveProduct(ProductDto product);
 
     Product addProductWithImages(Product product, List<MultipartFile> imageFiles);
 

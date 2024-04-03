@@ -15,11 +15,19 @@ import java.util.List;
 public class ProductRequestDto {
 
     private String name;
+
     private String description;
+
     private Integer price;
+
     private List<MultipartFile> images= new ArrayList<>();
-    private Long categoryId;
+
+    private Long subCategoryId;
+
     private String category;
+
+    private String subCategory;
+
     private String mark;
 
 }

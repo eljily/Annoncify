@@ -3,8 +3,10 @@ package com.sibrahim.annoncify.mapper;
 import com.sibrahim.annoncify.dto.CategoryDto;
 import com.sibrahim.annoncify.dto.CategoryResponseDto;
 import com.sibrahim.annoncify.dto.ProductDto;
+import com.sibrahim.annoncify.dto.SubCategoryDto;
 import com.sibrahim.annoncify.entity.Category;
 import com.sibrahim.annoncify.entity.Product;
+import com.sibrahim.annoncify.entity.SubCategory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -136,6 +138,24 @@ public class CategoryMapper {
             return category;
         }
         return new Category();
+    }
+
+    public SubCategory toModel(SubCategoryDto subCategoryDto){
+        return SubCategory.builder()
+                .id(subCategoryDto.getId())
+                .categoryName(subCategoryDto.getCategoryName())
+                .nameAr(subCategoryDto.getNameAr())
+                .name(subCategoryDto.getName())
+                .build();
+    }
+
+    public SubCategoryDto toDTO(SubCategory subCategory){
+        return SubCategoryDto.builder()
+                .id(subCategory.getId())
+                .categoryName(subCategory.getCategoryName())
+                .nameAr(subCategory.getNameAr())
+                .name(subCategory.getName())
+                .build();
     }
 
 }
