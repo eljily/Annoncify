@@ -76,7 +76,7 @@ public class CategoryMapper {
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setId(category.getId());
         categoryDto.setName(category.getName());
-       // categoryDto.setProducts(mapBasicProductsDto(category.getProductList()));
+        categoryDto.setSubCategories(mapBasicSubCategoryDtos(category.getSubCategories()));
         return categoryDto;
     }
 
@@ -84,6 +84,15 @@ public class CategoryMapper {
         if (productDtos != null) {
             return productDtos.stream()
                     .map(this::mapBasicProduct)
+                    .collect(Collectors.toList());
+        }
+        return List.of();
+    }
+
+    private List<SubCategoryDto> mapBasicSubCategoryDtos(List<SubCategory> subCategories) {
+        if (subCategories != null) {
+            return subCategories.stream()
+                    .map(this::toDTO)
                     .collect(Collectors.toList());
         }
         return List.of();
@@ -153,8 +162,6 @@ public class CategoryMapper {
     public SubCategory toModel(SubCategoryDto subCategoryDto){
         return SubCategory.builder()
                 .id(subCategoryDto.getId())
-                .categoryName(subCategoryDto.getCategoryName())
-                .nameAr(subCategoryDto.getNameAr())
                 .name(subCategoryDto.getName())
                 .build();
     }
@@ -162,8 +169,6 @@ public class CategoryMapper {
     public SubCategoryDto toDTO(SubCategory subCategory){
         return SubCategoryDto.builder()
                 .id(subCategory.getId())
-                .categoryName(subCategory.getCategoryName())
-                .nameAr(subCategory.getNameAr())
                 .name(subCategory.getName())
                 .build();
     }

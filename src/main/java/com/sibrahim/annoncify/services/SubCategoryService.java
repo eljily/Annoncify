@@ -7,7 +7,7 @@ import com.sibrahim.annoncify.entity.SubCategory;
 import java.util.List;
 
 public interface SubCategoryService {
-    SubCategoryDto createSubCategory(SubCategoryDto category);
+    SubCategoryDto createSubCategory(SubCategoryDto category,Long categoryId);
     SubCategoryDto getSubcategoryCategory(Long id);
     List<SubCategoryDto> getAll();
     String deleteSubCategory(Long id);

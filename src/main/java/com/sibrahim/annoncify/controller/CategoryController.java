@@ -50,11 +50,11 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.deleteCategory(id));
     }
 
-    @PostMapping("/addSubCategory")
-    public ResponseEntity<ResponseMessage> saveSubCategory(@RequestBody SubCategoryDto subCategory){
+    @PostMapping("/addSubCategory/{categoryId}")
+    public ResponseEntity<ResponseMessage> saveSubCategory(@RequestBody SubCategoryDto subCategory,@PathVariable Long categoryId){
         return ResponseEntity.ok(ResponseMessage.builder()
                         .message("Sub Category Added Successfully")
-                        .data(subCategoryService.createSubCategory(subCategory))
+                        .data(subCategoryService.createSubCategory(subCategory,categoryId))
                 .build());
     }
 

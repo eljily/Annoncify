@@ -33,13 +33,12 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     }
 
     @Override
-    public SubCategoryDto createSubCategory(SubCategoryDto subCategory) {
-        Category category = categoryRepository.findCategoryByName(subCategory.getCategoryName())
-                .orElseThrow(()->new GenericException("Category not found"+subCategory.getCategoryName()));
+    public SubCategoryDto createSubCategory(SubCategoryDto subCategory,Long categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(()-> new GenericException("Category Not Found Exception"));
         SubCategory subCategory1 = SubCategory.builder()
                 .name(subCategory.getName())
                 .category(category)
-                .nameAr(subCategory.getNameAr())
                 .createDate(LocalDateTime.now())
                 .updateDate(LocalDateTime.now())
                 .build();

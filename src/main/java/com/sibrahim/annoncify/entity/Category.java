@@ -30,7 +30,7 @@ public class Category {
 //    @OneToMany(mappedBy = "category")
 //    List<Product> productList;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<SubCategory> subCategories;
 }
