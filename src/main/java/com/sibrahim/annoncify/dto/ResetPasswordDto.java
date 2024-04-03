@@ -9,4 +9,5 @@ import lombok.Setter;
 public class ResetPasswordDto {
     private String oldPassword;
     private String newPassword;
+    private String retypedPassword;
 }

@@ -23,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -97,6 +98,12 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String resetPassword(ResetPasswordDto resetPasswordDto, UserDetails userDetails) {
         log.error("first log..............");
+
+        if (resetPasswordDto.getRetypedPassword()!=null){
+            if (!Objects.equals(resetPasswordDto.getNewPassword(), resetPasswordDto.getRetypedPassword())){
+                throw new GenericException("two password not matching");
+            }
+        }
 
         if (userDetails == null) {
             throw new GenericException("User not authenticated");
