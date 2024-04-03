@@ -46,21 +46,22 @@ public class OtpServiceImpl implements OtpService {
      */
     @Override
     public String sendOtpMessageToUser(RegisterDto userDto) {
-        Optional<User> userOptional = userRepository
-                .findUserByPhoneNumber(userDto.getPhoneNumber());
-        if (userOptional.isPresent()) {
-            throw new UserAlreadyExistException("User already exists with phone number: " + userDto.getPhoneNumber());
-        }
-
-        User user = userService.saveUser(userDto);
-        Otp otp = buildOtpForUser(user);
-
-        if (isOTPAlreadySentWithinLast30Seconds(user.getId())) {
-            return "Otp can be sent after 30 seconds";
-        }
-
-        updateOtpIdIfPresent(user.getId(), otp);
-        return sendMessageAndSaveStatus(user.getPhoneNumber(), otp);
+//        Optional<User> userOptional = userRepository
+//                .findUserByPhoneNumber(userDto.getPhoneNumber());
+//        if (userOptional.isPresent()) {
+//            throw new UserAlreadyExistException("User already exists with phone number: " + userDto.getPhoneNumber());
+//        }
+//
+//        User user = userService.saveUser(userDto);
+//        Otp otp = buildOtpForUser(user);
+//
+//        if (isOTPAlreadySentWithinLast30Seconds(user.getId())) {
+//            return "Otp can be sent after 30 seconds";
+//        }
+//
+//        updateOtpIdIfPresent(user.getId(), otp);
+//        return sendMessageAndSaveStatus(user.getPhoneNumber(), otp);
+        return null;
     }
 
     /**

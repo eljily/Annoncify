@@ -198,19 +198,6 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-    public String uploadImageToFirebase(MultipartFile imageFile) {
-        try {
-            // Upload the image to Firebase Storage and return the URL
-            log.info("UPLOADING IMAGE TO FIREBASE: {}", imageFile.getOriginalFilename());
-            String imageUrl = imageService.upload(imageFile);
-            log.info("UPLOAD SUCCESSFUL: {} - URL: {}", imageFile.getOriginalFilename(), imageUrl);
-            return imageUrl;
-        } catch (Exception e) {
-            log.error("FAILED TO UPLOAD IMAGE TO FIREBASE: {} - Error: {}", imageFile.getOriginalFilename(), e.getMessage());
-            return null;
-        }
-    }
-
     @Override
     public ProductDto addProduct(ProductRequestDto productRequestDto) {
         ProductDto productDto = new ProductDto();
@@ -279,6 +266,18 @@ public class ProductServiceImpl implements ProductService {
         productDto.setCreateDate(savedProduct.getCreateDate());
         productDto.setUpdateDate(savedProduct.getUpdateDate());
         return productDto;
+    }
+    public String uploadImageToFirebase(MultipartFile imageFile) {
+        try {
+            // Upload the image to Firebase Storage and return the URL
+            log.info("UPLOADING IMAGE TO FIREBASE: {}", imageFile.getOriginalFilename());
+            String imageUrl = imageService.upload(imageFile);
+            log.info("UPLOAD SUCCESSFUL: {} - URL: {}", imageFile.getOriginalFilename(), imageUrl);
+            return imageUrl;
+        } catch (Exception e) {
+            log.error("FAILED TO UPLOAD IMAGE TO FIREBASE: {} - Error: {}", imageFile.getOriginalFilename(), e.getMessage());
+            return null;
+        }
     }
 
 }

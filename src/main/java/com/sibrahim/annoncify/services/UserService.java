@@ -4,12 +4,13 @@ import com.sibrahim.annoncify.dto.*;
 import com.sibrahim.annoncify.entity.User;
 import org.springframework.data.domain.Page;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
 
-    User saveUser(RegisterDto registerDto);
+    RegisterDto saveUser(RegisterDto registerDto) throws IOException;
 
     Page<UserDto> getAllUsers(int page,int size);
 

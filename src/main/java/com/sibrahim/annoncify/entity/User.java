@@ -37,6 +37,8 @@ public class User implements UserDetails {
 
     private String password;
 
+    private String profileUrl;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
@@ -50,10 +52,19 @@ public class User implements UserDetails {
     @JsonManagedReference
     private List<Product> products;
 
-    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Otp otp;
 
-    private boolean isEnabled;
+    private boolean isEnabled = true;
+
+
+    private String firstName;
+
+    private String lastName;
+
+    private String address;
+
+    private Date birthDate;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

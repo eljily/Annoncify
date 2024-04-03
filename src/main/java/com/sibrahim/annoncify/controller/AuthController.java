@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -21,28 +23,17 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<ResponseMessage> signup(@RequestBody RegisterDto registerDto) {
-        try {
+    public ResponseEntity<ResponseMessage> signup(@RequestBody RegisterDto registerDto) throws IOException {
             return ResponseEntity.ok(ResponseMessage.builder()
                             .status(HttpStatus.OK.value())
                             .message("User Registered Successfully")
                             .data(authService.registerUser(registerDto))
                     .build());
-        } catch (Exception e) {
-            log.error("ERROR WHILE TRYING TO SIGNUP,message:" + e.getMessage());
-            return ResponseEntity.badRequest().body(ResponseMessage.builder().status(500).build());
-        }
-
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDto> login(@RequestBody AuthRequestDto authRequestDto) {
-        try {
             return ResponseEntity.ok(authService.login(authRequestDto));
-        } catch (Exception e) {
-            log.error("ERROR WHILE TRYING TO LOGIN,message:" + e.getMessage());
-            return null;
-        }
     }
 
     @PostMapping("/verify-otp")

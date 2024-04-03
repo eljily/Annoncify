@@ -23,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -46,14 +47,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User saveUser(RegisterDto registerDto) {
-        User user = userMapper.toUser(registerDto);
-        user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-        user.setEmail(registerDto.getEmail());
-        user.setRole(RoleEnum.USER);
-        user.setCreateDate(new Date());
-        user.setEnabled(true);
-        return userRepository.save(user);
+    public RegisterDto saveUser(RegisterDto registerDto) throws IOException {
+        User existingUser = null;
+        if (registerDto.getPhoneNumber() != null) {
+            existingUser = userRepository
+                    .findUserByPhoneNumber(registerDto
+                            .getPhoneNumber())
+                    .orElse(null);
+        }
+        User user = userMapper.toUser(registerDto,existingUser);
+        return userMapper.toDto(userRepository.save(user));
     }
 
     @Override

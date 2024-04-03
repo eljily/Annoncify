@@ -3,6 +3,7 @@ package com.sibrahim.annoncify.services.impl;
 import com.sibrahim.annoncify.dto.*;
 import com.sibrahim.annoncify.entity.User;
 import com.sibrahim.annoncify.exceptions.NotFoundException;
+import com.sibrahim.annoncify.exceptions.UserAlreadyExistException;
 import com.sibrahim.annoncify.mapper.UserMapper;
 import com.sibrahim.annoncify.repository.UserRepository;
 import com.sibrahim.annoncify.security.JwtService;
@@ -15,6 +16,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -56,9 +60,13 @@ public class AuthServiceImpl implements AuthService {
 
 
     @Override
-    public RegisterDto registerUser(RegisterDto registerDto) {
-       otpService.sendOtpMessageToUser(registerDto);
-       return registerDto;
+    public RegisterDto registerUser(RegisterDto registerDto) throws IOException {
+       //otpService.sendOtpMessageToUser(registerDto);
+        Optional<User> user = userRepository.findUserByPhoneNumber(registerDto.getPhoneNumber());
+        if (user.isPresent()){
+            throw new UserAlreadyExistException("User Already Exist :"+registerDto.getPhoneNumber());
+        }
+        return userService.saveUser(registerDto);
     }
 
     @Override
