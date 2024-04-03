@@ -44,6 +44,16 @@ public class CategoryMapper {
         return List.of();
     }
 
+    public List<SubCategoryDto> toSubCategoryDtos(List<SubCategory> categories){
+        if(categories!=null){
+            return categories
+                    .stream()
+                    .map(this::toDTO)
+                    .collect(Collectors.toList());
+        }
+        return List.of();
+    }
+
     public List<Category> toCategories(List<CategoryDto> categories){
         if(categories!=null){
             return categories

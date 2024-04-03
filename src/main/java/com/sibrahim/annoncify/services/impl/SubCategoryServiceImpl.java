@@ -63,7 +63,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
 
     @Override
     public List<SubCategoryDto> getByCategoryId(Long id) {
-        return null;
+        return categoryMapper.toSubCategoryDtos(subCategoryRepository.findAllByCategoryId(id));
     }
 
     @Override

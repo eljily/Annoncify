@@ -1,11 +1,11 @@
 package com.sibrahim.annoncify.controller;
 
-import com.sibrahim.annoncify.dto.CategoryDto;
-import com.sibrahim.annoncify.dto.ResponseMessage;
-import com.sibrahim.annoncify.dto.SubCategoryDto;
+import com.sibrahim.annoncify.dto.*;
 import com.sibrahim.annoncify.services.CategoryService;
 import com.sibrahim.annoncify.services.SubCategoryService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,6 +55,16 @@ public class CategoryController {
         return ResponseEntity.ok(ResponseMessage.builder()
                         .message("Sub Category Added Successfully")
                         .data(subCategoryService.createSubCategory(subCategory))
+                .build());
+    }
+
+    @GetMapping("/SubCategoriesByCategoryId/{categoryId}")
+    public ResponseEntity<ResponseMessage> getAllProducts(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                          @RequestParam(name = "size", defaultValue = "20") int size,
+                                                          @PathVariable(name="categoryId") Long categoryId) {
+        return ResponseEntity.ok(ResponseMessage.builder()
+                        .message("Retrieved Sub categories By Category ID.")
+                        .data(subCategoryService.getByCategoryId(categoryId))
                 .build());
     }
 }
