@@ -59,4 +59,6 @@ public class Product {
     @JoinColumn(name = "sub_category_id")
     private SubCategory subCategory;
 
+    private Long hit ;
+
 }

@@ -98,6 +98,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Optional<ProductDto> getProductById(Long id) {
         Product product = productRepository.findById(id).orElseThrow();
+        log.info("Called get Product ");
+        Long hit = product.getHit();
+        Long hitValue = Optional.ofNullable(hit).orElse(0L);
+        product.setHit(hitValue+1L);
+        productRepository.save(product);
         return Optional.of(productMapper.toProductDto(product));
     }
 
