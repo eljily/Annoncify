@@ -66,15 +66,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductDto> getAllProducts(int page,int size) {
-        try {
             return productRepository
                     .findAll(PageRequest.of(page,size))
                     .map(productMapper::toProductDto);
-        }catch (Exception e){
-            log.error("OCCURRED WHILE TRYING TO FETCH PAGE OF PRODUCT",e);
-            return null;
-        }
-
     }
 
     @Override

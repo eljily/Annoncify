@@ -33,6 +33,10 @@ public class ProductMapper {
     @Autowired private CategoryRepository categoryRepository;
 
     public ProductDto toProductDto(Product product){
+        String subCategoryName = (product.getSubCategory() != null && product.getSubCategory().getName() != null)
+                ? product.getSubCategory().getName()
+                : "No subcategory";
+
         return ProductDto.builder()
                 .id(product.getId())
                 .name(product.getName())
@@ -43,13 +47,11 @@ public class ProductMapper {
                 .mark(product.getMark())
                 .hit(product.getHit())
                 .userId(product.getUser() != null ? (product.getUser().getId() != null ? product.getUser().getId() : -1) : -1)
-//                .category(product.getCategory() !=null ?(product.getCategory().getName() != null?product.getCategory().getName():"no category"):"no category")
-                .subCategory(product.getSubCategory().getName())
-//                .category(product.getSubCategory().getCategory().getName())
+                .subCategory(subCategoryName)
                 .images(imageMapper.toImageDtos(product.getImages()))
-//                .category(categoryMapper.toCategoryResponseDto(product.getCategory()))
                 .build();
     }
+
 
     public Product toProduct(ProductDto productDto){
         return Product.builder()

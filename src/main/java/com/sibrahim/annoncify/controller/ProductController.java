@@ -44,8 +44,7 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<ResponseMessage> getAllProduct(@RequestParam(name = "page", defaultValue = "0") int page,
-                                                         @RequestParam(name = "size", defaultValue = "14") int size) {
-        try {
+                                                         @RequestParam(name = "size", defaultValue = "5") int size) {
             Page<ProductDto> products = productService.getAllProducts(page, size);
             PaginationData paginationData = new PaginationData(products);
             return ResponseEntity.ok(ResponseMessage.builder()
@@ -54,17 +53,12 @@ public class ProductController {
                     .data(products.getContent())
                     .meta(paginationData)
                     .build());
-        } catch (Exception e) {
-            log.error("ERROR WHILE GETTING ALL PRODUCTS,message:" + e.getMessage());
-            return null;
-        }
     }
 
     @GetMapping("/productsByCategoryId/{categoryId}")
     public ResponseEntity<ResponseMessage> getAllProducts(@RequestParam(name = "page", defaultValue = "0") int page,
                                                          @RequestParam(name = "size", defaultValue = "14") int size,
                                                          @PathVariable(name="categoryId") int categoryId) {
-        try {
             Page<ProductDto> products = productService.getAllProducts(page, size,categoryId);
             PaginationData paginationData = new PaginationData(products);
             return ResponseEntity.ok(ResponseMessage.builder()
@@ -73,10 +67,6 @@ public class ProductController {
                     .data(products.getContent())
                     .meta(paginationData)
                     .build());
-        } catch (Exception e) {
-            log.error("ERROR WHILE GETTING PRODUCTS By CategoryID,message:" + e.getMessage());
-            return null;
-        }
     }
 
 
