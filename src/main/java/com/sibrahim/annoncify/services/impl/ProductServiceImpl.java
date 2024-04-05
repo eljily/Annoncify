@@ -117,64 +117,6 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(product.getId());
     }
 
-    //deprecated
-//    @Override
-//    public ProductDto saveProduct(ProductDto productDto) {
-//        Product product = productMapper.toProduct(productDto);
-//
-//        if (product.getId() == null) {
-//            // This is a new product, save it
-//            if (productDto.getCategory() != null) {
-//                Optional<Category> category = categoryRepository.findCategoryByName(productDto.getCategory());
-//                if (category.isPresent()) {
-//                    product.setCategory(category.get());
-//                } else {
-//                    Category savedCategory = categoryRepository.save(Category
-//                            .builder()
-//                            .name(productDto.getCategory())
-//                            .createDate(LocalDateTime.now())
-//                            .updateDate(LocalDateTime.now())
-//                            .build());
-//                    product.setCategory(savedCategory);
-//                }
-//            }
-//            product.setProductStatus(ProductStatus.PENDING);
-//            product.setCreateDate(new Date());
-//            product.setUpdateDate(new Date());
-//            product.setMark(productDto.getMark());
-//
-//            // Extract user details from Authentication
-//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//            if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof User) {
-//                User user = (User) authentication.getPrincipal();
-//                product.setUser(user);}
-//
-//            return productMapper.toProductDto(productRepository.save(product));
-//        } else {
-//            // This is an update, merge the existing product with the new data
-//            Product dbProduct = productRepository.findById(product.getId()).orElse(null);
-//
-//            if (dbProduct != null) {
-//                // Update only the fields that are not null in the incoming productDto
-//                if (productDto.getName() != null) {
-//                    dbProduct.setName(productDto.getName());
-//                }
-//                if (productDto.getPrice() != null) {
-//                    dbProduct.setPrice(productDto.getPrice());
-//                }
-//                if (productDto.getDescription() != null) {
-//                    dbProduct.setDescription(productDto.getDescription());
-//                }
-//                dbProduct.setUpdateDate(new Date());
-//                // Save the updated product
-//                return productMapper.toProductDto(productRepository.save(dbProduct));
-//            } else {
-//                // Handle the case where the product with the given ID is not found
-//                return null;
-//            }
-//        }
-//    }
-
     public Product addProductWithImages(Product product, List<MultipartFile> imageFiles) {
         try {
             // Save the product to the database
