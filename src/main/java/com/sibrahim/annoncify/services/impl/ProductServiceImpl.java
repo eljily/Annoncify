@@ -166,21 +166,17 @@ public class ProductServiceImpl implements ProductService {
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
 
-        // Extract user details from Authentication
         Object principal = authentication.getPrincipal();
 
         if (principal instanceof User user) {
             product.setUser(user);
         } else {
-            // Set user to null if the principal is not of type User
             product.setUser(null);
         }
         product.setProductStatus(ProductStatus.PENDING);
         product.setCreateDate(new Date());
         product.setUpdateDate(new Date());
         Product savedProduct = productRepository.save(product);
-
-//        product.setId(savedProduct.getId());
 
         List<String> imageUrls = productRequestDto.getImages().parallelStream() // Used parallelStream() for concurrent processing
                 .map(this::uploadImageToFirebase)
@@ -198,14 +194,10 @@ public class ProductServiceImpl implements ProductService {
             imageRespository.save(image);
         }
         savedProduct.setImages(imageMapper.toImages(imageDtos));
-//        productDto.setImages(imageDtos);
-//        productDto.setCreateDate(savedProduct.getCreateDate());
-//        productDto.setUpdateDate(savedProduct.getUpdateDate());
         return productMapper.toProductDto(savedProduct);
     }
     public String uploadImageToFirebase(MultipartFile imageFile) {
         try {
-            // Upload the image to Firebase Storage and return the URL
             log.info("UPLOADING IMAGE TO FIREBASE: {}", imageFile.getOriginalFilename());
             String imageUrl = imageService.upload(imageFile);
             log.info("UPLOAD SUCCESSFUL: {} - URL: {}", imageFile.getOriginalFilename(), imageUrl);
