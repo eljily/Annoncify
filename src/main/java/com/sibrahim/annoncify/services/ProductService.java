@@ -31,4 +31,5 @@ public interface ProductService {
     String uploadImageToFirebase(MultipartFile imageFile);
 
     ProductDto addProduct(ProductRequestDto productRequestDto);
+    
 }

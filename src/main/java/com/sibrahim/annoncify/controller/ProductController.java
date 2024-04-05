@@ -79,6 +79,25 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/productsBySubCategoryId/{categoryId}")
+    public ResponseEntity<ResponseMessage> getAllProductsBySubCategoryId(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                          @RequestParam(name = "size", defaultValue = "14") int size,
+                                                          @PathVariable(name="categoryId") int categoryId) {
+        try {
+            Page<ProductDto> products = productService.getAllProductsBySubCategory(page, size,categoryId);
+            PaginationData paginationData = new PaginationData(products);
+            return ResponseEntity.ok(ResponseMessage.builder()
+                    .status(HttpStatus.OK.value())
+                    .message("Product Page Retrieved Successfully")
+                    .data(products.getContent())
+                    .meta(paginationData)
+                    .build());
+        } catch (Exception e) {
+            log.error("ERROR WHILE GETTING PRODUCTS By CategoryID,message:" + e.getMessage());
+            return null;
+        }
+    }
+
     @PostMapping(value = "/addProduct", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseMessage> addProduct(@ModelAttribute ProductRequestDto product) {
         try {

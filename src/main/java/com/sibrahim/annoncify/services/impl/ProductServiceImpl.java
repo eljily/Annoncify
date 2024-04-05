@@ -154,9 +154,10 @@ public class ProductServiceImpl implements ProductService {
         product.setDescription(productRequestDto.getDescription());
 
             SubCategory subCategory;
-            if (productRequestDto.getSubCategory()!=null){
-                subCategory = subCategoryService
-                        .getByName(productRequestDto.getSubCategory());
+            if (productRequestDto.getSubCategoryId()!=null){
+                log.info("SubCategory  Fetching ...");
+                subCategory = categoryMapper.toModel(subCategoryService.getSubcategory(productRequestDto
+                        .getSubCategoryId()));
             }
             else {
                 subCategory = subCategoryService.fetchOrCreateDefault();
@@ -176,7 +177,9 @@ public class ProductServiceImpl implements ProductService {
         product.setProductStatus(ProductStatus.PENDING);
         product.setCreateDate(new Date());
         product.setUpdateDate(new Date());
+        log.info("-----Saving PRODUCT-------");
         Product savedProduct = productRepository.save(product);
+        log.info("------Product Saved-------");
 
         List<String> imageUrls = productRequestDto.getImages().parallelStream() // Used parallelStream() for concurrent processing
                 .map(this::uploadImageToFirebase)

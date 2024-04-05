@@ -27,7 +27,6 @@ public class ProductDto {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
     private List<ImageDto> images;
-    private String category;
     private String subCategory;
     private String mark;
     private Long userId;

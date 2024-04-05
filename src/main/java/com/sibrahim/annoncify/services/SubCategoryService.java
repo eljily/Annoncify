@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface SubCategoryService {
     SubCategoryDto createSubCategory(SubCategoryDto category,Long categoryId);
-    SubCategoryDto getSubcategoryCategory(Long id);
+    SubCategoryDto getSubcategory(Long id);
     List<SubCategoryDto> getAll();
     String deleteSubCategory(Long id);
     List<SubCategoryDto> getByCategoryId(Long id);

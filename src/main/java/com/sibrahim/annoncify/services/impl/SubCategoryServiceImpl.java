@@ -4,6 +4,7 @@ import com.sibrahim.annoncify.dto.SubCategoryDto;
 import com.sibrahim.annoncify.entity.Category;
 import com.sibrahim.annoncify.entity.SubCategory;
 import com.sibrahim.annoncify.exceptions.GenericException;
+import com.sibrahim.annoncify.exceptions.NotFoundException;
 import com.sibrahim.annoncify.exceptions.SubCategoryException;
 import com.sibrahim.annoncify.mapper.CategoryMapper;
 import com.sibrahim.annoncify.repository.CategoryRepository;
@@ -46,8 +47,10 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     }
 
     @Override
-    public SubCategoryDto getSubcategoryCategory(Long id) {
-        return null;
+    public SubCategoryDto getSubcategory(Long id) {
+        SubCategory subCategory = subCategoryRepository.findById(id)
+                .orElseThrow(()->new NotFoundException("SubCategory Not Found With id : "+id));
+        return categoryMapper.toDTO(subCategory);
     }
 
     @Override

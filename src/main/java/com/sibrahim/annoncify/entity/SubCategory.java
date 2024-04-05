@@ -26,8 +26,6 @@ public class SubCategory {
 
     private LocalDateTime updateDate;
 
-    private String categoryName;
-
     @ManyToOne
     @JoinColumn(name = "category_id")
     @JsonBackReference
