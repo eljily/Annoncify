@@ -41,6 +41,7 @@ public class ProductMapper {
                 .createDate(product.getCreateDate())
                 .updateDate(product.getUpdateDate())
                 .mark(product.getMark())
+                .hit(product.getHit())
                 .userId(product.getUser() != null ? (product.getUser().getId() != null ? product.getUser().getId() : -1) : -1)
 //                .category(product.getCategory() !=null ?(product.getCategory().getName() != null?product.getCategory().getName():"no category"):"no category")
                 .subCategory(product.getSubCategory().getName())

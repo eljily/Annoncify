@@ -30,6 +30,7 @@ public class ProductDto {
     private String subCategory;
     private String mark;
     private Long userId;
+    private Long hit;
 //    private CategoryResponseDto category;
 
 }
