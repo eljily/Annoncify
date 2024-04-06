@@ -111,33 +111,34 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(product.getId());
     }
 
-    public Product addProductWithImages(Product product, List<MultipartFile> imageFiles) {
-        try {
-            // Save the product to the database
-            product.setCreateDate(new Date());
-            Product savedProduct = productRepository.save(product);
-
-            // Upload images to Firebase Storage and save their URLs to the database
-            List<String> imageUrls = imageFiles.stream()
-                    .map(this::uploadImageToFirebase)
-                    .toList();
-
-            for (String imageUrl : imageUrls) {
-                Image image = new Image();
-                image.setImageUrl(imageUrl);
-                image.setProduct(savedProduct);
-                image.setCreateDate(LocalDateTime.now());
-                image.setUpdateDate(LocalDateTime.now());
-                imageRespository.save(image);
-            }
-
-            return savedProduct;
-        }catch (Exception e){
-            log.error("ERROR WHILE TRYING TO SAVE PRODUCT WITH IMAGES,message:"+e.getMessage());
-            return null;
-        }
-
-    }
+    //@DEPRECATED!
+//    public Product addProductWithImages(Product product, List<MultipartFile> imageFiles) {
+//        try {
+//            // Save the product to the database
+//            product.setCreateDate(new Date());
+//            Product savedProduct = productRepository.save(product);
+//
+//            // Upload images to Firebase Storage and save their URLs to the database
+//            List<String> imageUrls = imageFiles.stream()
+//                    .map(this::uploadImageToFirebase)
+//                    .toList();
+//
+//            for (String imageUrl : imageUrls) {
+//                Image image = new Image();
+//                image.setImageUrl(imageUrl);
+//                image.setProduct(savedProduct);
+//                image.setCreateDate(LocalDateTime.now());
+//                image.setUpdateDate(LocalDateTime.now());
+//                imageRespository.save(image);
+//            }
+//
+//            return savedProduct;
+//        }catch (Exception e){
+//            log.error("ERROR WHILE TRYING TO SAVE PRODUCT WITH IMAGES,message:"+e.getMessage());
+//            return null;
+//        }
+//
+//    }
 
     @Override
     public ProductDto addProduct(ProductRequestDto productRequestDto) {
@@ -176,7 +177,7 @@ public class ProductServiceImpl implements ProductService {
         log.info("------Product Saved-------");
 
         List<String> imageUrls = productRequestDto.getImages().parallelStream() // Used parallelStream() for concurrent processing
-                .map(this::uploadImageToFirebase)
+                .map(imageService::uploadImageToFirebase)
                 .toList();
 
         List<ImageDto> imageDtos = new ArrayList<>();
@@ -193,16 +194,6 @@ public class ProductServiceImpl implements ProductService {
         savedProduct.setImages(imageMapper.toImages(imageDtos));
         return productMapper.toProductDto(savedProduct);
     }
-    public String uploadImageToFirebase(MultipartFile imageFile) {
-        try {
-            log.info("UPLOADING IMAGE TO FIREBASE: {}", imageFile.getOriginalFilename());
-            String imageUrl = imageService.upload(imageFile);
-            log.info("UPLOAD SUCCESSFUL: {} - URL: {}", imageFile.getOriginalFilename(), imageUrl);
-            return imageUrl;
-        } catch (Exception e) {
-            log.error("FAILED TO UPLOAD IMAGE TO FIREBASE: {} - Error: {}", imageFile.getOriginalFilename(), e.getMessage());
-            return null;
-        }
-    }
+
 
 }

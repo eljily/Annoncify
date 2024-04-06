@@ -26,10 +26,10 @@ public interface ProductService {
     //deprecated
 //    ProductDto saveProduct(ProductDto product);
 
-    Product addProductWithImages(Product product, List<MultipartFile> imageFiles);
+//    Product addProductWithImages(Product product, List<MultipartFile> imageFiles);
 
-    String uploadImageToFirebase(MultipartFile imageFile);
+//    String uploadImageToFirebase(MultipartFile imageFile);
 
     ProductDto addProduct(ProductRequestDto productRequestDto);
-    
+
 }

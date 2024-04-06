@@ -90,23 +90,23 @@ public class ProductController {
     }
 
     //This Endpoint is deprecated.
-    @PostMapping(value = "/addWithImages", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ProductDto> addProductWithImages(@RequestParam("product") String productJson,
-                                                           @RequestParam("imageFiles") List<MultipartFile> imageFiles) {
-        try {
-            Product product = new ObjectMapper().readValue(productJson, Product.class);
-
-            Product savedProduct = productService.addProductWithImages(product, imageFiles);
-
-            if (savedProduct != null) {
-                return new ResponseEntity<>(productMapper.toProductDto(savedProduct), HttpStatus.CREATED);
-            } else {
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @PostMapping(value = "/addWithImages", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<ProductDto> addProductWithImages(@RequestParam("product") String productJson,
+//                                                           @RequestParam("imageFiles") List<MultipartFile> imageFiles) {
+//        try {
+//            Product product = new ObjectMapper().readValue(productJson, Product.class);
+//
+//            Product savedProduct = productService.addProductWithImages(product, imageFiles);
+//
+//            if (savedProduct != null) {
+//                return new ResponseEntity<>(productMapper.toProductDto(savedProduct), HttpStatus.CREATED);
+//            } else {
+//                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//            }
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {

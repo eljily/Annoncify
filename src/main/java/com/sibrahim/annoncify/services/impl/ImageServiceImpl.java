@@ -9,6 +9,7 @@ import com.google.cloud.storage.StorageOptions;
 import com.sibrahim.annoncify.entity.Image;
 import com.sibrahim.annoncify.repository.ImageRespository;
 import com.sibrahim.annoncify.services.ImageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +24,7 @@ import java.nio.file.Files;
 import java.util.Optional;
 import java.util.UUID;
 @Service
+@Slf4j
 public class ImageServiceImpl implements ImageService {
 
     @Value("${firebase.storage.bucketName}")
@@ -109,6 +111,18 @@ public class ImageServiceImpl implements ImageService {
         } else {
             // If ?alt=media is not found, extract the file name up to the end
             return fileUrl.substring(lastSlashIndex + 1);
+        }
+    }
+
+    public String uploadImageToFirebase(MultipartFile imageFile) {
+        try {
+            log.info("UPLOADING IMAGE TO FIREBASE: {}", imageFile.getOriginalFilename());
+            String imageUrl = upload(imageFile);
+            log.info("UPLOAD SUCCESSFUL: {} - URL: {}", imageFile.getOriginalFilename(), imageUrl);
+            return imageUrl;
+        } catch (Exception e) {
+            log.error("FAILED TO UPLOAD IMAGE TO FIREBASE: {} - Error: {}", imageFile.getOriginalFilename(), e.getMessage());
+            return null;
         }
     }
 }
