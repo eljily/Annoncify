@@ -20,7 +20,7 @@ public interface UserService {
 
     void deleteProduct(Long id);
 
-    UserDto getUserById(Long id);
+    RegisterDto getUserById(Long id);
 
     Optional<User> getById(Long id);
 

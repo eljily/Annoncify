@@ -37,14 +37,12 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUser(@PathVariable Long id){
-        try {
-            return ResponseEntity.ok(userService.getUserById(id));
-        }catch (Exception e){
-            log.error("ERROR WHILE GETTING USER BY ID ,message:"+e.getMessage());
-            return null;
-        }
-
+    public ResponseEntity<ResponseMessage> getUser(@PathVariable Long id){
+            return ResponseEntity.ok(ResponseMessage.builder()
+                    .status(200)
+                    .message("USer Retrieved successfully")
+                    .data(userService.getUserById(id))
+                    .build());
     }
 
     @GetMapping("/myProducts")

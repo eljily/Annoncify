@@ -90,9 +90,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserById(Long id) {
+    public RegisterDto getUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow();
-        return userMapper.toUserDto(user);
+        return userMapper.toDto(user);
     }
 
     @Override
