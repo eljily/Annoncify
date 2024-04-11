@@ -24,7 +24,7 @@ target/
 application-dev.properties
 application-sidi.properties
 /logs
-
+Dockerfile
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
