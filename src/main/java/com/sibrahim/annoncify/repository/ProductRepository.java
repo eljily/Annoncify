@@ -10,9 +10,14 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ProductRepository extends JpaRepository<Product,Long> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.user.id = :userId")
     List<Product> findProductsByUserId(@Param("userId") Long userId);
-//    Page<Product> findByCategory_Id(int categoryId, Pageable pageable);
-    Page<Product> findBySubCategory_Id(int categoryId, Pageable pageable);
+
+    //    Page<Product> findByCategory_Id(int categoryId, Pageable pageable);
+    @Query("SELECT p FROM Product p WHERE p.subCategory.id = :categoryId ORDER BY p.createDate DESC")
+    Page<Product> findBySubCategory_Id(@Param("categoryId") int categoryId, Pageable pageable);
+
+    @Query("SELECT p FROM Product p ORDER BY p.createDate DESC")
+    Page<Product> findAllOrderedByCreateDateDesc(Pageable pageable);
 }

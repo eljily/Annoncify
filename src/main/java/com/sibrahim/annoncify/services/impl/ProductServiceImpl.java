@@ -67,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductDto> getAllProducts(int page,int size) {
             return productRepository
-                    .findAll(PageRequest.of(page,size))
+                    .findAllOrderedByCreateDateDesc(PageRequest.of(page,size))
                     .map(productMapper::toProductDto);
     }
 
