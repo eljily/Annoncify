@@ -21,7 +21,7 @@ target/
 *.ipr
 
 ##log
-application-sidibrahim.properties
+application-dev.properties
 application-sidi.properties
 /logs
 
