@@ -21,8 +21,8 @@ target/
 *.ipr
 
 ##log
-application-dev.properties
-application-sidi.properties
+./application-dev.properties
+./application-sidi.properties
 /logs
 ./Dockerfile
 ### NetBeans ###
