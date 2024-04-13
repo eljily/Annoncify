@@ -77,7 +77,7 @@ public class AuthServiceImpl implements AuthService {
         if (user.isPresent()) {
             throw new UserAlreadyExistException("User Already Exist :" + registerDto.getPhoneNumber());
         }
-        return userService.saveUser(registerDto);
+        return userService.saveUser(registerDto,null);
     }
 
     @Override

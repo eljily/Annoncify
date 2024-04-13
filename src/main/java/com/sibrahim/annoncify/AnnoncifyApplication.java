@@ -63,8 +63,10 @@ public class AnnoncifyApplication implements CommandLineRunner {
 	@Override
 	@Transactional
 	public void run(String... args) throws Exception {
-//		List<User> users = userRepository.findAll();
-//		users.forEach(user ->
-//				userRepository.deleteById(user.getId()));
+//		var user  = userRepository.findById(149L).get();
+//		System.out.println(user.isEnabled());
+//		user.setEnabled(true);
+//		System.out.println(user.isEnabled());
+//		userRepository.save(user);
 	}
 }

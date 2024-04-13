@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface UserService {
 
-    RegisterDto saveUser(RegisterDto registerDto) throws IOException;
+    RegisterDto saveUser(RegisterDto registerDto,Long id) throws IOException;
 
     Page<UserDto> getAllUsers(int page,int size);
 

@@ -29,10 +29,6 @@ public class UserMapper {
     @Lazy
     private ProductMapper productMapper;
 
-    @Autowired private PasswordEncoder passwordEncoder;
-
-    @Autowired private ImageServiceImpl imageService;
-
     public UserDto toUserDto(User user){
 
         return UserDto.builder()
@@ -52,70 +48,6 @@ public class UserMapper {
                 .updateDate(userDto.getUpdateDate())
                 .products(productMapper.toProducts(userDto.getProducts()))
                 .build();
-    }
-
-    public User toUser(RegisterDto userDto, User existingUser) throws IOException {
-        User.UserBuilder userBuilder = User.builder();
-
-        if (userDto.getName() != null) {
-            userBuilder.name(userDto.getName());
-        }
-
-        if (userDto.getFirstName() != null) {
-            userBuilder.firstName(userDto.getFirstName());
-        }
-        if (userDto.getLastName() != null) {
-            userBuilder.lastName(userDto.getLastName());
-        }
-        if (userDto.getAddress() != null) {
-            userBuilder.address(userDto.getAddress());
-        }
-        if (userDto.getEmail() != null) {
-            userBuilder.email(userDto.getEmail());
-        }
-        if (userDto.getBirthDate() != null) {
-            userBuilder.birthDate(userDto.getBirthDate());
-        }
-        if (userDto.getPhoneNumber() != null) {
-            userBuilder.phoneNumber(userDto.getPhoneNumber());
-        }
-
-        userBuilder.role(RoleEnum.USER)
-                .updateDate(new Date());
-
-        CompletableFuture<String> imageUrlFuture = null;
-        if (userDto.getProfilePhoto() != null && !userDto.getProfilePhoto().isEmpty()) {
-            imageUrlFuture = uploadProfilePhotoAsync(userDto.getProfilePhoto());
-        }
-        if (existingUser == null) {
-            userBuilder.password(passwordEncoder.encode(userDto.getPassword()))
-                    .createDate(new Date());
-            if (imageUrlFuture != null) {
-                try {
-                    userBuilder.profileUrl(imageUrlFuture.get());
-                } catch (Exception e) {
-                    log.error("Error while trying to upload profile photo");
-                }
-            }
-        } else {
-            if (imageUrlFuture != null) {
-                try {
-                    userBuilder.profileUrl(imageUrlFuture.get());
-                } catch (Exception e) {
-                    log.error("Error while trying to upload profile photo");
-                }
-            }
-            userBuilder.id(existingUser.getId());
-            userBuilder.password(existingUser.getPassword())
-                    .createDate(existingUser.getCreateDate());
-        }
-
-        return userBuilder.build();
-    }
-
-    @Async
-    public CompletableFuture<String> uploadProfilePhotoAsync(MultipartFile profilePhoto) {
-        return CompletableFuture.completedFuture(imageService.upload(profilePhoto));
     }
 
     public RegisterDto toDto(User user){

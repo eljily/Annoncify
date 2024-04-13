@@ -82,7 +82,17 @@ public class UserController {
         return ResponseEntity.ok(ResponseMessage.builder()
                         .message("User added successfully ")
                         .status(HttpStatus.OK.value())
-                        .data(userService.saveUser(registerDto))
+                        .data(userService.saveUser(registerDto,null))
+                .build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseMessage> updateUser(@ModelAttribute RegisterDto registerDto,
+                                                      @PathVariable(name = "id") Long id) throws IOException {
+        return ResponseEntity.ok(ResponseMessage.builder()
+                .message("User updated successfully ")
+                .status(HttpStatus.OK.value())
+                .data(userService.saveUser(registerDto,id))
                 .build());
     }
 }
