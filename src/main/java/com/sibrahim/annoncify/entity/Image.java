@@ -24,7 +24,7 @@ public class Image {
 
     private LocalDateTime updateDate;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "product_id")
     @JsonBackReference
     private Product product;
