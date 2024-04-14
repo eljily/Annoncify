@@ -47,7 +47,7 @@ public class Product {
     @JsonBackReference
     private User user;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<Image> images;
 
