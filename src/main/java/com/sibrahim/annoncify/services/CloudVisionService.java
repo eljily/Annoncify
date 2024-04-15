@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Service
+//@Service
 public class CloudVisionService {
 
     private final ImageAnnotatorClient visionClient;
