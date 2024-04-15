@@ -22,7 +22,7 @@ public class CloudVisionService {
 //
 //    public CloudVisionService() throws IOException {
 //        // Load credentials from key.json file in resources directory
-//        Resource credentialsFile = new ClassPathResource("service_key.json");
+//        Resource credentialsFile = new ClassPathResource("");
 //        InputStream inputStream = credentialsFile.getInputStream();
 //        Credentials credentials = GoogleCredentials.fromStream(inputStream);
 //        inputStream.close();
