@@ -3,6 +3,7 @@ package com.sibrahim.annoncify.mapper;
 import com.sibrahim.annoncify.dto.CategoryDto;
 import com.sibrahim.annoncify.dto.ProductDto;
 import com.sibrahim.annoncify.dto.ProductRequestDto;
+import com.sibrahim.annoncify.dto.VendorDetails;
 import com.sibrahim.annoncify.entity.Category;
 import com.sibrahim.annoncify.entity.Product;
 import com.sibrahim.annoncify.repository.CategoryRepository;
@@ -48,6 +49,13 @@ public class ProductMapper {
                 .hit(product.getHit())
                 .userId(product.getUser() != null ? (product.getUser().getId() != null ? product.getUser().getId() : -1) : -1)
                 .subCategory(subCategoryName)
+                .vendorDetails(VendorDetails
+                        .builder()
+                        .phoneNumber(product.getUser()!=null?product.getUser().getPhoneNumber():null)
+                        .name(product.getUser()!=null?product.getUser().getName():null)
+                        .profileUrl(product.getUser()!=null?product.getUser().getProfileUrl():null)
+                        .id(product.getUser()!=null?product.getUser().getId():null)
+                        .build())
                 .images(imageMapper.toImageDtos(product.getImages()))
                 .build();
     }

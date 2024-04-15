@@ -31,6 +31,7 @@ public class ProductDto {
     private String mark;
     private Long userId;
     private Long hit;
+    private VendorDetails vendorDetails;
 //    private CategoryResponseDto category;
 
 }

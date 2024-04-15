@@ -113,7 +113,7 @@ public class ProductController {
         try {
             return ResponseEntity.ok(productService.getProductById(id).orElseThrow());
         } catch (Exception e) {
-            log.error("ERROR OCCURED WHILE FETCHING PRODUCT BY ID,message:" + e.getMessage());
+            log.error("ERROR OCCURRED WHILE FETCHING PRODUCT BY ID,message:" + e.getMessage());
             return null;
         }
     }
