@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 @SpringBootApplication
-@EnableScheduling
+//@EnableScheduling
 public class AnnoncifyApplication implements CommandLineRunner {
 
 	//	private final ImageRespository imageRespository;
@@ -73,14 +73,14 @@ public class AnnoncifyApplication implements CommandLineRunner {
 //		System.out.println(user.isEnabled());
 //		userRepository.save(user);
 	}
-	int i = 0;
-	@Scheduled(fixedDelay = 5000) // Run every 5 seconds
-	public void sendGetRequest() throws InterruptedException {
-		i = i+1;
-		String url = "https://annoncify.onrender.com/swagger-ui/index.html#/category-controller/getAll";
-		RestTemplate restTemplate = new RestTemplate();
-		String response = restTemplate.getForObject(url, String.class);
-		Thread.sleep(100000);
-		System.out.println("GET request sent to " + url + i);
-	}
+//	int i = 0;
+//	@Scheduled(fixedDelay = 5000) // Run every 5 seconds
+//	public void sendGetRequest() throws InterruptedException {
+//		i = i+1;
+//		String url = "https://annoncify.onrender.com/swagger-ui/index.html#/category-controller/getAll";
+//		RestTemplate restTemplate = new RestTemplate();
+//		String response = restTemplate.getForObject(url, String.class);
+//		Thread.sleep(100000);
+//		System.out.println("GET request sent to " + url + i);
+//	}
 }
