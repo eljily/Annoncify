@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -108,6 +110,19 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(Long id) {
         Product product = productRepository.findById(id).orElseThrow();
+
+        // Step 1: Get all images associated with the product
+        List<Image> images = product.getImages();
+
+        // Step 2: Delete each image
+        List<CompletableFuture<Void>> deletionFutures = images.stream()
+                .map(image -> CompletableFuture.runAsync(() -> imageService.deleteFileByUrl(image.getImageUrl())))
+                .toList();
+
+        // Wait for all image deletions to complete
+        CompletableFuture.allOf(deletionFutures.toArray(new CompletableFuture[0])).join();
+
+        // Step 3: Delete the product
         productRepository.deleteById(product.getId());
     }
 
