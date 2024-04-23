@@ -32,31 +32,21 @@ public class LlamaApiClient {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         ObjectNode requestBody = objectMapper.createObjectNode();
+        requestBody.put("model", "llama3-70b");
         requestBody.put("stream", false);
 
-        ObjectNode messageObject = objectMapper.createObjectNode();
-        messageObject.put("role", "user");
-        messageObject.put("content", "What is the category and subcategory of a product that is more likely to be described by the labels please return only the number : " + labels + "? If it doesn't fit into one of the following categories, please return 'Other' for both category and subcategory. Categories: Electronics, Fashion, Real Estate, Vehicles,Fashion & Accessories. Subcategories: Apartments & Flats, Houses & Villas, Commercial Spaces, Land & Plots, Cars, Motorcycles, Trucks & Commercial Vehicles, Boats & Watercraft, Mobile Phones & Tablets, Computers & Laptops, TVs & Home Theater Systems, Cameras & Photography Equipment, Clothing, Shoes, Bags & Luggage, Watches & Jewelry, Other. Please return the response in JSON format: {category: '..', subcategory: '..'}");
+        ObjectNode systemMessageObject = objectMapper.createObjectNode();
+        systemMessageObject.put("role", "system");
+        systemMessageObject.put("content", "Based on the labels, please determine which category and subcategory fit more from the following categories,and give response only based on them : Electronics (Mobile Phones & Tablets, Computers & Laptops, TVs & Home Theater Systems, Cameras & Photography Equipment), Real Estate (Apartments & Flats, Houses & Villas, Commercial Spaces, Land & Plots), Vehicles (Cars, Motorcycles, Trucks & Commercial Vehicles, Boats & Watercraft), Fashion & Accessories (Clothing, Shoes, Bags & Luggage, Watches & Jewelry),Other(subcategory: Other). Please return the response in the format: 'Category, Subcategory'.");
 
-        requestBody.set("messages", objectMapper.createArrayNode().add(messageObject));
+        ObjectNode userMessageObject = objectMapper.createObjectNode();
+        userMessageObject.put("role", "user");
+        userMessageObject.put("content", labels);
 
-        ArrayNode functionsArray = objectMapper.createArrayNode();
-        ObjectNode functionObject = objectMapper.createObjectNode();
-        functionObject.put("name", "get_category_and_subcategory");
-        ObjectNode parametersObject = objectMapper.createObjectNode();
-        parametersObject.put("type", "object");
-        ObjectNode propertiesObject = objectMapper.createObjectNode();
-        ObjectNode labelsObject = objectMapper.createObjectNode();
-        labelsObject.put("type", "array");
-        ObjectNode itemsObject = objectMapper.createObjectNode();
-        itemsObject.put("type", "string");
-        labelsObject.set("items", itemsObject);
-        propertiesObject.set("labels", labelsObject);
-        parametersObject.set("properties", propertiesObject);
-        functionObject.set("parameters", parametersObject);
-        functionObject.set("required", objectMapper.createArrayNode().add("labels"));
-        functionsArray.add(functionObject);
-        requestBody.set("functions", functionsArray);
+        ArrayNode messagesArray = objectMapper.createArrayNode();
+        messagesArray.add(systemMessageObject);
+        messagesArray.add(userMessageObject);
+        requestBody.set("messages", messagesArray);
 
         HttpEntity<String> request = new HttpEntity<>(requestBody.toString(), headers);
 

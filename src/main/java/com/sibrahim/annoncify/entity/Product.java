@@ -60,6 +60,10 @@ public class Product {
     @JoinColumn(name = "sub_category_id")
     private SubCategory subCategory;
 
+    @ManyToOne
+    @JoinColumn(name = "sub_region_id")
+    private SubRegion subRegion;
+
     private Long hit ;
 
 }

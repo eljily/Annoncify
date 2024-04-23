@@ -30,4 +30,6 @@ public class ProductRequestDto {
 
     private String mark;
 
+    private Long subRegionId;
+
 }

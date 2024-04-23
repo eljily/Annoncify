@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -26,27 +27,42 @@ public class ResponseParsingService {
             JsonNode responseNode = objectMapper.readTree(responseBody);
             JsonNode choicesNode = responseNode.get("choices");
             JsonNode messageNode = choicesNode.get(0).get("message");
-            JsonNode functionCallNode = messageNode.get("function_call");
-            String functionCallArguments = functionCallNode.get("arguments").asText();
-            System.out.println("Function Call Arguments: " + functionCallArguments);
+            String content = messageNode.get("content").asText();
 
-            // Use regex to extract the JSON object containing category and subcategory
-            Pattern pattern = Pattern.compile("\\{.*\"category\".*\"subcategory\".*\\}");
-            Matcher matcher = pattern.matcher(functionCallArguments);
-
-            String category = "Unknown";
-            String subcategory = "Unknown";
+            // Extract category and subcategory from the content
+            Pattern pattern = Pattern.compile("Category: (.*)\nSubcategory: (.*)");
+            Matcher matcher = pattern.matcher(content);
 
             if (matcher.find()) {
-                String jsonMatch = matcher.group();
-                JsonNode argumentsNode = objectMapper.readTree(jsonMatch);
-                category = argumentsNode.get("category").asText();
-                subcategory = argumentsNode.get("subcategory").asText();
-            }
+                String category = matcher.group(1).trim();
+                String subcategory = matcher.group(2).trim();
 
-            // Put category and subcategory into the map
-            categoryAndSubcategory.put("category", category);
-            categoryAndSubcategory.put("subcategory", subcategory);
+                // Check if the category and subcategory are from the provided ones
+                String[] categories = {"Electronics", "Real Estate", "Vehicles", "Fashion & Accessories","Other"};
+                String[] subcategories = {"Mobile Phones & Tablets",
+                        "Computers & Laptops", "TVs & Home Theater Systems",
+                        "Cameras & Photography Equipment", "Apartments & Flats",
+                        "Houses & Villas", "Commercial Spaces", "Land & Plots",
+                        "Cars", "Motorcycles", "Trucks & Commercial Vehicles",
+                        "Boats & Watercraft", "Clothing", "Shoes", "Bags & Luggage",
+                        "Watches & Jewelry", "Building", "Other"};
+
+                if (Arrays.asList(categories).contains(category) && Arrays.asList(subcategories).contains(subcategory)) {
+                    categoryAndSubcategory.put("category", category);
+                    categoryAndSubcategory.put("subcategory", subcategory);
+                } else {
+                    categoryAndSubcategory.put("category", "Other");
+                    categoryAndSubcategory.put("subcategory", "Other");
+                }
+            } else {
+                // Split the content by comma to get category and subcategory
+                String[] parts = content.split(", ");
+                String category = parts[0].trim();
+                String subcategory = parts[1].trim();
+
+                categoryAndSubcategory.put("category", category);
+                categoryAndSubcategory.put("subcategory", subcategory);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

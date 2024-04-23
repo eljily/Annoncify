@@ -9,9 +9,7 @@ import com.sibrahim.annoncify.exceptions.NotFoundException;
 import com.sibrahim.annoncify.mapper.CategoryMapper;
 import com.sibrahim.annoncify.mapper.ImageMapper;
 import com.sibrahim.annoncify.mapper.ProductMapper;
-import com.sibrahim.annoncify.repository.CategoryRepository;
-import com.sibrahim.annoncify.repository.ImageRespository;
-import com.sibrahim.annoncify.repository.ProductRepository;
+import com.sibrahim.annoncify.repository.*;
 import com.sibrahim.annoncify.services.CategoryService;
 import com.sibrahim.annoncify.services.ProductService;
 import com.sibrahim.annoncify.services.SubCategoryService;
@@ -27,11 +25,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -52,6 +48,10 @@ public class ProductServiceImpl implements ProductService {
     @Lazy
     @Autowired
     private UserService userService;
+    @Autowired
+    private SubCategoryRepository subCategoryRepository;
+    @Autowired
+    private SubRegionRepository subRegionRepository;
 
     public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ImageRespository imageRespository, ImageServiceImpl imageService, CategoryService categoryService, ImageMapper imageMapper, CategoryMapper categoryMapper, CategoryRepository categoryRepository, SubCategoryService subCategoryService) {
         this.productRepository = productRepository;
@@ -115,23 +115,23 @@ public class ProductServiceImpl implements ProductService {
         List<Image> images = product.getImages();
 
         // Step 2: Delete each image asynchronously
-        List<CompletableFuture<Void>> deletionFutures = images.stream()
+        CompletableFuture<?>[] deletionFutures = images.stream()
                 .map(image -> CompletableFuture.runAsync(() -> {
                     try {
                         imageService.deleteFileByUrl(image.getImageUrl());
                     } catch (Exception e) {
                         // Log the error or handle it as per your requirement
-                        e.printStackTrace();
+                        log.error("Error while deleting image from firebase ",e);
                     }
                 }))
-                .toList();
+                .toArray(CompletableFuture[]::new);
 
-        // Wait for all image deletions to complete
-        CompletableFuture<Void> allDeletions = CompletableFuture.allOf(deletionFutures.toArray(new CompletableFuture[0]));
-
-        // Step 3: Delete the product after all image deletions are completed
-        allDeletions.thenRun(() -> productRepository.deleteById(product.getId())).join();
+        // Step 3: Wait for all image deletions to complete, then delete the product
+        CompletableFuture.allOf(deletionFutures)
+                .thenRun(() -> productRepository.deleteById(product.getId()))
+                .join();
     }
+
 
 
     //@DEPRECATED!
@@ -170,53 +170,68 @@ public class ProductServiceImpl implements ProductService {
         product.setName(productRequestDto.getName());
         product.setPrice(productRequestDto.getPrice());
         product.setDescription(productRequestDto.getDescription());
+        SubRegion subRegion = subRegionRepository.findById(productRequestDto.getSubRegionId())
+                .orElseThrow(()->new NotFoundException("Not Found Exception"));
+        product.setSubRegion(subRegion);
 
-            SubCategory subCategory;
-            if (productRequestDto.getSubCategoryId()!=null){
-                log.info("SubCategory  Fetching ...");
-                subCategory = categoryMapper.toModel(subCategoryService.getSubcategory(productRequestDto
-                        .getSubCategoryId()));
-            }
-            else {
-                subCategory = subCategoryService.fetchOrCreateDefault();
-            }
+        try {
+            // Call the method to generate category and subcategory from AI asynchronously
+            CompletableFuture<Map<String, String>> categoryAndSubcategoryFuture = CompletableFuture.supplyAsync(() -> {
+                try {
+                    return imageService.generateCategoryAndSubcategory(productRequestDto.getImages());
+                } catch (IOException e) {
+                    log.error("Error generating category and subcategory: {}", e.getMessage());
+                    return Collections.emptyMap();
+                }
+            });
+
+            // Wait for the response from the AI
+            Map<String, String> categoryAndSubcategory = categoryAndSubcategoryFuture.join();
+
+            // Fetch or create category and subcategory based on the obtained data
+
+            SubCategory subCategory = subCategoryRepository.findSubCategoryByName(categoryAndSubcategory.get("subcategory")).orElseThrow(() -> new NotFoundException("Subcategory not found"));
             product.setSubCategory(subCategory);
 
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
+            // Set the user
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Object principal = authentication.getPrincipal();
 
-        Object principal = authentication.getPrincipal();
+            if (principal instanceof User user) {
+                product.setUser(user);
+            } else {
+                product.setUser(null);
+            }
+            product.setProductStatus(ProductStatus.PENDING);
+            product.setCreateDate(new Date());
+            product.setUpdateDate(new Date());
+            log.info("-----Saving PRODUCT-------");
+            Product savedProduct = productRepository.save(product);
+            log.info("------Product Saved-------");
 
-        if (principal instanceof User user) {
-            product.setUser(user);
-        } else {
-            product.setUser(null);
+            // Upload images and save them to the database
+            List<String> imageUrls = productRequestDto.getImages().parallelStream() // Used parallelStream() for concurrent processing
+                    .map(imageService::uploadImageToFirebase)
+                    .toList();
+
+            List<ImageDto> imageDtos = new ArrayList<>();
+
+            for (String imageUrl : imageUrls) {
+                Image image = new Image();
+                image.setImageUrl(imageUrl);
+                image.setProduct(savedProduct);
+                image.setCreateDate(LocalDateTime.now());
+                image.setUpdateDate(LocalDateTime.now());
+                imageDtos.add(imageMapper.toImageDto(image));
+                imageRespository.save(image);
+            }
+            savedProduct.setImages(imageMapper.toImages(imageDtos));
+            return productMapper.toProductDto(savedProduct);
+        } catch (Exception e) {
+            log.error("Error processing category and subcategory or saving product: {}", e.getMessage(), e);
+            // Handle the error as per your requirement, e.g., throw an exception or return an error response
+            return null; // Or throw an exception or return an error response
         }
-        product.setProductStatus(ProductStatus.PENDING);
-        product.setCreateDate(new Date());
-        product.setUpdateDate(new Date());
-        log.info("-----Saving PRODUCT-------");
-        Product savedProduct = productRepository.save(product);
-        log.info("------Product Saved-------");
-
-        List<String> imageUrls = productRequestDto.getImages().parallelStream() // Used parallelStream() for concurrent processing
-                .map(imageService::uploadImageToFirebase)
-                .toList();
-
-        List<ImageDto> imageDtos = new ArrayList<>();
-
-        for (String imageUrl : imageUrls) {
-            Image image = new Image();
-            image.setImageUrl(imageUrl);
-            image.setProduct(savedProduct);
-            image.setCreateDate(LocalDateTime.now());
-            image.setUpdateDate(LocalDateTime.now());
-            imageDtos.add(imageMapper.toImageDto(image));
-            imageRespository.save(image);
-        }
-        savedProduct.setImages(imageMapper.toImages(imageDtos));
-        return productMapper.toProductDto(savedProduct);
     }
-
 
 }

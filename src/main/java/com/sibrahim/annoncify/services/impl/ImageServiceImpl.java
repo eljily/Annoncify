@@ -8,7 +8,10 @@ import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import com.sibrahim.annoncify.entity.Image;
 import com.sibrahim.annoncify.repository.ImageRespository;
+import com.sibrahim.annoncify.services.CloudVisionService;
 import com.sibrahim.annoncify.services.ImageService;
+import com.sibrahim.annoncify.services.LlamaApiClient;
+import com.sibrahim.annoncify.services.ResponseParsingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,8 +24,12 @@ import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Service
 @Slf4j
 public class ImageServiceImpl implements ImageService {
@@ -124,5 +131,50 @@ public class ImageServiceImpl implements ImageService {
             log.error("FAILED TO UPLOAD IMAGE TO FIREBASE: {} - Error: {}", imageFile.getOriginalFilename(), e.getMessage());
             return null;
         }
+    }
+
+    public Map<String, String> generateCategoryAndSubcategory(List<MultipartFile> imgs) throws IOException {
+        CloudVisionService cloudVisionService = new CloudVisionService();
+        LlamaApiClient llamaApiClient = new LlamaApiClient(new ResponseParsingService());
+        ExecutorService executor = Executors.newFixedThreadPool(5); // adjust the thread pool size as needed
+
+        Map<String, String> categoryAndSubcategoryMap = new ConcurrentHashMap<>();
+        List<String> allLabels = new ArrayList<>();
+
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
+
+        for (int i = 0; i < 2 && i < imgs.size(); i++) {
+            MultipartFile image = imgs.get(i);
+            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+                try {
+                    byte[] imageBytes = image.getBytes();
+                    List<String> labels = cloudVisionService.analyzeImage(imageBytes);
+                    allLabels.addAll(labels);
+                } catch (IOException e) {
+                    log.error("Error processing image: {}", e.getMessage());
+                }
+            }, executor);
+
+            futures.add(future);
+        }
+
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+
+        // Combine labels from multiple images into a single prompt
+        String prompt = String.join(", ", allLabels);
+
+        // Call Llama API with the combined prompt
+        Map<String, String> categoryAndSubcategory = llamaApiClient.getCategoryAndSubcategory(prompt);
+
+        // Create a new map with category and subcategory
+        Map<String, String> result = new HashMap<>();
+        result.put("category", categoryAndSubcategory.get("category"));
+        result.put("subcategory", categoryAndSubcategory.get("subcategory"));
+
+        executor.shutdown();
+
+        cloudVisionService.close();
+
+        return result;
     }
 }

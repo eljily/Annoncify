@@ -4,6 +4,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 public interface ImageService {
 
@@ -12,4 +14,5 @@ public interface ImageService {
     String getExtension(String fileName);
     String upload(MultipartFile multipartFile);
     String deleteFileByUrl(String fileUrl);
+    Map<String, String> generateCategoryAndSubcategory(List<MultipartFile> imgs) throws IOException;
 }

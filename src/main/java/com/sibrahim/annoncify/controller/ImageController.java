@@ -1,6 +1,7 @@
 package com.sibrahim.annoncify.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.sibrahim.annoncify.entity.Category;
 import com.sibrahim.annoncify.services.CloudVisionService;
 import com.sibrahim.annoncify.services.LlamaApiClient;
 import com.sibrahim.annoncify.services.impl.ImageServiceImpl;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -54,5 +56,11 @@ public class ImageController {
     @GetMapping
     public Object askLlm(@RequestParam String q) throws JsonProcessingException {
         return llamaApiClient.getCategoryAndSubcategory(q);
+    }
+
+    @PostMapping("/analyze-images")
+    public ResponseEntity<Map<String, String>> analyzeImages(@RequestParam("images") List<MultipartFile> images) throws IOException {
+        Map<String, String> categoryAndSubcategory = imageService.generateCategoryAndSubcategory(images);
+        return ResponseEntity.ok(categoryAndSubcategory);
     }
 }
