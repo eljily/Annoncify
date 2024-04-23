@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-@Configuration
+//@Configuration
 public class DataInitializer {
 
 
@@ -25,7 +25,7 @@ public class DataInitializer {
         this.subCategoryRepository = subCategoryRepository;
     }
 
-    @Bean
+    //@Bean
     public CommandLineRunner initializeData() {
         return args -> {
             initializeCategories();

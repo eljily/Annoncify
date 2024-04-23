@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 import java.util.Optional;
-@Configuration
+//@Configuration
 public class DataRegionInitializer {
 
     private final RegionRepository regionRepository;
@@ -21,7 +21,7 @@ public class DataRegionInitializer {
         this.subRegionRepository = subRegionRepository;
     }
 
-    @Bean
+   // @Bean
     public CommandLineRunner initializeRegionsData() {
         return args -> {
             initializeRegionsAndSubRegions();

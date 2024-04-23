@@ -114,17 +114,25 @@ public class ProductServiceImpl implements ProductService {
         // Step 1: Get all images associated with the product
         List<Image> images = product.getImages();
 
-        // Step 2: Delete each image
+        // Step 2: Delete each image asynchronously
         List<CompletableFuture<Void>> deletionFutures = images.stream()
-                .map(image -> CompletableFuture.runAsync(() -> imageService.deleteFileByUrl(image.getImageUrl())))
+                .map(image -> CompletableFuture.runAsync(() -> {
+                    try {
+                        imageService.deleteFileByUrl(image.getImageUrl());
+                    } catch (Exception e) {
+                        // Log the error or handle it as per your requirement
+                        e.printStackTrace();
+                    }
+                }))
                 .toList();
 
         // Wait for all image deletions to complete
-        CompletableFuture.allOf(deletionFutures.toArray(new CompletableFuture[0])).join();
+        CompletableFuture<Void> allDeletions = CompletableFuture.allOf(deletionFutures.toArray(new CompletableFuture[0]));
 
-        // Step 3: Delete the product
-        productRepository.deleteById(product.getId());
+        // Step 3: Delete the product after all image deletions are completed
+        allDeletions.thenRun(() -> productRepository.deleteById(product.getId())).join();
     }
+
 
     //@DEPRECATED!
 //    public Product addProductWithImages(Product product, List<MultipartFile> imageFiles) {

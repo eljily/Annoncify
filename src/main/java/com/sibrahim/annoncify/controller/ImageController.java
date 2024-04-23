@@ -1,6 +1,8 @@
 package com.sibrahim.annoncify.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sibrahim.annoncify.services.CloudVisionService;
+import com.sibrahim.annoncify.services.LlamaApiClient;
 import com.sibrahim.annoncify.services.impl.ImageServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import java.util.List;
 public class ImageController {
 
     private final ImageServiceImpl imageService;
+    private final LlamaApiClient llamaApiClient;
 
     @Autowired
     private CloudVisionService cloudVisionService;
@@ -46,5 +49,10 @@ public class ImageController {
     @PostMapping("/delete")
     public String delete(@RequestParam(name = "url") String url) {
         return imageService.deleteFileByUrl(url);
+    }
+
+    @GetMapping
+    public Object askLlm(@RequestParam String q) throws JsonProcessingException {
+        return llamaApiClient.getCategoryAndSubcategory(q);
     }
 }
