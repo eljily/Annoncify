@@ -44,7 +44,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/categories/**").permitAll()
                         .requestMatchers("/api/images/**").permitAll()
                         .requestMatchers("api/users").permitAll()
-                        .requestMatchers("api/regions").permitAll()
+                        .requestMatchers("/api/regions").permitAll()
                         .requestMatchers("/api/users/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/products/addWithImages").permitAll()
                         .requestMatchers( "/api/products/**").permitAll()
