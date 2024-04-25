@@ -1,4 +1,4 @@
-package com.sibrahim.annoncify.services;
+package com.sibrahim.annoncify.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,11 +12,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 @Service
 @Slf4j
-public class ResponseParsingService {
+public class ResponseParsingUtil {
 
     private final ObjectMapper objectMapper;
 
-    public ResponseParsingService() {
+    public ResponseParsingUtil() {
         this.objectMapper = new ObjectMapper();
     }
 

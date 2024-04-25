@@ -11,7 +11,7 @@ import com.sibrahim.annoncify.repository.ImageRespository;
 import com.sibrahim.annoncify.services.CloudVisionService;
 import com.sibrahim.annoncify.services.ImageService;
 import com.sibrahim.annoncify.services.LlamaApiClient;
-import com.sibrahim.annoncify.services.ResponseParsingService;
+import com.sibrahim.annoncify.util.ResponseParsingUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -135,7 +135,7 @@ public class ImageServiceImpl implements ImageService {
 
     public Map<String, String> generateCategoryAndSubcategory(List<MultipartFile> imgs) throws IOException {
         CloudVisionService cloudVisionService = new CloudVisionService();
-        LlamaApiClient llamaApiClient = new LlamaApiClient(new ResponseParsingService());
+        LlamaApiClient llamaApiClient = new LlamaApiClient(new ResponseParsingUtil());
         ExecutorService executor = Executors.newFixedThreadPool(5); // adjust the thread pool size as needed
 
         Map<String, String> categoryAndSubcategoryMap = new ConcurrentHashMap<>();

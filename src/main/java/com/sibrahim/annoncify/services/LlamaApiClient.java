@@ -1,9 +1,9 @@
 package com.sibrahim.annoncify.services;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.sibrahim.annoncify.util.ResponseParsingUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -20,10 +20,10 @@ public class LlamaApiClient {
 
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final ResponseParsingService responseParsingService;
+    private final ResponseParsingUtil responseParsingUtil;
 
-    public LlamaApiClient(ResponseParsingService responseParsingService) {
-        this.responseParsingService = responseParsingService;
+    public LlamaApiClient(ResponseParsingUtil responseParsingUtil) {
+        this.responseParsingUtil = responseParsingUtil;
     }
 
     public Map<String, String> getCategoryAndSubcategory(String labels) {
@@ -53,6 +53,6 @@ public class LlamaApiClient {
         ResponseEntity<String> response = restTemplate.exchange(LLAMA_API_URL, HttpMethod.POST, request, String.class);
         log.info("Response Body: {}", response.getBody());
 
-        return responseParsingService.parseResponse(response.getBody());
+        return responseParsingUtil.parseResponse(response.getBody());
     }
 }
