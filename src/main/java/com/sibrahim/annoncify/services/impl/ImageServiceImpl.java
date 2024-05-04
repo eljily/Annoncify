@@ -150,8 +150,9 @@ public class ImageServiceImpl implements ImageService {
                     byte[] imageBytes = image.getBytes();
                     List<String> labels = cloudVisionService.analyzeImage(imageBytes);
                     allLabels.addAll(labels);
+                    log.info("labels :"+labels);
                 } catch (IOException e) {
-                    log.error("Error processing image: {}", e.getMessage());
+                    log.error("Error processing image: {}", e.getMessage(),e);
                 }
             }, executor);
 
@@ -163,8 +164,14 @@ public class ImageServiceImpl implements ImageService {
         // Combine labels from multiple images into a single prompt
         String prompt = String.join(", ", allLabels);
 
+        Map<String, String> categoryAndSubcategory= Map.of();
         // Call Llama API with the combined prompt
-        Map<String, String> categoryAndSubcategory = llamaApiClient.getCategoryAndSubcategory(prompt);
+        try {
+            categoryAndSubcategory = llamaApiClient.getCategoryAndSubcategory(prompt);
+        }catch (Exception e){
+            log.error("Error from llama :",e);
+        }
+
 
         // Create a new map with category and subcategory
         Map<String, String> result = new HashMap<>();

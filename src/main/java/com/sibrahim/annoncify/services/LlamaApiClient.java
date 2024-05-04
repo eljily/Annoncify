@@ -16,7 +16,7 @@ import java.util.Map;
 public class LlamaApiClient {
 
     private static final String LLAMA_API_URL = "https://api.llama-api.com/chat/completions";
-    private static final String API_KEY = "LL-qmEA4G5RtEM5fxfT48hNnfYisCyk6eHBnSrpFVtdtYCdEySw1ye55H8RpMYt4GPL";
+    private static final String API_KEY = "LL-9ZFA3iZ2gmXbx3Wu8m0nwqvyeI2YKiKr9M0qmIyFtWg85cg3ApyOicxWSNI5NQpi";
 
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -50,9 +50,13 @@ public class LlamaApiClient {
 
         HttpEntity<String> request = new HttpEntity<>(requestBody.toString(), headers);
 
-        ResponseEntity<String> response = restTemplate.exchange(LLAMA_API_URL, HttpMethod.POST, request, String.class);
-        log.info("Response Body: {}", response.getBody());
-
-        return responseParsingUtil.parseResponse(response.getBody());
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(LLAMA_API_URL, HttpMethod.POST, request, String.class);
+            log.info("Response Body: {}", response.getBody());
+            return responseParsingUtil.parseResponse(response.getBody());
+        } catch (Exception e) {
+            log.error("Error occurred while exchanging on restTemplate: {}", e.getMessage(), e);
+            return null;
+        }
     }
 }
