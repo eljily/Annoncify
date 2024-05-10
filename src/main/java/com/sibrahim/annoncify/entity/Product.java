@@ -1,6 +1,7 @@
 package com.sibrahim.annoncify.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sibrahim.annoncify.entity.enums.ProductStatus;
 import jakarta.persistence.*;
@@ -52,6 +53,7 @@ public class Product {
     @JsonManagedReference
     private List<Image> images;
 
+//    @JsonIgnore
 //    @ManyToOne
 //    @JoinColumn(name = "category_id")
 //    private Category category;

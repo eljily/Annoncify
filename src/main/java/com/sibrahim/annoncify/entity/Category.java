@@ -1,5 +1,6 @@
 package com.sibrahim.annoncify.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,8 @@ public class Category {
 
     private LocalDateTime updateDate;
 
-//    @OneToMany(mappedBy = "category")
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
 //    List<Product> productList;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
