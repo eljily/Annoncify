@@ -40,11 +40,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
     private final ImageRespository imageRespository;
     private final ImageServiceImpl imageService;
-    private final CategoryService categoryService;
     private final ImageMapper imageMapper;
-    private final CategoryMapper categoryMapper;
-    private final CategoryRepository categoryRepository;
-    private final SubCategoryService subCategoryService;
     @Lazy
     @Autowired
     private UserService userService;
@@ -58,11 +54,7 @@ public class ProductServiceImpl implements ProductService {
         this.productMapper = productMapper;
         this.imageRespository = imageRespository;
         this.imageService = imageService;
-        this.categoryService = categoryService;
         this.imageMapper = imageMapper;
-        this.categoryMapper = categoryMapper;
-        this.categoryRepository = categoryRepository;
-        this.subCategoryService = subCategoryService;
     }
 
 
@@ -131,37 +123,6 @@ public class ProductServiceImpl implements ProductService {
                 .thenRun(() -> productRepository.deleteById(product.getId()))
                 .join();
     }
-
-
-
-    //@DEPRECATED!
-//    public Product addProductWithImages(Product product, List<MultipartFile> imageFiles) {
-//        try {
-//            // Save the product to the database
-//            product.setCreateDate(new Date());
-//            Product savedProduct = productRepository.save(product);
-//
-//            // Upload images to Firebase Storage and save their URLs to the database
-//            List<String> imageUrls = imageFiles.stream()
-//                    .map(this::uploadImageToFirebase)
-//                    .toList();
-//
-//            for (String imageUrl : imageUrls) {
-//                Image image = new Image();
-//                image.setImageUrl(imageUrl);
-//                image.setProduct(savedProduct);
-//                image.setCreateDate(LocalDateTime.now());
-//                image.setUpdateDate(LocalDateTime.now());
-//                imageRespository.save(image);
-//            }
-//
-//            return savedProduct;
-//        }catch (Exception e){
-//            log.error("ERROR WHILE TRYING TO SAVE PRODUCT WITH IMAGES,message:"+e.getMessage());
-//            return null;
-//        }
-//
-//    }
 
     @Override
     public ProductDto addProduct(ProductRequestDto productRequestDto) {

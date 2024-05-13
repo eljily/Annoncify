@@ -32,6 +32,8 @@ public class ProductDto {
     private Long userId;
     private Long hit;
     private VendorDetails vendorDetails;
+    private String region;
+    private String subRegion;
 //    private CategoryResponseDto category;
 
 }

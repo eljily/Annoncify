@@ -57,6 +57,8 @@ public class ProductMapper {
                         .id(product.getUser()!=null?product.getUser().getId():null)
                         .build())
                 .images(imageMapper.toImageDtos(product.getImages()))
+                .region(product.getSubRegion()!=null?product.getSubRegion().getRegion().getName():"noo!")
+                .subRegion(product.getSubRegion()!=null?product.getSubRegion().getName():"noop!")
                 .build();
     }
 
