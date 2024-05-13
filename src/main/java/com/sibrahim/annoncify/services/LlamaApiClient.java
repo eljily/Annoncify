@@ -37,7 +37,17 @@ public class LlamaApiClient {
 
         ObjectNode systemMessageObject = objectMapper.createObjectNode();
         systemMessageObject.put("role", "system");
-        systemMessageObject.put("content", "Based on the labels, please determine which category and subcategory fit more from the following categories,and give response only based on them : Electronics (Mobile Phones & Tablets, Computers & Laptops, TVs & Home Theater Systems, Cameras & Photography Equipment), Real Estate (Apartments & Flats, Houses & Villas, Commercial Spaces, Land & Plots), Vehicles (Cars, Motorcycles, Trucks & Commercial Vehicles, Boats & Watercraft), Fashion & Accessories (Clothing, Shoes, Bags & Luggage, Watches & Jewelry),Other(subcategory: Other). Please return the response in the format: 'Category, Subcategory'.");
+        systemMessageObject.put("content", "Based on the labels," +
+                " please determine which category and subcategory fit more from " +
+                "the following categories,and give response only based on them :" +
+                " Electronics (Mobile Phones & Tablets, Computers & Laptops" +
+                ", TVs & Home Theater Systems, Cameras & Photography Equipment)," +
+                " Real Estate (Apartments & Flats, Houses & Villas" +
+                ", Commercial Spaces, Land & Plots), Vehicles (Cars, " +
+                "Motorcycles, Trucks & Commercial Vehicles, Boats & Watercraft)," +
+                " Fashion & Accessories (Clothing, Shoes, Bags & Luggage" +
+                ", Watches & Jewelry),Other(subcategory: Other)." +
+                " Please return the response in the format: 'Category, Subcategory'.");
 
         ObjectNode userMessageObject = objectMapper.createObjectNode();
         userMessageObject.put("role", "user");
