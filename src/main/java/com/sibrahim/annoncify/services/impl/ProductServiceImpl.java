@@ -135,7 +135,8 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(()->new NotFoundException("Not Found Exception"));
         product.setSubRegion(subRegion);
 
-        try {
+        SubCategory subCategory ;
+        if(productRequestDto.getSubCategoryId()==null){
             // Call the method to generate category and subcategory from AI asynchronously
             CompletableFuture<Map<String, String>> categoryAndSubcategoryFuture = CompletableFuture.supplyAsync(() -> {
                 try {
@@ -151,7 +152,14 @@ public class ProductServiceImpl implements ProductService {
 
             // Fetch or create category and subcategory based on the obtained data
 
-            SubCategory subCategory = subCategoryRepository.findSubCategoryByName(categoryAndSubcategory.get("subcategory")).orElseThrow(() -> new NotFoundException("Subcategory not found"));
+            subCategory = subCategoryRepository
+                    .findSubCategoryByName(categoryAndSubcategory
+                            .get("subcategory"))
+                    .orElseThrow(() -> new NotFoundException("Subcategory not found"));
+        }
+        else {
+            subCategory = subCategoryRepository.findById(productRequestDto.getSubCategoryId()).get();
+        }
             product.setSubCategory(subCategory);
 
             // Set the user
@@ -188,11 +196,6 @@ public class ProductServiceImpl implements ProductService {
             }
             savedProduct.setImages(imageMapper.toImages(imageDtos));
             return productMapper.toProductDto(savedProduct);
-        } catch (Exception e) {
-            log.error("Error processing category and subcategory or saving product: {}", e.getMessage(), e);
-            // Handle the error as per your requirement, e.g., throw an exception or return an error response
-            return null; // Or throw an exception or return an error response
-        }
     }
 
 }
