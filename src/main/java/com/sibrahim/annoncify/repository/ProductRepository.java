@@ -20,4 +20,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM Product p ORDER BY p.createDate DESC")
     Page<Product> findAllOrderedByCreateDateDesc(Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE p.subCategory.category.id = :categoryId ORDER BY p.createDate DESC")
+    List<Product> findLastEightProductsByCategoryId(Long categoryId, Pageable pageable);
 }

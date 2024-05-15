@@ -1,24 +1,36 @@
 package com.sibrahim.annoncify.services.impl;
 
 import com.sibrahim.annoncify.dto.CategoryDto;
+import com.sibrahim.annoncify.dto.CategoryResponseDto;
+import com.sibrahim.annoncify.dto.ProductCardInfoDto;
+import com.sibrahim.annoncify.dto.ProductDto;
 import com.sibrahim.annoncify.entity.Category;
+import com.sibrahim.annoncify.entity.Product;
 import com.sibrahim.annoncify.mapper.CategoryMapper;
+import com.sibrahim.annoncify.mapper.ProductMapper;
 import com.sibrahim.annoncify.repository.CategoryRepository;
 import com.sibrahim.annoncify.services.CategoryService;
+import com.sibrahim.annoncify.services.ProductService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
+    private final ProductMapper productMapper;
+    private final ProductService productService;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryMapper categoryMapper) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryMapper categoryMapper, ProductMapper productMapper,@Lazy ProductService productService) {
         this.categoryRepository = categoryRepository;
         this.categoryMapper = categoryMapper;
+        this.productMapper = productMapper;
+        this.productService = productService;
     }
 
     @Override
@@ -70,5 +82,26 @@ public class CategoryServiceImpl implements CategoryService {
             return category;
         }
         return categoryRepository.save(category);
+    }
+
+    public List<CategoryResponseDto> getAllCategoriesWithLastEightProducts() {
+        List<Category> categories = categoryRepository.findAll();
+
+        List<CategoryResponseDto> categoryResponseDtos = new ArrayList<>();
+        for (Category category : categories) {
+            CategoryResponseDto categoryResponseDto = new CategoryResponseDto();
+            categoryResponseDto.setId(category.getId());
+            categoryResponseDto.setName(category.getName());
+
+            List<Product> products = productService.findLastEightProductsByCategoryId(category.getId());
+            Set<ProductCardInfoDto> productDtos = products.stream()
+                    .map(productMapper::toCardInfoDto)
+                    .collect(Collectors.toSet());
+
+            categoryResponseDto.setProducts(productDtos);
+            categoryResponseDtos.add(categoryResponseDto);
+        }
+
+        return categoryResponseDtos;
     }
 }

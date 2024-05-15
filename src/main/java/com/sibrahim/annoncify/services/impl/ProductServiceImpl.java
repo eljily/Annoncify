@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -196,6 +197,12 @@ public class ProductServiceImpl implements ProductService {
             }
             savedProduct.setImages(imageMapper.toImages(imageDtos));
             return productMapper.toProductDto(savedProduct);
+    }
+
+    @Override
+    public List<Product> findLastEightProductsByCategoryId(Long categoryId) {
+        Pageable pageable = PageRequest.of(0, 8); // Limit to 8 results
+        return productRepository.findLastEightProductsByCategoryId(categoryId, pageable);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.sibrahim.annoncify.services;
 
 import com.sibrahim.annoncify.dto.CategoryDto;
+import com.sibrahim.annoncify.dto.CategoryResponseDto;
 import com.sibrahim.annoncify.entity.Category;
 
 import java.util.List;
@@ -13,4 +14,5 @@ public interface CategoryService {
     List<CategoryDto> getAll();
     String deleteCategory(Long id);
     Category fetchOrCreateDefault();
+    List<CategoryResponseDto> getAllCategoriesWithLastEightProducts();
 }

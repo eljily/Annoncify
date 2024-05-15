@@ -1,13 +1,11 @@
 package com.sibrahim.annoncify.mapper;
 
-import com.sibrahim.annoncify.dto.CategoryDto;
-import com.sibrahim.annoncify.dto.ProductDto;
-import com.sibrahim.annoncify.dto.ProductRequestDto;
-import com.sibrahim.annoncify.dto.VendorDetails;
+import com.sibrahim.annoncify.dto.*;
 import com.sibrahim.annoncify.entity.Category;
 import com.sibrahim.annoncify.entity.Product;
 import com.sibrahim.annoncify.repository.CategoryRepository;
 import com.sibrahim.annoncify.services.CategoryService;
+import jakarta.validation.constraints.Max;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -95,6 +93,18 @@ public class ProductMapper {
                     .collect(Collectors.toList());
         }
         return List.of();
+    }
+
+    public ProductCardInfoDto toCardInfoDto(Product product){
+        ProductCardInfoDto productCardInfoDto = new ProductCardInfoDto();
+        productCardInfoDto.setId(product.getId());
+        productCardInfoDto.setName(product.getName());
+        productCardInfoDto.setPrice(product.getPrice());
+        productCardInfoDto.setImages(imageMapper.toImageDtos(product.getImages()))
+                ;
+        productCardInfoDto.setRegion(product.getSubRegion()!=null?product.getSubRegion().getRegion().getName():"nooooo");
+        productCardInfoDto.setSubRegion(product.getSubRegion()!=null?product.getSubRegion().getName():"noooooop");
+        return productCardInfoDto;
     }
 
 

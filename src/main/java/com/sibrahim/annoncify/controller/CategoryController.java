@@ -67,4 +67,12 @@ public class CategoryController {
                         .data(subCategoryService.getByCategoryId(categoryId))
                 .build());
     }
+
+    @GetMapping("/withProducts")
+    public ResponseEntity<ResponseMessage> getAllWithProducts(){
+        return ResponseEntity.ok(ResponseMessage.builder()
+                        .status(200)
+                        .data(categoryService.getAllCategoriesWithLastEightProducts())
+                .build());
+    }
 }

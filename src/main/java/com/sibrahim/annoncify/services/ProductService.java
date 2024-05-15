@@ -32,4 +32,6 @@ public interface ProductService {
 
     ProductDto addProduct(ProductRequestDto productRequestDto);
 
+    List<Product> findLastEightProductsByCategoryId(Long id);
+
 }

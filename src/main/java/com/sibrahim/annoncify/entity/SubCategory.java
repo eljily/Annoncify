@@ -28,7 +28,7 @@ public class SubCategory {
 
     private LocalDateTime updateDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     @JsonBackReference
     private Category category;
