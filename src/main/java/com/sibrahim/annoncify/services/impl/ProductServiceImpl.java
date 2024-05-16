@@ -89,6 +89,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<ProductDto> getProductsByKeyword(int page, int size, String keyword) {
+        try {
+            return productRepository.getProductsByKeyword(keyword, PageRequest.of(page, size))
+                    .map(productMapper::toProductDto);
+        } catch (Exception e) {
+            log.error("Error occurred while trying to fetch page of products by category", e);
+            return null;
+        }
+    }
+
+    @Override
     public List<ProductDto> getProductsByUserId(Long id) {
         User user = userService.getById(id).orElseThrow(()->new NotFoundException("User not found"));
         List<Product> products = productRepository.findProductsByUserId(user.getId());

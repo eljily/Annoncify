@@ -83,6 +83,20 @@ public class ProductController {
                 .build());
     }
 
+    @GetMapping("/productsByKeyword/{keyword}")
+    public ResponseEntity<ResponseMessage> getAllProductsByKeyWord(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                                      @RequestParam(name = "size", defaultValue = "14") int size,
+                                                                      @PathVariable(name="keyword") String keyword) {
+        Page<ProductDto> products = productService.getProductsByKeyword(page, size,keyword);
+        PaginationData paginationData = new PaginationData(products);
+        return ResponseEntity.ok(ResponseMessage.builder()
+                .status(HttpStatus.OK.value())
+                .message("Product Page Retrieved Successfully")
+                .data(products.getContent())
+                .meta(paginationData)
+                .build());
+    }
+
 
 
     @PostMapping(value = "/addProduct", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

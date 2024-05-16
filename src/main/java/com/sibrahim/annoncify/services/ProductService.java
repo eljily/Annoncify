@@ -17,6 +17,8 @@ public interface ProductService {
 
     Page<ProductDto> getAllProductsByCategoryId(int page,int size,int categoryId);
 
+    Page<ProductDto> getProductsByKeyword(int page,int size,String keyword);
+
     List<ProductDto> getProductsByUserId(Long id);
 
     Optional<ProductDto> getProductById(Long id);
