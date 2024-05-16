@@ -25,11 +25,11 @@ public class ProductController {
 
     private final Logger log = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
-    private final ProductMapper productMapper;
+//    private final ProductMapper productMapper;
 
     public ProductController(ProductService productService, ProductMapper productMapper) {
         this.productService = productService;
-        this.productMapper = productMapper;
+//        this.productMapper = productMapper;
     }
 
 //    @PostMapping
@@ -55,7 +55,7 @@ public class ProductController {
                     .build());
     }
 
-    @GetMapping("/productsByCategoryId/{categoryId}")
+    @GetMapping("/productsBySubCategoryId/{categoryId}")
     public ResponseEntity<ResponseMessage> getAllProducts(@RequestParam(name = "page", defaultValue = "0") int page,
                                                          @RequestParam(name = "size", defaultValue = "14") int size,
                                                          @PathVariable(name="categoryId") int categoryId) {
@@ -67,6 +67,20 @@ public class ProductController {
                     .data(products.getContent())
                     .meta(paginationData)
                     .build());
+    }
+
+    @GetMapping("/productsByCategoryId/{categoryId}")
+    public ResponseEntity<ResponseMessage> getAllProductsByCategoryID(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                          @RequestParam(name = "size", defaultValue = "14") int size,
+                                                          @PathVariable(name="categoryId") int categoryId) {
+        Page<ProductDto> products = productService.getAllProductsByCategoryId(page, size,categoryId);
+        PaginationData paginationData = new PaginationData(products);
+        return ResponseEntity.ok(ResponseMessage.builder()
+                .status(HttpStatus.OK.value())
+                .message("Product Page Retrieved Successfully")
+                .data(products.getContent())
+                .meta(paginationData)
+                .build());
     }
 
 
