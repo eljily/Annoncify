@@ -5,6 +5,7 @@ import com.sibrahim.annoncify.dto.ProductDto;
 import com.sibrahim.annoncify.dto.ProductRequestDto;
 import com.sibrahim.annoncify.entity.*;
 import com.sibrahim.annoncify.entity.enums.ProductStatus;
+import com.sibrahim.annoncify.exceptions.InvalidKeywordException;
 import com.sibrahim.annoncify.exceptions.NotFoundException;
 import com.sibrahim.annoncify.mapper.CategoryMapper;
 import com.sibrahim.annoncify.mapper.ImageMapper;
@@ -30,6 +31,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -90,6 +92,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductDto> getProductsByKeyword(int page, int size, String keyword) {
+        String specialCharactersPattern = "^[a-zA-Z0-9]*$";
+        if (!Pattern.matches(specialCharactersPattern, keyword)) {
+            throw new InvalidKeywordException("Keyword contains special characters");
+        }
         try {
             return productRepository.getProductsByKeyword(keyword, PageRequest.of(page, size))
                     .map(productMapper::toProductDto);

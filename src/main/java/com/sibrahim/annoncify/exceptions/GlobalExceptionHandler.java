@@ -54,4 +54,13 @@ public class GlobalExceptionHandler {
                 .message(ex.getMessage())
                 .build());
     }
+
+    @ExceptionHandler(InvalidKeywordException.class)
+    public ResponseEntity<ResponseMessage> handleInvalidKeywordException(InvalidKeywordException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ResponseMessage.builder()
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .message(ex.getMessage())
+                        .build());
+    }
 }
