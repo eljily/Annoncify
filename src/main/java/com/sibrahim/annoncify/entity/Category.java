@@ -29,6 +29,8 @@ public class Category {
 
     private LocalDateTime updateDate;
 
+    private String imgUrl;
+
 //    @JsonIgnore
 //    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
 //    List<Product> productList;
