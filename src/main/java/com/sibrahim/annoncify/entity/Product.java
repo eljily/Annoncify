@@ -68,4 +68,7 @@ public class Product {
 
     private Long hit ;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favorite> favoritedBy;
+
 }

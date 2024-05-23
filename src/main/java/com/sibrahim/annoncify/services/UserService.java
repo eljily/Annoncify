@@ -14,7 +14,7 @@ public interface UserService {
 
     Page<UserDto> getAllUsers(int page,int size);
 
-    Optional<UserDto> getUserByPhoneNumber(String phoneNumber);
+    Optional<User> getUserByPhoneNumber(String phoneNumber);
 
 //    ProductDto addProduct(ProductDto productDto);
 

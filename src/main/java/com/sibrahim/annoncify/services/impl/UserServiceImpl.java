@@ -115,8 +115,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserDto> getUserByPhoneNumber(String phoneNumber) {
-        return Optional.empty();
+    public Optional<User> getUserByPhoneNumber(String phoneNumber) {
+        return userRepository.findUserByPhoneNumber(phoneNumber);
     }
 
 //    @Override
