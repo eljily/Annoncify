@@ -10,6 +10,7 @@ import com.sibrahim.annoncify.repository.FavoriteRepository;
 import com.sibrahim.annoncify.repository.ProductRepository;
 import com.sibrahim.annoncify.repository.UserRepository;
 import com.sibrahim.annoncify.services.FavoriteService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,6 +48,11 @@ public class FavoriteServiceImpl implements FavoriteService {
                 .map(Favorite::getProduct)
                 .map(productMapper::toProductDto)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void removeProductFromFavorites(Long userId, Long productId) {
+        favoriteRepository.deleteByUserIdAndProductId(userId, productId);
     }
 }
 

@@ -8,4 +8,5 @@ import java.util.List;
 public interface FavoriteService {
     void addProductToFavorites(Long userId, Long productId);
     List<ProductDto> getUserFavoriteProducts(Long userId);
+    void removeProductFromFavorites(Long userId, Long productId);
 }

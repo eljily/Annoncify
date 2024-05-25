@@ -47,5 +47,16 @@ public class FavoriteController {
                         .data(favoriteProducts)
                 .build());
     }
+
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<ResponseMessage> removeProductFromFavorites(@PathVariable Long productId, Authentication authentication) {
+        String username = authentication.getName();
+        Long userId = userService.getUserByPhoneNumber(username).orElseThrow(() -> new GenericException("User not found")).getId();
+        favoriteService.removeProductFromFavorites(userId, productId);
+        return ResponseEntity.ok(ResponseMessage.builder()
+                .status(200)
+                .message("Removed from favorites successfully")
+                .build());
+    }
 }
 
