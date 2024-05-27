@@ -45,35 +45,35 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<ResponseMessage> getAllProduct(@RequestParam(name = "page", defaultValue = "0") int page,
                                                          @RequestParam(name = "size", defaultValue = "5") int size) {
-            Page<ProductDto> products = productService.getAllProducts(page, size);
-            PaginationData paginationData = new PaginationData(products);
-            return ResponseEntity.ok(ResponseMessage.builder()
-                    .status(HttpStatus.OK.value())
-                    .message("Product Page Retrieved Successfully")
-                    .data(products.getContent())
-                    .meta(paginationData)
-                    .build());
+        Page<ProductDto> products = productService.getAllProducts(page, size);
+        PaginationData paginationData = new PaginationData(products);
+        return ResponseEntity.ok(ResponseMessage.builder()
+                .status(HttpStatus.OK.value())
+                .message("Product Page Retrieved Successfully")
+                .data(products.getContent())
+                .meta(paginationData)
+                .build());
     }
 
     @GetMapping("/productsBySubCategoryId/{categoryId}")
     public ResponseEntity<ResponseMessage> getAllProducts(@RequestParam(name = "page", defaultValue = "0") int page,
-                                                         @RequestParam(name = "size", defaultValue = "14") int size,
-                                                         @PathVariable(name="categoryId") int categoryId) {
-            Page<ProductDto> products = productService.getAllProducts(page, size,categoryId);
-            PaginationData paginationData = new PaginationData(products);
-            return ResponseEntity.ok(ResponseMessage.builder()
-                    .status(HttpStatus.OK.value())
-                    .message("Product Page Retrieved Successfully")
-                    .data(products.getContent())
-                    .meta(paginationData)
-                    .build());
+                                                          @RequestParam(name = "size", defaultValue = "14") int size,
+                                                          @PathVariable(name = "categoryId") int categoryId) {
+        Page<ProductDto> products = productService.getAllProducts(page, size, categoryId);
+        PaginationData paginationData = new PaginationData(products);
+        return ResponseEntity.ok(ResponseMessage.builder()
+                .status(HttpStatus.OK.value())
+                .message("Product Page Retrieved Successfully")
+                .data(products.getContent())
+                .meta(paginationData)
+                .build());
     }
 
     @GetMapping("/productsByCategoryId/{categoryId}")
     public ResponseEntity<ResponseMessage> getAllProductsByCategoryID(@RequestParam(name = "page", defaultValue = "0") int page,
-                                                          @RequestParam(name = "size", defaultValue = "14") int size,
-                                                          @PathVariable(name="categoryId") int categoryId) {
-        Page<ProductDto> products = productService.getAllProductsByCategoryId(page, size,categoryId);
+                                                                      @RequestParam(name = "size", defaultValue = "14") int size,
+                                                                      @PathVariable(name = "categoryId") int categoryId) {
+        Page<ProductDto> products = productService.getAllProductsByCategoryId(page, size, categoryId);
         PaginationData paginationData = new PaginationData(products);
         return ResponseEntity.ok(ResponseMessage.builder()
                 .status(HttpStatus.OK.value())
@@ -85,9 +85,9 @@ public class ProductController {
 
     @GetMapping("/productsByKeyword/{keyword}")
     public ResponseEntity<ResponseMessage> getAllProductsByKeyWord(@RequestParam(name = "page", defaultValue = "0") int page,
-                                                                      @RequestParam(name = "size", defaultValue = "14") int size,
-                                                                      @PathVariable(name="keyword") String keyword) {
-        Page<ProductDto> products = productService.getProductsByKeyword(page, size,keyword);
+                                                                   @RequestParam(name = "size", defaultValue = "14") int size,
+                                                                   @PathVariable(name = "keyword") String keyword) {
+        Page<ProductDto> products = productService.getProductsByKeyword(page, size, keyword);
         PaginationData paginationData = new PaginationData(products);
         return ResponseEntity.ok(ResponseMessage.builder()
                 .status(HttpStatus.OK.value())
@@ -98,7 +98,6 @@ public class ProductController {
     }
 
 
-
     @PostMapping(value = "/addProduct", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseMessage> addProduct(@ModelAttribute ProductRequestDto product) {
         try {
@@ -106,8 +105,8 @@ public class ProductController {
 
             if (savedProduct != null) {
                 return ResponseEntity.ok(ResponseMessage.builder().message("product added")
-                                .status(HttpStatus.OK.value())
-                                .data(savedProduct)
+                        .status(HttpStatus.OK.value())
+                        .data(savedProduct)
                         .build());
             } else {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -117,24 +116,6 @@ public class ProductController {
         }
     }
 
-    //This Endpoint is deprecated.
-//    @PostMapping(value = "/addWithImages", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public ResponseEntity<ProductDto> addProductWithImages(@RequestParam("product") String productJson,
-//                                                           @RequestParam("imageFiles") List<MultipartFile> imageFiles) {
-//        try {
-//            Product product = new ObjectMapper().readValue(productJson, Product.class);
-//
-//            Product savedProduct = productService.addProductWithImages(product, imageFiles);
-//
-//            if (savedProduct != null) {
-//                return new ResponseEntity<>(productMapper.toProductDto(savedProduct), HttpStatus.CREATED);
-//            } else {
-//                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//            }
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {

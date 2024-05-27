@@ -100,8 +100,8 @@ public class ProductMapper {
         productCardInfoDto.setId(product.getId());
         productCardInfoDto.setName(product.getName());
         productCardInfoDto.setPrice(product.getPrice());
-        productCardInfoDto.setImages(imageMapper.toImageDtos(product.getImages()))
-                ;
+        productCardInfoDto.setHit(product.getHit());
+        productCardInfoDto.setImages(imageMapper.toImageDtos(product.getImages()));
         productCardInfoDto.setRegion(product.getSubRegion()!=null?product.getSubRegion().getRegion().getName():"nooooo");
         productCardInfoDto.setSubRegion(product.getSubRegion()!=null?product.getSubRegion().getName():"noooooop");
         return productCardInfoDto;

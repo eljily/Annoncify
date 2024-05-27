@@ -17,4 +17,5 @@ public class ProductCardInfoDto {
     private List<ImageDto> images;
     private String region;
     private String subRegion;
+    private Long hit;
 }
