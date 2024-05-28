@@ -229,7 +229,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findLastEightProductsByCategoryId(Long categoryId) {
-        Pageable pageable = PageRequest.of(0, 6); // Limit to 6 results
+        Pageable pageable = PageRequest.of(0, 10); // Limit to 10 results
         return productRepository.findLastEightProductsByCategoryId(categoryId, pageable);
     }
 
