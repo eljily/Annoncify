@@ -77,6 +77,7 @@ public class CategoryMapper {
         categoryDto.setId(category.getId());
         categoryDto.setName(category.getName());
         categoryDto.setSubCategories(mapBasicSubCategoryDtos(category.getSubCategories()));
+        categoryDto.setImageUrl(category.getImgUrl());
         return categoryDto;
     }
 
