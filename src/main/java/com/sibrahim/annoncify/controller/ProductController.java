@@ -161,7 +161,7 @@ public class ProductController {
     @GetMapping("/productsByRegionId/{regionId}")
     public ResponseEntity<ResponseMessage> productsByRegionId(@PathVariable(name = "regionId") int regionId, @RequestParam(name = "page", defaultValue = "0") int page,
                                                               @RequestParam(name = "size", defaultValue = "10") int size) {
-        Page<ProductDto> products = productService.getAllProductsByRegionId(page, size, subRegionId);
+        Page<ProductDto> products = productService.getAllProductsByRegionId(page, size, regionId);
         PaginationData paginationData = new PaginationData(products);
         return ResponseEntity.ok(ResponseMessage
                 .builder()
