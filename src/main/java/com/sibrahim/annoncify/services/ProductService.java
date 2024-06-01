@@ -38,4 +38,8 @@ public interface ProductService {
 
     List<Product> findLastEightProductsByCategoryId(Long id);
 
+    Page<ProductDto> getAllProductsByRegionId(int page,int size,int regionId);
+
+    Page<ProductDto> getAllProductsBySubRegionId(int page,int size,int subRegionId);
+
 }

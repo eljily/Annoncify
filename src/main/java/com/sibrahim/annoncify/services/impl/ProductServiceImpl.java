@@ -233,4 +233,16 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findLastEightProductsByCategoryId(categoryId, pageable);
     }
 
+    @Override
+    public Page<ProductDto> getAllProductsByRegionId(int page, int size, int categoryId) {
+        return productRepository.getProductsByRegionId(categoryId, PageRequest.of(page, size))
+                .map(productMapper::toProductDto);
+    }
+
+    @Override
+    public Page<ProductDto> getAllProductsBySubRegionId(int page, int size, int subRegionId) {
+        return productRepository.getProductsBySubRegionId(subRegionId,PageRequest.of(page,size))
+                .map(productMapper::toProductDto);
+    }
+
 }

@@ -158,4 +158,32 @@ public class ProductController {
 //        }
 //    }
 
+    @GetMapping("/productsByRegionId/{regionId}")
+    public ResponseEntity<ResponseMessage> productsByRegionId(@PathVariable(name = "regionId") int regionId, @RequestParam(name = "page", defaultValue = "0") int page,
+                                                              @RequestParam(name = "size", defaultValue = "10") int size) {
+        Page<ProductDto> products = productService.getAllProductsByRegionId(page, size, subRegionId);
+        PaginationData paginationData = new PaginationData(products);
+        return ResponseEntity.ok(ResponseMessage
+                .builder()
+                .data(products.getContent())
+                .message("Products retrieved successfully by regionId")
+                .status(200)
+                .meta(paginationData)
+                .build());
+    }
+
+    @GetMapping("/productsBySubRegionId/{subRegionId}")
+    public ResponseEntity<ResponseMessage> productsBySubRegionId(@PathVariable(name = "subRegionId") int subRegionId, @RequestParam(name = "page", defaultValue = "0") int page,
+                                                                 @RequestParam(name = "size", defaultValue = "10") int size) {
+        Page<ProductDto> products = productService.getAllProductsBySubRegionId(page, size, subRegionId);
+        PaginationData paginationData = new PaginationData(products);
+        return ResponseEntity.ok(ResponseMessage
+                .builder()
+                .data(products.getContent())
+                .message("Products retrieved successfully by subRegionId")
+                .status(200)
+                .meta(paginationData)
+                .build());
+    }
+
 }
