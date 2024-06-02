@@ -37,7 +37,19 @@ public class LlamaApiClient {
 
         ObjectNode systemMessageObject = objectMapper.createObjectNode();
         systemMessageObject.put("role", "system");
-        systemMessageObject.put("content", "Based on the labels, please determine which category and subcategory fit more from the following categories, and give response only based on them: Vehicles (Cars, Motorcycles, Bicycles, Parts & Accessories, Other), Real Estate (Apartments, Houses & Villas, Land, Other), Phones (New, Used, Accessories, Other), Electronics (Computers, Televisions, Consoles, Video Games, Accessories, Other), Home Appliances (Dishwashers, Refrigerators, Washing Machines, Freezers, Ovens, Other), Jobs & Services (Job Offers, Job Requests, Service, Other), Materials & Equipment (Industry, Electricity & Energy, Plumbing, Other), Fashion & Beauty (Clothing, Shoes, Accessories, Beauty Products, Other), Leisure & Games (Sports & Leisure, Games & Toys, Travel, Other), Other (Other). Please return the response in the format: 'Category, Subcategory'.");
+        systemMessageObject.put("content", "Based on the labels, please determine "+
+                "which category and subcategory fit more from the following categories, and give"
+                 +
+                " response only based on them: Vehicles (Cars, Motorcycles, " +
+                "Bicycles, Parts & Accessories, Other), Real Estate (Apartments, " +
+                "Houses & Villas, Land, Other), Phones (New, Used, Accessories, Other), " +
+                "Electronics (Computers, Televisions, Consoles, Video Games, Accessories, " +
+                "Other), Home Appliances (Dishwashers, Refrigerators, Washing Machines, Freezers, " +
+                "Ovens, Other), Jobs & Services (Job Offers, Job Requests, Service, Other)," +
+                " Materials & Equipment (Industry, Electricity & Energy, Plumbing, Other), " +
+                "Fashion & Beauty (Clothing, Shoes, Accessories, Beauty Products, Other), " +
+                "Leisure & Games (Sports & Leisure, Games & Toys, Travel, Other), Other (Other). " +
+                "Please return the response in the format: 'Category, Subcategory'.");
 
         ObjectNode userMessageObject = objectMapper.createObjectNode();
         userMessageObject.put("role", "user");
