@@ -14,7 +14,7 @@
 
 <h2 align="center">Features 🚀</h2>
 
-- JWT-based authentication 🔐
+- JWT-based authentication 
 - Twilio for otp sending
 - Integrated google cloud vision api for image analyses and prompt an llm for corresponding categories.
 - CRUD operations for managing advertisements 📝
