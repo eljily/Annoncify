@@ -1,4 +1,4 @@
-<h1 align="center">📢 Annoncify 📢</h1>
+<h2 align="center"> Annoncify </h2>
 
 <p align="center" style="font-size: 1.2em;">
   <strong>Annoncify</strong> is the backend component of Annoncify, a platform for posting and browsing classified advertisements. This project is built with Spring Boot, PostgreSQL as the database, and Firebase Storage Bucket for saving images. Twilio is also integrated for messaging.
@@ -14,10 +14,10 @@
 
 <h2 align="center">Features 🚀</h2>
 
-- JWT-based authentication 🔐
+- JWT-based authentication 
 - Twilio for otp sending
 - Integrated google cloud vision api for image analyses and prompt an llm for corresponding categories.
-- CRUD operations for managing advertisements 📝
+- CRUD operations for managing advertisements 
 - Secure image storage with Firebase Storage Bucket 🖼️
 - OpenAPI documentation available at [https://annoncify.onrender.com/swagger-ui/index.html](https://annoncify.onrender.com/swagger-ui/index.html) (Note: Please wait for at least 60 seconds for the server to respond due to the usage of the free tier on Render)
 - Frontend Demo available here : https://annoncify-front.web.app/
