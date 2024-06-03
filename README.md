@@ -1,4 +1,4 @@
-<h1 align="center">📢 Annoncify 📢</h1>
+<h2 align="center"> Annoncify </h2>
 
 <p align="center" style="font-size: 1.2em;">
   <strong>Annoncify</strong> is the backend component of Annoncify, a platform for posting and browsing classified advertisements. This project is built with Spring Boot, PostgreSQL as the database, and Firebase Storage Bucket for saving images. Twilio is also integrated for messaging.
