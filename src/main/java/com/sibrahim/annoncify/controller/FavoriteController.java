@@ -25,14 +25,16 @@ public class FavoriteController {
     }
 
     @PostMapping("/{productId}")
-    public ResponseEntity<ResponseMessage> addProductToFavorites(@PathVariable Long productId, Authentication authentication) {
+    public ResponseEntity<ResponseMessage> toggleFavorite(@PathVariable Long productId, Authentication authentication) {
         String username = authentication.getName();
-        // Assuming username is the user's phone number
-        Long userId = userService.getUserByPhoneNumber(username).get().getId();
-        favoriteService.addProductToFavorites(userId, productId);
+        Long userId = userService.getUserByPhoneNumber(username).orElseThrow(() -> new GenericException("User not found")).getId();
+        boolean isFavorite = favoriteService.toggleFavorite(userId, productId);
+
+        String message = isFavorite ? "Added to favorite successfully" : "Removed from favorite successfully";
+
         return ResponseEntity.ok(ResponseMessage.builder()
-                        .status(200)
-                        .message("Added to favorite Successfully")
+                .status(200)
+                .message(message)
                 .build());
     }
 

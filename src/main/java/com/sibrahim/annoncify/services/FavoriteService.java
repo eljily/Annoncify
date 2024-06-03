@@ -9,4 +9,5 @@ public interface FavoriteService {
     void addProductToFavorites(Long userId, Long productId);
     List<ProductDto> getUserFavoriteProducts(Long userId);
     void removeProductFromFavorites(Long userId, Long productId);
+    boolean toggleFavorite(Long userId, Long productId);
 }

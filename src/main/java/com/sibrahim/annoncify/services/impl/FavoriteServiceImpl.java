@@ -54,5 +54,25 @@ public class FavoriteServiceImpl implements FavoriteService {
     public void removeProductFromFavorites(Long userId, Long productId) {
         favoriteRepository.deleteByUserIdAndProductId(userId, productId);
     }
+
+    @Override
+    @Transactional
+    public boolean toggleFavorite(Long userId, Long productId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new GenericException("User not found"));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new GenericException("Product not found"));
+
+        Favorite favorite = favoriteRepository.findByUserAndProduct(user, product);
+
+        if (favorite != null) {
+            favoriteRepository.delete(favorite);
+            return false; // Removed from favorites
+        } else {
+            favorite = new Favorite();
+            favorite.setUser(user);
+            favorite.setProduct(product);
+            favoriteRepository.save(favorite);
+            return true; // Added to favorites
+        }
+    }
 }
 
