@@ -11,4 +11,5 @@ public interface FavoriteService {
     void removeProductFromFavorites(Long userId, Long productId);
     boolean toggleFavorite(Long userId, Long productId);
     boolean isFavorite(Long userId, Long productId);
+    long countFavoritesByProductId(Long productId);
 }

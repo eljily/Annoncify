@@ -81,5 +81,10 @@ public class FavoriteServiceImpl implements FavoriteService {
         Product product = productRepository.findById(productId).orElseThrow(() -> new GenericException("Product not found"));
         return favoriteRepository.findByUserAndProduct(user, product) != null;
     }
+
+    @Override
+    public long countFavoritesByProductId(Long productId) {
+        return favoriteRepository.countByProductId(productId);
+    }
 }
 

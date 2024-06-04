@@ -1,12 +1,11 @@
 package com.sibrahim.annoncify.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sibrahim.annoncify.dto.PaginationData;
 import com.sibrahim.annoncify.dto.ProductDto;
 import com.sibrahim.annoncify.dto.ProductRequestDto;
 import com.sibrahim.annoncify.dto.ResponseMessage;
-import com.sibrahim.annoncify.entity.Product;
 import com.sibrahim.annoncify.mapper.ProductMapper;
+import com.sibrahim.annoncify.services.FavoriteService;
 import com.sibrahim.annoncify.services.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
@@ -25,11 +21,13 @@ public class ProductController {
 
     private final Logger log = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
+    private final FavoriteService favoriteService;
 //    private final ProductMapper productMapper;
 
-    public ProductController(ProductService productService, ProductMapper productMapper) {
+    public ProductController(ProductService productService, ProductMapper productMapper, FavoriteService favoriteService) {
         this.productService = productService;
 //        this.productMapper = productMapper;
+        this.favoriteService = favoriteService;
     }
 
 //    @PostMapping
@@ -183,6 +181,16 @@ public class ProductController {
                 .message("Products retrieved successfully by subRegionId")
                 .status(200)
                 .meta(paginationData)
+                .build());
+    }
+
+    @GetMapping("/{productId}/favorites/count")
+    public ResponseEntity<ResponseMessage> getProductFavoriteCount(@PathVariable Long productId) {
+        long favoriteCount = favoriteService.countFavoritesByProductId(productId);
+        return ResponseEntity.ok(ResponseMessage.builder()
+                .status(200)
+                .message("Favorite count retrieved successfully")
+                .data(favoriteCount)
                 .build());
     }
 
