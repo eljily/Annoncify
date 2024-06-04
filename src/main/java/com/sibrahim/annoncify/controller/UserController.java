@@ -99,4 +99,25 @@ public class UserController {
                     .build());
         }
     }
+
+    @DeleteMapping("/deleteAccount")
+    public ResponseEntity<ResponseMessage> deleteAccount(Authentication authentication) {
+        String username = authentication.getName();
+        User user = userService.getUserByPhoneNumber(username)
+                .orElseThrow(() -> new GenericException("User not found"));
+
+        try {
+            userService.deleteUser(user.getId());
+            return ResponseEntity.ok(ResponseMessage.builder()
+                    .status(200)
+                    .message("User account deleted successfully")
+                    .build());
+        } catch (Exception e) {
+            log.error("ERROR WHILE DELETING USER ACCOUNT, message:" + e.getMessage());
+            return ResponseEntity.status(500).body(ResponseMessage.builder()
+                    .status(500)
+                    .message("Failed to delete user account: " + e.getMessage())
+                    .build());
+        }
+    }
 }
