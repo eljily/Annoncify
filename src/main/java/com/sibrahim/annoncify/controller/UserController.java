@@ -59,16 +59,6 @@ public class UserController {
 
     }
 
-//    @PostMapping("/addProduct")
-//    public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto productDto){
-//        try {
-//            return ResponseEntity.ok(userService.addProduct(productDto));
-//        }catch (Exception e){
-//           log.error("ERROR WHILE ADDING NEW PRODUCT BY USER,message:"+e.getMessage());
-//            return null;
-//        }
-//    }
-
     @DeleteMapping("/deleteProduct/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
         try {
@@ -89,15 +79,6 @@ public class UserController {
                 .build());
     }
 
-    //    @PutMapping("/{id}")
-//    public ResponseEntity<ResponseMessage> updateUser(@ModelAttribute RegisterDto registerDto,
-//                                                      @PathVariable(name = "id") Long id) throws IOException {
-//        return ResponseEntity.ok(ResponseMessage.builder()
-//                .message("User updated successfully ")
-//                .status(HttpStatus.OK.value())
-//                .data(userService.saveUser(registerDto,id))
-//                .build());
-//    }
     @PostMapping("/update")
     public ResponseEntity<ResponseMessage> updateUser(@ModelAttribute RegisterDto registerDto, Authentication authentication) {
         String username = authentication.getName();
