@@ -25,4 +25,6 @@ public interface UserService {
     Optional<User> getById(Long id);
 
     List<ProductDto> getProducts();
+
+    RegisterDto updateUser(Long id, RegisterDto registerDto) throws IOException;
 }

@@ -62,6 +62,7 @@ public class UserMapper {
                 .phoneNumber(user.getPhoneNumber())
                 .email(user.getEmail())
                 .birthDate(user.getBirthDate())
+                .whatsAppNumber(user.getWhatsAppNumber())
                 .build();
     }
 

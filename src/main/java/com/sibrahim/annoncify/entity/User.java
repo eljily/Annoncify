@@ -9,10 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -67,7 +64,9 @@ public class User implements UserDetails {
     private Date birthDate;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Favorite> favorites;
+    private List<Favorite> favorites = new ArrayList<>();
+
+    private String whatsAppNumber;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

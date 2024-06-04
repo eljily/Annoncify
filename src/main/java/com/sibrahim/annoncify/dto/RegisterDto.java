@@ -20,4 +20,5 @@ public class RegisterDto {
     private String email;
     private MultipartFile profilePhoto;
     private String profileUrl;
+    private String whatsAppNumber;
 }

@@ -10,6 +10,7 @@ import com.sibrahim.annoncify.repository.UserRepository;
 import com.sibrahim.annoncify.services.ImageService;
 import com.sibrahim.annoncify.services.ProductService;
 import com.sibrahim.annoncify.services.UserService;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -156,6 +157,57 @@ public class UserServiceImpl implements UserService {
         // Extract user details from Authentication
         User user = (User) authentication.getPrincipal();
         return productService.getProductsByUserId(user.getId());
+    }
+
+    @Override
+    @Transactional
+    public RegisterDto updateUser(Long id, RegisterDto registerDto) throws IOException {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
+        if(registerDto.getWhatsAppNumber() != null){
+            existingUser.setWhatsAppNumber(registerDto.getWhatsAppNumber());
+        }
+        if (registerDto.getName() != null) {
+            existingUser.setName(registerDto.getName());
+        }
+        if (registerDto.getFirstName() != null) {
+            existingUser.setFirstName(registerDto.getFirstName());
+        }
+        if (registerDto.getLastName() != null) {
+            existingUser.setLastName(registerDto.getLastName());
+        }
+        if (registerDto.getAddress() != null) {
+            existingUser.setAddress(registerDto.getAddress());
+        }
+        if (registerDto.getEmail() != null) {
+            existingUser.setEmail(registerDto.getEmail());
+        }
+        if (registerDto.getBirthDate() != null) {
+            existingUser.setBirthDate(registerDto.getBirthDate());
+        }
+        /*if (registerDto.getPhoneNumber() != null) {
+            existingUser.setPhoneNumber(registerDto.getPhoneNumber());
+        }*/
+        existingUser.setUpdateDate(new Date());
+
+        // Handle profile photo upload
+        CompletableFuture<String> imageUrlFuture = null;
+        if (registerDto.getProfilePhoto() != null && !registerDto.getProfilePhoto().isEmpty()) {
+            imageUrlFuture = uploadProfilePhotoAsync(registerDto.getProfilePhoto());
+        }
+
+        if (imageUrlFuture != null) {
+            try {
+                existingUser.setProfileUrl(imageUrlFuture.get());
+            } catch (Exception e) {
+                log.error("Error while trying to upload profile photo", e);
+            }
+        }
+
+        // Save the updated user
+        User updatedUser = userRepository.save(existingUser);
+
+        return userMapper.toDto(updatedUser);
     }
 
 }
