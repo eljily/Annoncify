@@ -74,5 +74,12 @@ public class FavoriteServiceImpl implements FavoriteService {
             return true; // Added to favorites
         }
     }
+
+    @Override
+    public boolean isFavorite(Long userId, Long productId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new GenericException("User not found"));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new GenericException("Product not found"));
+        return favoriteRepository.findByUserAndProduct(user, product) != null;
+    }
 }
 

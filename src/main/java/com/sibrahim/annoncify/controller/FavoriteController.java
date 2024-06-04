@@ -60,5 +60,18 @@ public class FavoriteController {
                 .message("Removed from favorites successfully")
                 .build());
     }
+
+    @GetMapping("/isFavorite/{productId}")
+    public ResponseEntity<ResponseMessage> isFavorite(@PathVariable Long productId, Authentication authentication) {
+        String username = authentication.getName();
+        Long userId = userService.getUserByPhoneNumber(username).orElseThrow(() -> new GenericException("User not found")).getId();
+        boolean isFavorite = favoriteService.isFavorite(userId, productId);
+
+        return ResponseEntity.ok(ResponseMessage.builder()
+                .status(200)
+                .message("Favorite status retrieved successfully")
+                .data(isFavorite)
+                .build());
+    }
 }
 
