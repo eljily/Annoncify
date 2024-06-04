@@ -18,4 +18,5 @@ public class ProductCardInfoDto {
     private String region;
     private String subRegion;
     private Long hit;
+    private Boolean isPaid;
 }

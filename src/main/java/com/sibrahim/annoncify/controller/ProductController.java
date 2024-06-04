@@ -194,4 +194,15 @@ public class ProductController {
                 .build());
     }
 
+    @PostMapping("/{productId}/markPaid")
+    public ResponseEntity<ResponseMessage> markProductAsPaid(@PathVariable Long productId) {
+        boolean markedAsPaid = productService.markProductAsPaid(productId);
+        String message = markedAsPaid ? "Product marked as paid successfully" : "Product removed from paid list";
+        return ResponseEntity.ok(ResponseMessage.builder()
+                .status(200)
+                .message(message)
+                .build());
+    }
+
+
 }

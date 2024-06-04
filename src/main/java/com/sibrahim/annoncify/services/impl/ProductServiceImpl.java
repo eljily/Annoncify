@@ -5,6 +5,7 @@ import com.sibrahim.annoncify.dto.ProductDto;
 import com.sibrahim.annoncify.dto.ProductRequestDto;
 import com.sibrahim.annoncify.entity.*;
 import com.sibrahim.annoncify.entity.enums.ProductStatus;
+import com.sibrahim.annoncify.exceptions.GenericException;
 import com.sibrahim.annoncify.exceptions.InvalidKeywordException;
 import com.sibrahim.annoncify.exceptions.NotFoundException;
 import com.sibrahim.annoncify.mapper.CategoryMapper;
@@ -15,6 +16,7 @@ import com.sibrahim.annoncify.services.CategoryService;
 import com.sibrahim.annoncify.services.ProductService;
 import com.sibrahim.annoncify.services.SubCategoryService;
 import com.sibrahim.annoncify.services.UserService;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -244,5 +246,25 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.getProductsBySubRegionId(subRegionId,PageRequest.of(page,size))
                 .map(productMapper::toProductDto);
     }
+
+    @Override
+    @Transactional
+    public boolean markProductAsPaid(Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new GenericException("Product not found"));
+
+        // Check if the product is already marked as paid
+        boolean isPaid = product.getIsPaid() != null && product.getIsPaid();
+
+        // If already paid, remove from paid list
+        product.setIsPaid(!isPaid);
+
+        productRepository.save(product);
+
+        // Return whether the product was marked as paid
+        return !isPaid;
+    }
+
+
 
 }

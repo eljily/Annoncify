@@ -42,4 +42,6 @@ public interface ProductService {
 
     Page<ProductDto> getAllProductsBySubRegionId(int page,int size,int subRegionId);
 
+    boolean markProductAsPaid(Long productId);
+
 }

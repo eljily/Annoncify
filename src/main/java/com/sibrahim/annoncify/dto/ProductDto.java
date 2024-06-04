@@ -34,6 +34,7 @@ public class ProductDto {
     private VendorDetails vendorDetails;
     private String region;
     private String subRegion;
+    private Boolean isPaid;
 //    private CategoryResponseDto category;
 
 }

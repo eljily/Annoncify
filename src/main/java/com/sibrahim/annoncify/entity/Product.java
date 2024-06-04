@@ -44,6 +44,9 @@ public class Product {
     @Column(name = "mark")
     private String mark;
 
+    @Column
+    private Boolean isPaid;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference

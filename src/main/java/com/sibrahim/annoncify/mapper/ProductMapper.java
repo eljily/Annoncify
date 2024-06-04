@@ -57,6 +57,7 @@ public class ProductMapper {
                 .images(imageMapper.toImageDtos(product.getImages()))
                 .region(product.getSubRegion()!=null?product.getSubRegion().getRegion().getName():"noo!")
                 .subRegion(product.getSubRegion()!=null?product.getSubRegion().getName():"noop!")
+                .isPaid(product.getIsPaid())
                 .build();
     }
 
@@ -104,6 +105,7 @@ public class ProductMapper {
         productCardInfoDto.setImages(imageMapper.toImageDtos(product.getImages()));
         productCardInfoDto.setRegion(product.getSubRegion()!=null?product.getSubRegion().getRegion().getName():"nooooo");
         productCardInfoDto.setSubRegion(product.getSubRegion()!=null?product.getSubRegion().getName():"noooooop");
+        productCardInfoDto.setIsPaid(product.getIsPaid());
         return productCardInfoDto;
     }
 
