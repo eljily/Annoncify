@@ -92,6 +92,7 @@ public class CategoryServiceImpl implements CategoryService {
             CategoryResponseDto categoryResponseDto = new CategoryResponseDto();
             categoryResponseDto.setId(category.getId());
             categoryResponseDto.setName(category.getName());
+            categoryResponseDto.setImageUrl(category.getImgUrl());
 
             List<Product> products = productService.findLastEightProductsByCategoryId(category.getId());
             Set<ProductCardInfoDto> productDtos = products.stream()

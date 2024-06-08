@@ -14,5 +14,6 @@ import java.util.Set;
 public class CategoryResponseDto {
     private Long id;
     private String name;
+    private String imageUrl;
     private Set<ProductCardInfoDto> products;
 }
