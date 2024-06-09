@@ -8,4 +8,5 @@ public class VendorDetails {
     private String phoneNumber;
     private String profileUrl;
     private Long id;
+    private int productsCount;
 }

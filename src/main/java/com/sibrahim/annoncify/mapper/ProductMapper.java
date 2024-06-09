@@ -52,6 +52,7 @@ public class ProductMapper {
                 .subCategory(subCategoryName)
                 .vendorDetails(VendorDetails
                         .builder()
+                        .productsCount(product.getUser()!=null?product.getUser().getProductsCount():0)
                         .phoneNumber(product.getUser()!=null?product.getUser().getPhoneNumber():null)
                         .name(product.getUser()!=null?product.getUser().getName():null)
                         .profileUrl(product.getUser()!=null?product.getUser().getProfileUrl():null)

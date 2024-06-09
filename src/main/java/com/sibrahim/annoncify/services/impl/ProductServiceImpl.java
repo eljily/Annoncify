@@ -156,6 +156,7 @@ public class ProductServiceImpl implements ProductService {
                 .join();
     }
 
+    @Transactional
     @Override
     public ProductDto addProduct(ProductRequestDto productRequestDto) {
         Product product = new Product();
@@ -200,6 +201,7 @@ public class ProductServiceImpl implements ProductService {
 
             if (principal instanceof User user) {
                 product.setUser(user);
+                user.setProductsCount(user.getProductsCount() + 1);
             } else {
                 product.setUser(null);
             }
