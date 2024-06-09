@@ -89,19 +89,23 @@ public class ProductController {
         try {
             ProductDto savedProduct = productService.addProduct(product);
 
-            if (savedProduct != null) {
-                return ResponseEntity.ok(ResponseMessage.builder().message("product added")
-                        .status(HttpStatus.OK.value())
-                        .data(savedProduct)
-                        .build());
-            } else {
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            ResponseMessage responseMessage = (savedProduct != null)
+                    ? ResponseMessage.builder()
+                    .message("product added")
+                    .status(HttpStatus.OK.value())
+                    .data(savedProduct)
+                    .build()
+                    : ResponseMessage.builder()
+                    .message("Internal Server Error")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .build();
+
+            return ResponseEntity.status(savedProduct != null ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(responseMessage);
         } catch (Exception e) {
             return ResponseEntity.ofNullable(ResponseMessage.builder().message(e.getMessage()).status(500).build());
         }
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
