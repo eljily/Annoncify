@@ -22,23 +22,11 @@ public class ProductController {
     private final Logger log = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
     private final FavoriteService favoriteService;
-//    private final ProductMapper productMapper;
 
-    public ProductController(ProductService productService, ProductMapper productMapper, FavoriteService favoriteService) {
+    public ProductController(ProductService productService, FavoriteService favoriteService) {
         this.productService = productService;
-//        this.productMapper = productMapper;
         this.favoriteService = favoriteService;
     }
-
-//    @PostMapping
-//    public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto productDto) {
-//        try {
-////            return ResponseEntity.ok(productService.saveProduct(productDto));
-//        } catch (Exception e) {
-//            log.error("ERROR WHILE SAVING NEW PRODUCT " + e.getMessage());
-//            return null;
-//        }
-//    }
 
     @GetMapping
     public ResponseEntity<ResponseMessage> getAllProduct(@RequestParam(name = "page", defaultValue = "0") int page,
