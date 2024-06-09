@@ -114,6 +114,7 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.toProductDtos(products);
     }
 
+    @Transactional
     @Override
     public Optional<ProductDto> getProductById(Long id) {
         Product product = productRepository.findById(id).orElseThrow();
