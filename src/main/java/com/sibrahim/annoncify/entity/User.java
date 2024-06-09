@@ -45,7 +45,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE,orphanRemoval = true)
     @JsonManagedReference
     private List<Product> products;
 
@@ -53,7 +53,6 @@ public class User implements UserDetails {
     private Otp otp;
 
     private boolean isEnabled = true;
-
 
     private String firstName;
 
