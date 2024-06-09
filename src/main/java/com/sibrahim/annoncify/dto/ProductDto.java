@@ -35,6 +35,7 @@ public class ProductDto {
     private String region;
     private String subRegion;
     private Boolean isPaid;
+    private Long subCategoryId;
 //    private CategoryResponseDto category;
 
 }

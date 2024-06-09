@@ -35,6 +35,9 @@ public class ProductMapper {
         String subCategoryName = (product.getSubCategory() != null && product.getSubCategory().getName() != null)
                 ? product.getSubCategory().getName()
                 : "No subcategory";
+        Long subCategoryId = (product.getSubCategory() != null)
+                ? product.getSubCategory().getId()
+                : null;
 
         return ProductDto.builder()
                 .id(product.getId())
@@ -58,6 +61,7 @@ public class ProductMapper {
                 .region(product.getSubRegion()!=null?product.getSubRegion().getRegion().getName():"noo!")
                 .subRegion(product.getSubRegion()!=null?product.getSubRegion().getName():"noop!")
                 .isPaid(product.getIsPaid())
+                .subCategoryId(subCategoryId)
                 .build();
     }
 
