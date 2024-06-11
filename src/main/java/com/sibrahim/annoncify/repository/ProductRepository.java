@@ -26,7 +26,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.subCategory.category.id = :categoryId ORDER BY p.createDate DESC")
     Page<Product> findAllByCategoryId(@Param("categoryId") int categoryId, Pageable pageable);
 
-    @Query("SELECT p FROM Product p WHERE p.name LIKE %:keyword% ORDER BY p.createDate DESC")
+    @Query(value = "SELECT * FROM Product p WHERE p.name LIKE %:keyword% ORDER BY p.createDate DESC", nativeQuery = true)
     Page<Product> getProductsByKeyword(@Param("keyword") String keyword, Pageable pageable);
 
     @Query("SELECT p FROM Product p WHERE p.subRegion.region.id = :regionId ORDER BY p.createDate DESC")
