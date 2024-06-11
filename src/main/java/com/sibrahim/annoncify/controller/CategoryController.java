@@ -75,4 +75,9 @@ public class CategoryController {
                         .data(categoryService.getAllCategoriesWithLastEightProducts())
                 .build());
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryDto> updateIcon(@PathVariable Long id, @RequestBody CategoryDto categoryDto) {
+        return ResponseEntity.ok(categoryService.updateIcon(id, categoryDto));
+    }
 }

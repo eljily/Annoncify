@@ -14,4 +14,5 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query("SELECT c FROM Category c JOIN FETCH c.subCategories " +
             "sc JOIN FETCH sc.productList p ORDER BY c.id")
     List<Category> findAllCategoriesWithLastEightProducts();
+    List<Category> findAllByOrderByCreateDateAsc();
 }

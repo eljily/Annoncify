@@ -11,6 +11,7 @@ import com.sibrahim.annoncify.mapper.ProductMapper;
 import com.sibrahim.annoncify.repository.CategoryRepository;
 import com.sibrahim.annoncify.services.CategoryService;
 import com.sibrahim.annoncify.services.ProductService;
+import jakarta.transaction.Transactional;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -59,8 +60,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public List<CategoryDto> getAll() {
-        return categoryMapper.toCategoryDtos(categoryRepository.findAll());
+        return categoryMapper.toCategoryDtos(categoryRepository.findAllByOrderByCreateDateAsc());
     }
 
     @Override
@@ -85,7 +87,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     public List<CategoryResponseDto> getAllCategoriesWithLastEightProducts() {
-        List<Category> categories = categoryRepository.findAll();
+        List<Category> categories = categoryRepository.findAllByOrderByCreateDateAsc();
 
         List<CategoryResponseDto> categoryResponseDtos = new ArrayList<>();
         for (Category category : categories) {
@@ -94,15 +96,25 @@ public class CategoryServiceImpl implements CategoryService {
             categoryResponseDto.setName(category.getName());
             categoryResponseDto.setImageUrl(category.getImgUrl());
 
-            List<Product> products = productService.findLastEightProductsByCategoryId(category.getId());
-            Set<ProductCardInfoDto> productDtos = products.stream()
+            List<Product> products = productService
+                    .findLastEightProductsByCategoryId(category.getId());
+           List<ProductCardInfoDto> productDtos = products.stream()
                     .map(productMapper::toCardInfoDto)
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toList());
 
             categoryResponseDto.setProducts(productDtos);
             categoryResponseDtos.add(categoryResponseDto);
         }
 
         return categoryResponseDtos;
+    }
+
+    @Transactional
+    @Override
+    public CategoryDto updateIcon(Long id, CategoryDto categoryDto) {
+        Category category = categoryRepository.findById(id).orElseThrow();
+        category.setImgUrl(categoryDto.getImageUrl());
+        categoryRepository.save(category);
+        return categoryMapper.toCategoryDto(category);
     }
 }

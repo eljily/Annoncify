@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -15,5 +16,5 @@ public class CategoryResponseDto {
     private Long id;
     private String name;
     private String imageUrl;
-    private Set<ProductCardInfoDto> products;
+    private List<ProductCardInfoDto> products;
 }

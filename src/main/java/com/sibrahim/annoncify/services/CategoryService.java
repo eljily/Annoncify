@@ -15,4 +15,6 @@ public interface CategoryService {
     String deleteCategory(Long id);
     Category fetchOrCreateDefault();
     List<CategoryResponseDto> getAllCategoriesWithLastEightProducts();
+
+    CategoryDto updateIcon(Long id, CategoryDto categoryDto);
 }
