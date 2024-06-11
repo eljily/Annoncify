@@ -93,18 +93,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Page<ProductDto> getProductsByKeyword(int page, int size, String keyword) {
-        String specialCharactersPattern = "^[a-zA-Z0-9]*$";
-        if (!Pattern.matches(specialCharactersPattern, keyword)) {
-            throw new InvalidKeywordException("Keyword contains special characters");
-        }
-        try {
-            return productRepository.getProductsByKeyword(keyword, PageRequest.of(page, size))
-                    .map(productMapper::toProductDto);
-        } catch (Exception e) {
-            log.error("Error occurred while trying to fetch page of products by category", e);
-            return null;
-        }
+        return productRepository.getProductsByKeyword(keyword, PageRequest.of(page, size))
+                .map(productMapper::toProductDto);
     }
 
     @Override
