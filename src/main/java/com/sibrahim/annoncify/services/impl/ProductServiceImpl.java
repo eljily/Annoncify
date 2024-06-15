@@ -6,7 +6,6 @@ import com.sibrahim.annoncify.dto.ProductRequestDto;
 import com.sibrahim.annoncify.entity.*;
 import com.sibrahim.annoncify.entity.enums.ProductStatus;
 import com.sibrahim.annoncify.exceptions.GenericException;
-import com.sibrahim.annoncify.exceptions.InvalidKeywordException;
 import com.sibrahim.annoncify.exceptions.NotFoundException;
 import com.sibrahim.annoncify.mapper.CategoryMapper;
 import com.sibrahim.annoncify.mapper.ImageMapper;
@@ -27,14 +26,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -53,21 +49,24 @@ public class ProductServiceImpl implements ProductService {
     private SubCategoryRepository subCategoryRepository;
     @Autowired
     private SubRegionRepository subRegionRepository;
+    private final UserRepository userRepository;
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ImageRespository imageRespository, ImageServiceImpl imageService, CategoryService categoryService, ImageMapper imageMapper, CategoryMapper categoryMapper, CategoryRepository categoryRepository, SubCategoryService subCategoryService) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ImageRespository imageRespository, ImageServiceImpl imageService, CategoryService categoryService, ImageMapper imageMapper, CategoryMapper categoryMapper, CategoryRepository categoryRepository, SubCategoryService subCategoryService, UserRepository userRepository) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
         this.imageRespository = imageRespository;
         this.imageService = imageService;
         this.imageMapper = imageMapper;
+        this.userRepository = userRepository;
     }
 
 
+    @Transactional
     @Override
-    public Page<ProductDto> getAllProducts(int page,int size) {
-            return productRepository
-                    .findAllOrderedByCreateDateDesc(PageRequest.of(page,size))
-                    .map(productMapper::toProductDto);
+    public Page<ProductDto> getAllProducts(int page, int size) {
+        return productRepository
+                .findAllOrderedByCreateDateDesc(PageRequest.of(page, size))
+                .map(productMapper::toProductDto);
     }
 
     @Override
@@ -194,6 +193,8 @@ public class ProductServiceImpl implements ProductService {
             if (principal instanceof User user) {
                 product.setUser(user);
                 user.setProductsCount(user.getProductsCount() + 1);
+                userRepository.save(user);
+
             } else {
                 product.setUser(null);
             }
