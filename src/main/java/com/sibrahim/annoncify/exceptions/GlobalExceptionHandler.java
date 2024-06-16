@@ -63,4 +63,12 @@ public class GlobalExceptionHandler {
                         .message(ex.getMessage())
                         .build());
     }
+    @ExceptionHandler(CategoryNotFoundException.class)
+    @ResponseBody
+    public ResponseEntity<ResponseMessage> handleCategoryNotFoundException(CategoryNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseMessage.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(ex.getMessage())
+                .build());
+    }
 }

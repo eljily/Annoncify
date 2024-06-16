@@ -31,18 +31,16 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryDto>> getAll(){
+    public ResponseEntity<List<CategoryDto>> getAll() {
         return ResponseEntity.ok(categoryService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> find(@PathVariable Long id){
-        try {
-            return ResponseEntity.ok(categoryService.getCategory(id));
-        }catch (Exception e){
-            log.error("While Trying to fetch category Message:"+e.getMessage());
-            return ResponseEntity.internalServerError().build();
-        }
+    public ResponseEntity<ResponseMessage> find(@PathVariable Long id) {
+        return ResponseEntity.ok(ResponseMessage.builder()
+                .status(HttpStatus.OK.value())
+                .data(categoryService.getCategory(id))
+                .build());
     }
 
     @DeleteMapping("/{id}")
@@ -61,18 +59,18 @@ public class CategoryController {
     @GetMapping("/SubCategoriesByCategoryId/{categoryId}")
     public ResponseEntity<ResponseMessage> getAllProducts(@RequestParam(name = "page", defaultValue = "0") int page,
                                                           @RequestParam(name = "size", defaultValue = "20") int size,
-                                                          @PathVariable(name="categoryId") Long categoryId) {
+                                                          @PathVariable(name = "categoryId") Long categoryId) {
         return ResponseEntity.ok(ResponseMessage.builder()
-                        .message("Retrieved Sub categories By Category ID.")
-                        .data(subCategoryService.getByCategoryId(categoryId))
+                .message("Retrieved Sub categories By Category ID.")
+                .data(subCategoryService.getByCategoryId(categoryId))
                 .build());
     }
 
     @GetMapping("/withProducts")
-    public ResponseEntity<ResponseMessage> getAllWithProducts(){
+    public ResponseEntity<ResponseMessage> getAllWithProducts() {
         return ResponseEntity.ok(ResponseMessage.builder()
-                        .status(200)
-                        .data(categoryService.getAllCategoriesWithLastEightProducts())
+                .status(200)
+                .data(categoryService.getAllCategoriesWithLastEightProducts())
                 .build());
     }
 
