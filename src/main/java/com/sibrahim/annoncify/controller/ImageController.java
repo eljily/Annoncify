@@ -42,10 +42,9 @@ public class ImageController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new String[]{"Error: Failed to analyze image"});
         }
     }
-
-    @PostMapping("/addImage")
-    public String upload(@RequestParam("file") MultipartFile multipartFile) {
-        return imageService.upload(multipartFile);
+    @PostMapping
+    public Map<?,?> upload(@RequestParam("file") MultipartFile multipartFile) {
+        return Map.of("url",imageService.upload(multipartFile));
     }
 
     @PostMapping("/delete")
