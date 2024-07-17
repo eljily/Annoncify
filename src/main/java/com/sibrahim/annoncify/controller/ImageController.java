@@ -6,6 +6,8 @@ import com.sibrahim.annoncify.services.CloudVisionService;
 import com.sibrahim.annoncify.services.LlamaApiClient;
 import com.sibrahim.annoncify.services.impl.ImageServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +25,8 @@ public class ImageController {
 
     private final ImageServiceImpl imageService;
     private final LlamaApiClient llamaApiClient;
-
-    @Autowired
-    private CloudVisionService cloudVisionService;
+    public Logger log = LoggerFactory.getLogger(ImageController.class);
+    private final CloudVisionService cloudVisionService;
 
     @PostMapping("/analyze")
     public ResponseEntity<?> analyzeImage(@RequestParam("image") MultipartFile imageFile) {
@@ -38,7 +39,7 @@ public class ImageController {
             List<?> categories = cloudVisionService.analyzeImage(imageBytes);
             return ResponseEntity.ok().body(categories);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Exception Occurred : {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new String[]{"Error: Failed to analyze image"});
         }
     }
@@ -53,8 +54,8 @@ public class ImageController {
     }
 
     @GetMapping
-    public Object askLlm(@RequestParam String q) throws JsonProcessingException {
-        return llamaApiClient.getCategoryAndSubcategory(q);
+    public Object askLlm(@RequestParam String question) {
+        return llamaApiClient.getCategoryAndSubcategory(question);
     }
 
     @PostMapping("/analyze-images")
