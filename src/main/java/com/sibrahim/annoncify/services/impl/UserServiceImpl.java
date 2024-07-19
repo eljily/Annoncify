@@ -110,6 +110,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public Page<UserDto> getAllUsers(int page,int size) {
         Pageable pageable = PageRequest.of(page,size);
         return userRepository.findAll(pageable).map(userMapper::toUserDto);
@@ -119,11 +120,6 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getUserByPhoneNumber(String phoneNumber) {
         return userRepository.findUserByPhoneNumber(phoneNumber);
     }
-
-//    @Override
-//    public ProductDto addProduct(ProductDto productDto) {
-//        return productService.saveProduct(productDto);
-//    }
 
     @Override
     public void deleteProduct(Long id) {

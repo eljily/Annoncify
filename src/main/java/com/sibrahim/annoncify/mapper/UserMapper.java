@@ -36,7 +36,8 @@ public class UserMapper {
                 .phoneNumber(user.getPhoneNumber())
                 .createDate(user.getCreateDate())
                 .updateDate(user.getUpdateDate())
-                .products(productMapper.toProductDtos(user.getProducts()))
+                //.products(productMapper.toProductDtos(user.getProducts()))
+                .role(user.getRole().name())
                 .build();
     }
 
@@ -46,7 +47,7 @@ public class UserMapper {
                 .phoneNumber(userDto.getPhoneNumber())
                 .createDate(userDto.getCreateDate())
                 .updateDate(userDto.getUpdateDate())
-                .products(productMapper.toProducts(userDto.getProducts()))
+                //.products(productMapper.toProducts(userDto.getProducts()))
                 .build();
     }
 
