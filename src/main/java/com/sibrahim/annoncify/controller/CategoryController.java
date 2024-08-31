@@ -75,7 +75,12 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDto> updateIcon(@PathVariable Long id, @RequestBody CategoryDto categoryDto) {
-        return ResponseEntity.ok(categoryService.updateIcon(id, categoryDto));
+    public ResponseEntity<ResponseMessage> updateIcon(@PathVariable Long id, @RequestBody CategoryDto categoryDto) {
+        return ResponseEntity
+                .ok(ResponseMessage.builder()
+                        .data(categoryService.updateIcon(id, categoryDto))
+                        .message("Category Icon updated successfully")
+                        .status(HttpStatus.OK.value())
+                        .build());
     }
 }
