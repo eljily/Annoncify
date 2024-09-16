@@ -51,7 +51,7 @@ public class CategoryController {
     @PostMapping("/addSubCategory/{categoryId}")
     public ResponseEntity<ResponseMessage> saveSubCategory(@RequestBody SubCategoryDto subCategory,@PathVariable Long categoryId){
         return ResponseEntity.ok(ResponseMessage.builder()
-                        .message("Sub Category Added Successfully")
+                        .message("SubCategory Added Successfully")
                         .data(subCategoryService.createSubCategory(subCategory,categoryId))
                 .build());
     }
@@ -61,7 +61,7 @@ public class CategoryController {
                                                           @RequestParam(name = "size", defaultValue = "20") int size,
                                                           @PathVariable(name = "categoryId") Long categoryId) {
         return ResponseEntity.ok(ResponseMessage.builder()
-                .message("Retrieved Sub categories By Category ID.")
+                .message("Retrieved Subcategories By Category ID.")
                 .data(subCategoryService.getByCategoryId(categoryId))
                 .build());
     }
